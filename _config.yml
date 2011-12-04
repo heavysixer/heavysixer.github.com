@@ -3,9 +3,9 @@
 # ----------------------- #
 
 url: http://heavysixer.github.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+title: Mark Daggett's Blog
+subtitle: A core dump of my mind.
+author: Mark Daggett
 simple_search: http://google.com/search
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
