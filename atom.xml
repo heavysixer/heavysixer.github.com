@@ -4,7 +4,7 @@
   <title><![CDATA[Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2011-12-04T11:33:21-06:00</updated>
+  <updated>2011-12-04T13:43:02-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -193,6 +193,217 @@
 
 
 <p>I welcome any discussion or feedback on these patterns and would love to improve this document where possible. What anti-patterns have you seen in CSS files you&#8217;ve worked on?</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Transactions In Rails]]></title>
+    <link href="http://heavysixer.github.com/blog/2011/12/01/transactions-in-rails/"/>
+    <updated>2011-12-01T11:39:00-06:00</updated>
+    <id>http://heavysixer.github.com/blog/2011/12/01/transactions-in-rails</id>
+    <content type="html"><![CDATA[<p>Recently I was tasked to write tests for the transactions of an existing application. This gave me the opportunity to learn more about the codebase, while also improving the test coverage. Generally, most of the transaction code looked fine. However, there were some instances where transactions were used incorrectly or inefficiently. I assumed this is just because of a misunderstanding of how transactions work within Rails, and so I thought iʼd take some time and give an overview of the common errors I found and some best practices for using transactions in Rails.</p>
+
+<p>Let me also state at the beginning that most of these examples are not my own, they come directly from the Rails source, which give example usages of applying transactions RTFM FTW.</p>
+
+<p><a href="http://api.rubyonrails.org/classes/ActiveRecord/Transactions/ClassMethods.html">http://api.rubyonrails.org/classes/ActiveRecord/Transactions/ClassMethods.html</a></p>
+
+<h3>Reasons for transactions</h3>
+
+<p>We use transactions as a protective wrapper around SQL statements to ensure changes to the database only occur when all actions succeed together. Transaction help the developer enforce data integrity within the application. The canonical example of transactions is the banking method where funds are withdrawn from one account and deposited into the next. If either of these steps fail, then the entire process should be reset. This example can be described in code this way:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">david</span><span class="o">.</span><span class="n">withdrawal</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">mary</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Rails transactions are available as class and instance methods for all ActiveRecord models. This means either of these approaches are equally valid:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Client</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>  <span class="vi">@client</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">create!</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">clients</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">destroy!</span>
+</span><span class='line'>  <span class="no">Product</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">destroy!</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@client</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>  <span class="vi">@client</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">create!</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">clients</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">destroy!</span>
+</span><span class='line'>  <span class="no">Product</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">destroy!</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You may also notice that there are several different model classes referenced in these transactions. It is perfectly fine to mix model types inside a single transaction block. This is because the transaction is bound to the database connection not the model instance.
+As a rule, transactions are only needed when changes to multiple records must succeed as a single unit. Additionally, Rails already wraps the #save and #destroy methods in a transaction, therefore a transaction is never needed when updating a single record.</p>
+
+<h3>Transaction Rollback Triggers</h3>
+
+<p>Transactions reset the state of records through a process called a rollback. In Rails, rollbacks are only triggered by an exception. This is a crucial point to understand; I saw several transaction blocks that would never rollback because the containing code could not throw an exception. Here I have slightly modified our banking example from before:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">david</span><span class="o">.</span><span class="n">update_attribute</span><span class="p">(</span><span class="ss">:amount</span><span class="p">,</span> <span class="n">david</span><span class="o">.</span><span class="n">amount</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">mary</span><span class="o">.</span><span class="n">update_attribute</span><span class="p">(</span><span class="ss">:amount</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Rails <em>#update_attribute</em> is designed not to throw an exception when an update fails. It returns false, and for this reason you should ensure that the methods used throw an exception upon failure. A better way to write the previous example would be:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">david</span><span class="o">.</span><span class="n">update_attributes!</span><span class="p">(</span><span class="ss">:amount</span> <span class="o">=&gt;</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">mary</span><span class="o">.</span><span class="n">update_attributes!</span><span class="p">(</span><span class="ss">:amount</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note: The bang modifier (!) is a rails convention for a method which will throw an exception upon failure.</p>
+
+<p>I also saw examples in the code where records were found inside of transactions using magic finders <em>#find_by</em><some attribute><em>. By design magic finders will return nil when no record is returned. This is in contrast to the normal </em>#find_ method which throws an <strong>ActiveRecord::RecordNotFound</strong> exception. Consider this example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">david</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by_name</span><span class="p">(</span><span class="s2">&quot;david&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">david</span><span class="o">.</span><span class="n">id</span> <span class="o">!=</span> <span class="n">john</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">john</span><span class="o">.</span><span class="n">update_attributes!</span><span class="p">(</span><span class="ss">:amount</span> <span class="o">=&gt;</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">mary</span><span class="o">.</span><span class="n">update_attributes!</span><span class="p">(</span><span class="ss">:amount</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Do you see the logic error? The nil object will have an id attribute and it will mask the fact that the desired record was not returned. While this doesn’t cause an error in the transaction it will still lead to a loss of data integrity, because the application is updating where it shouldn’t. Remember a transaction defines a block of code which must succeed as an atomic unit. This means we should raise an exception when a logical dependency like this is not met. Here is how the code should be written:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">david</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by_name</span><span class="p">(</span><span class="s2">&quot;david&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">RecordNotFound</span> <span class="k">if</span> <span class="n">david</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">david</span><span class="o">.</span><span class="n">id</span> <span class="o">!=</span> <span class="n">john</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">john</span><span class="o">.</span><span class="n">update_attributes!</span><span class="p">(</span><span class="ss">:amount</span> <span class="o">=&gt;</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">mary</span><span class="o">.</span><span class="n">update_attributes!</span><span class="p">(</span><span class="ss">:amount</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When the exception occurs it will be raised outside of the transaction block after the rollback has completed. Your application code must be ready to catch this exception as it bubbles up through the application stack.</p>
+
+<p>It is also possible to invalidate a transaction without raising an exception that will propagate upwards by using <strong>ActiveRecord::Rollback</strong>. This special exception allows you to invalidate a transaction and reset the database records without needing to rescue elsewhere in your code.</p>
+
+<h3>When To Use Nested Transactions</h3>
+
+<p>One of the common mistakes I saw in the codebase is the misuse or overuse of nested transactions. When you nest a transaction inside another transaction this has the effect of making the child transaction a part of the parent. This can have surprising results, take this example from the Rails API documentation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:username</span> <span class="o">=&gt;</span> <span class="s1">&#39;Kotori&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">User</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:username</span> <span class="o">=&gt;</span> <span class="s1">&#39;Nemu&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Rollback</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As mentioned previously <strong>ActiveRecord::Rollback</strong> does not propagate outside of the containing transaction block and so the parent transaction does not receive the exception nested inside the child. Since the contents of the child transaction are lumped into the parent transaction both records are created! I find it easier to think of nested transactions like the child who dumps its contents into the parent container, leaving the child transaction empty.</p>
+
+<p>To ensure a rollback is received by the parent transaction you must add the <em>:requires_new => true</em>. option to the child transaction. Again using the example from Rails source you would trigger a parent’s Rollback like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:username</span> <span class="o">=&gt;</span> <span class="s1">&#39;Kotori&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">transaction</span><span class="p">(</span><span class="ss">:requires_new</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">User</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:username</span> <span class="o">=&gt;</span> <span class="s1">&#39;Nemu&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Rollback</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A transaction only acts upon the current database connection. If your application writes to multiple databases at once you will need to wrap the method inside a nested transaction. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Client</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">Product</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">product</span><span class="o">.</span><span class="n">buy</span><span class="p">(</span><span class="vi">@quantity</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">client</span><span class="o">.</span><span class="n">update_attributes!</span><span class="p">(</span><span class="ss">:sales_count</span> <span class="o">=&gt;</span> <span class="vi">@sales_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Callback around Transactions</h3>
+
+<p>As mentioned previously <em>#save</em> and <em>#destroy</em> are wrapped inside a transaction. This means that callbacks like <em>#after_save</em> is still part of the active transaction which might still be rolled back! Therefore if you want code to execute that is guaranteed to execute outside of the transaction use one of the transaction specific callbacks like <em>#after_commit</em> or <em>#after_rollback</em>.</p>
+
+<h3>Transaction Gotchas</h3>
+
+<p>Do not catch an <strong>ActiveRecord::RecordInvalid</strong> exception inside a transaction because the this exception invalidates the transaction on some databases like Postgres. Once the transaction has been invalidated you must restart it from the beginning for it to work correctly.</p>
+
+<p>When testing rollbacks or transaction related callbacks that happen after rollback you will want to turn off transactional_fixtures which are on by default in most test frameworks.</p>
+
+<h3>Common Anti-patterns To Avoid</h3>
+
+<ol>
+<li>Using a transaction when only a single record is updated</li>
+<li>Needlessly nesting transactions</li>
+<li>Transactions that contain code, which won’t cause a rollback</li>
+<li>Use of transactions in a controller</li>
+</ol>
+
 ]]></content>
   </entry>
   
