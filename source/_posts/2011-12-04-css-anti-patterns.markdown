@@ -71,10 +71,10 @@ Part of writing good CSS is to generalize common tasks where possible. In the ex
 ``` css Anti-pattern Example
   .comparator a {
   margin-right: 3px;
-  padding: 3px 13px 3px 13px
+  padding: 3px 13px 3px 13px;
   }
   .ambition a {
-  padding: 3px 10px 3px 10px;
+  padding: 3px 13px 3px 13px;
   margin-right: 3px
   }
 ```
