@@ -4,7 +4,7 @@
   <title><![CDATA[Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2011-12-04T15:27:16-06:00</updated>
+  <updated>2011-12-04T18:59:12-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -122,10 +122,10 @@
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='css'><span class='line'>  <span class="nc">.comparator</span> <span class="nt">a</span> <span class="p">{</span>
 </span><span class='line'>  <span class="k">margin-right</span><span class="o">:</span> <span class="m">3px</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">3px</span> <span class="m">13px</span> <span class="m">3px</span> <span class="m">13px</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">3px</span> <span class="m">13px</span> <span class="m">3px</span> <span class="m">13px</span><span class="p">;</span>
 </span><span class='line'>  <span class="p">}</span>
 </span><span class='line'>  <span class="nc">.ambition</span> <span class="nt">a</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">3px</span> <span class="m">10px</span> <span class="m">3px</span> <span class="m">10px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">3px</span> <span class="m">13px</span> <span class="m">3px</span> <span class="m">13px</span><span class="p">;</span>
 </span><span class='line'>  <span class="k">margin-right</span><span class="o">:</span> <span class="m">3px</span>
 </span><span class='line'>  <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
