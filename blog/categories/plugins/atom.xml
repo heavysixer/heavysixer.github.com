@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Plugins | Mark Daggett's Blog]]></title>
+  <link href="http://heavysixer.github.com/blog/categories/plugins/atom.xml" rel="self"/>
+  <link href="http://heavysixer.github.com/"/>
+  <updated>2011-12-16T10:51:46-06:00</updated>
+  <id>http://heavysixer.github.com/</id>
+  <author>
+    <name><![CDATA[Mark Daggett]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Introducing ActsAsModerated]]></title>
+    <link href="http://heavysixer.github.com/blog/2011/12/16/introducing-acts-as-moderated/"/>
+    <updated>2011-12-16T09:06:00-06:00</updated>
+    <id>http://heavysixer.github.com/blog/2011/12/16/introducing-acts-as-moderated</id>
+    <content type="html"><![CDATA[<p>Periodically sites that incorporate user generated content need a way to moderate the incoming stream before publishing it to the site. Typically this is accomplished by putting the content in a queue and allowing moderators to explicitly accept or reject content. I needed such functionality for a site I was working on so I wrote the "ActsAsModerated" plugin which allows specific columns of a model to be audited by a moderator at some later point.</p>
+
+<p>ActsAsModerated is good for:</p>
+
+<ul>
+<li>spot-checking user generated content</li>
+<li>being notified when new content is created</li>
+<li>tracking changes within a record</li>
+<li>spam checking</li>
+</ul>
+
+
+<p>Moreover, this plugin allows for custom callbacks and validations around the moderation event. This flexibility gives developers the ability to augment the moderation flow by stacking custom rules as needed. For example, a developer write code to assign a reputation score to a user and increment that score for every non-spam contribution they make. This would mean that you could auto approve any content that is made by a user above a certain score, thereby reducing the workload on moderators. I have been using this plugin for over a year on a very high-volume site and it has held up quite well, and so I thought I'd share it with the rest of the Ruby on Rails community.</p>
+
+<h3>Download &amp; Install</h3>
+
+<p>For those with ADD you can find acts_as_moderated here:
+<a href="https://github.com/heavysixer/acts_as_moderated">https://github.com/heavysixer/acts_as_moderated</a></p>
+
+<h3>Setup</h3>
+
+<p>Create the moderated_records table like so:</p>
+
+<p>``` ruby</p>
+
+<pre><code>create_table "moderation_records", :force =&gt; true do |t|
+  t.integer  "recordable_id"
+  t.string   "recordable_type"
+  t.integer  "state_id",             :default =&gt; 0
+  t.integer  "decision_id",          :default =&gt; 0
+  t.boolean  "flagged",              :default =&gt; false
+  t.integer  "moderator_id"
+  t.string   "reason"
+  t.datetime "created_at"
+  t.datetime "updated_at"
+  t.text     "inspected_attributes"
+  t.boolean  "rejected",             :default =&gt; false
+end
+
+add_index "moderation_records", ["decision_id"], :name =&gt; "index_moderation_records_on_decision_id"
+add_index "moderation_records", ["flagged"], :name =&gt; "index_moderation_records_on_flagged"
+add_index "moderation_records", ["moderator_id"], :name =&gt; "index_moderation_records_on_moderator_id"
+add_index "moderation_records", ["recordable_id", "recordable_type"], :name =&gt; "index_moderation_records_on_recordable_id_and_recordable_type"
+add_index "moderation_records", ["rejected"], :name =&gt; "index_moderation_records_on_rejected"
+add_index "moderation_records", ["state_id"], :name =&gt; "index_moderation_records_on_state_id"
+</code></pre>
+
+<p>```</p>
+
+<h3>Usage</h3>
+
+<p>ActsAsModerated has two integration points. The first is within the model(s) to be moderated, which can be done like so:</p>
+
+<p>``` ruby</p>
+
+<pre><code>class Comment &lt; ActiveRecord::Base
+  acts_as_moderated :body
+end
+</code></pre>
+
+<p>```</p>
+
+<p>The second integration point is the class that acts as the moderator. Typically this is some user or account class. The idea is that behind this integration point is to create an audit trail for decisions made by the moderator if you ever need to watch the watcher.</p>
+
+<p>``` ruby
+  class Account &lt; ActiveRecord::Base</p>
+
+<pre><code>acts_as_moderator
+</code></pre>
+
+<p>  end
+```</p>
+
+<p>The plugin also supports an <strong>after_moderation</strong> callback on the record being moderated, which you can use to take action based on what the moderator did. For example:</p>
+
+<ul>
+<li>Delete the record if it is inappropriate or spam</li>
+<li>Email the content creator that their content has been approved / denied</li>
+</ul>
+
+
+<p>There are several dynamically created methods added to every acts_as_moderated class which moderators can use as a shortcut for making decisions. For example where <strong>@moderator</strong> is an object with <strong>acts_as_moderator</strong> applied:</p>
+
+<p><code>ruby
+  @comment.marked_spam_by_moderator(@moderator)
+  @comment.marked_scam_by_moderator(@moderator, :reason =&gt; 'this is obviously a scam, please delete.')
+</code></p>
+
+<h3>Default Ordering, Callbacks &amp; Flagging</h3>
+
+<p>The ModerationRecord class has a <strong>named_scope</strong> called <em>queue</em>, which will return records sorted oldest to newest. However, if you flag a record it will be returned first regardless of its age relative to unflagged records. This is useful if you want to ensure that moderators see potentially dangerous records first. A good way to flag a record is using the <strong>after_moderated</strong> callback for example:</p>
+
+<p>``` ruby</p>
+
+<pre><code>class Comment &lt; ActiveRecord::Base
+  acts_as_moderated :body
+
+  def after_moderated(moderation_record)
+    moderation_record.flag! if body =~ /viagra/i
+  end
+end
+</code></pre>
+
+<p>```</p>
+
+<p>The moderation record will attempt to make callbacks on the model being moderated after a record is first created <strong>after_moderation</strong> and when a moderator rejects a record <strong>after_rejection</strong> here is an example of what they might do:</p>
+
+<p>``` ruby</p>
+
+<pre><code>class Story &lt; ActiveRecord::Base
+  acts_as_moderated :body
+
+  def after_moderated(moderation_record)
+    update_attribute(:moderated, true)
+  end
+
+  def after_rejection(moderation_record)
+    update_attribute(:rejected, true)
+  end
+end
+</code></pre>
+
+<p>```</p>
+
+<h3>Skipping moderation</h3>
+
+<p>The moderation plugin adds an <strong>attr_accessor</strong> called <strong>skip_moderation</strong>, which when set to true will prevent a moderation
+record from being created for that instance of a save. This is useful if you need to create records programmatically, which
+don't need to be moderated initially but will need to be moderated at some later point. For example:</p>
+
+<p><code>ruby
+  @story = ModeratedStory.create #creates a moderation record
+  @story = ModeratedStory.create(:skip_moderation =&gt; true) #does not create a moderation record
+</code></p>
+
+<p>A word to the wise however, since this <strong>attr_accessor</strong> prevents records from being moderated you will want to protect it from
+<em>mass_assignment</em> in your model.</p>
+
+<h4>Known Bugs</h4>
+
+<p>Presently if you use the <strong>:always_moderate</strong> flag on a STI model it will produce a never-ending series of record updates.
+I'll keep working on this bug, in the meantime please do investigate!</p>
+]]></content>
+  </entry>
+  
+</feed>
