@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2011-12-16T22:21:02-06:00</updated>
+  <updated>2012-03-23T09:32:54-05:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,46 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Simple Rails 3 Validator for Unchangeable Attributes]]></title>
+    <link href="http://heavysixer.github.com/blog/2012/03/23/simple-rails-3-validator-for-unchangeable-attributes/"/>
+    <updated>2012-03-23T09:23:00-05:00</updated>
+    <id>http://heavysixer.github.com/blog/2012/03/23/simple-rails-3-validator-for-unchangeable-attributes</id>
+    <content type="html"><![CDATA[<p>Here is a simple Rails validator that you can use to ensure an attribute of a model cannot be changed once it has been assigned a value.</p>
+
+<p>``` ruby
+class UnchangeableValidator &lt; ActiveModel::EachValidator
+  def validate_each(object, attribute, value)</p>
+
+<pre><code>if !object.new_record? &amp;&amp; value.present?
+  original = object.class.send(:where, "id = #{object.id}").select("id, #{attribute.to_s}").first
+  if original.send(attribute) != value
+    object.errors[attribute] &lt;&lt; (options[:message] || "cannot be changed once assigned")
+  end
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>You can use it this way:
+<code>ruby
+validates :email, :unchangeable =&gt; true, :presence =&gt; true
+</code></p>
+
+<p>Here are some specs to prove it works:</p>
+
+<p><code>ruby
+it "should not allow you to change an email for an existing record" do
+  @user.email = "test@test.com"
+  @user.save
+  @user.errors[:email].first.should == "cannot be changed once assigned"
+end
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Introducing ActsAsModerated]]></title>
