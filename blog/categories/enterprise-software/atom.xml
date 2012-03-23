@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Enterprise Software | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/enterprise-software/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2012-03-23T09:40:27-05:00</updated>
+  <updated>2012-03-23T09:43:42-05:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -107,10 +107,10 @@ end</p>
 end</p>
 
 <p>it "should ensure the special character '.' is not used at the beginning and end" do
-  @user = Factory.build(:user, :login => '.Admin_p360')
+  @user = Factory.build(:user, :login => '.Admin_f00')
   @user.save
   @user.errors[:login].first.should == "cannot contain a period at the start or end"
-  @user = Factory.build(:user, :login => 'Admin_p360.')
+  @user = Factory.build(:user, :login => 'Admin_f00.')
   @user.save
   @user.errors[:login].first.should == "cannot contain a period at the start or end"
 end</p>
