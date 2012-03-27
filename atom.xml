@@ -4,7 +4,7 @@
   <title><![CDATA[Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2012-03-25T19:39:40-05:00</updated>
+  <updated>2012-03-27T09:48:06-05:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,39 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails Protip: hash.slice]]></title>
+    <link href="http://heavysixer.github.com/blog/2012/03/26/rails-protip-hash-dot-slice/"/>
+    <updated>2012-03-26T11:09:00-05:00</updated>
+    <id>http://heavysixer.github.com/blog/2012/03/26/rails-protip-hash-dot-slice</id>
+    <content type="html"><![CDATA[<p>One of the great things about Rails is that there gems hidden in the framework just waiting to be discovered. This post will demonstrate the use of <em>Hash.slice</em>, which is one of the core extensions of ActiveSupport.</p>
+
+<p>Here is an example of how <em>Hash.slice</em> can clean up a controller, take this existing code for example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="vi">@users</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">paginate</span><span class="p">({</span> <span class="ss">:page</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">].</span><span class="n">present?</span> <span class="p">?</span> <span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">].</span><span class="n">to_i</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">:per_page</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="ss">:per_page</span><span class="o">].</span><span class="n">present?</span> <span class="p">?</span> <span class="n">params</span><span class="o">[</span><span class="ss">:per_page</span><span class="o">].</span><span class="n">to_i</span> <span class="p">:</span> <span class="mi">12</span> <span class="p">})</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With <em>Hash.slice</em> we can shorten it to:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="vi">@users</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">paginate</span><span class="p">({</span> <span class="ss">:page</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">:per_page</span> <span class="o">=&gt;</span> <span class="mi">12</span> <span class="p">}</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="ss">:page</span><span class="p">,</span> <span class="ss">:per_page</span><span class="p">)))</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>One of the great things about <em>Hash.slice</em> is that it is very forgiving. The method only returns the attributes if they exist. In our example we are assured all conditions will be met because the default values will only be overwritten if <em>Hash.slice</em> returns them.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Minimally Viable Party]]></title>
