@@ -4,7 +4,7 @@
   <title><![CDATA[Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2012-04-04T15:28:03-05:00</updated>
+  <updated>2012-04-04T15:28:48-05:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -18,7 +18,7 @@
     <link href="http://heavysixer.github.com/blog/2012/04/04/thoughts-on-requirement-docs/"/>
     <updated>2012-04-04T15:10:00-05:00</updated>
     <id>http://heavysixer.github.com/blog/2012/04/04/thoughts-on-requirement-docs</id>
-    <content type="html"><![CDATA[<blockquote><p>A requirements document should be a recipe not a shopping list.</p></blockquote>
+    <content type="html"><![CDATA[<blockquote><p>Requirement documents should be a recipe not a shopping list.</p></blockquote>
 
 
 <p>This metaphor is my attempt to encapsulate what a good requirements document is. Both a shopping list and a recipe are essentially lists of ingredients in various quantities. However, the recipe also includes a desired outcome and precise descriptions of how the ingredients are meant to be used.</p>
