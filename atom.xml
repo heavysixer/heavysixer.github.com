@@ -4,7 +4,7 @@
   <title><![CDATA[Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2012-04-04T15:28:48-05:00</updated>
+  <updated>2012-04-04T15:31:23-05:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -23,7 +23,7 @@
 
 <p>This metaphor is my attempt to encapsulate what a good requirements document is. Both a shopping list and a recipe are essentially lists of ingredients in various quantities. However, the recipe also includes a desired outcome and precise descriptions of how the ingredients are meant to be used.</p>
 
-<p>When evaluating a requirement document ask yourself if it gives you a clear understanding of what it is you are being asked to build, and how the independent parts work together. If it doesn&#8217;t do that then, my friend you are reading a shopping list.</p>
+<p>When evaluating a requirement document ask yourself if it gives you a clear understanding of what it is you are being asked to build, and how the independent parts work together. If it doesn&#8217;t do that then, my friend, you are reading a shopping list.</p>
 ]]></content>
   </entry>
   
