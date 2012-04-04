@@ -93,11 +93,11 @@
 
   <div class="entry-content"><p>Recently I was writing an enterprise data visualization application that made heavy user of interactive charts and graphs. Like most best-of-breed data-viz apps this one supported very robust filters for slicing and dicing through the dataset. Each time the user adjusted one of these filters the application made new AJAX request and idled until the results were returned.</p>
 
-<p>Technically, this approach worked fine, but because the data-segmentation occurred on the server side the charts began to feel sluggish because they were always polling or data. Additionally, the user quite frequently toggled between only a couple filters to compare the results. What should have been an experience of rapidly flipping between two views on the data was actually a belabored rendering experience, which was frustrating because they were asking for and receiving the same data over and over again.</p>
+<p>Technically, this approach worked fine, but because the data-segmentation occurred on the server the charts felt sluggish because they were always polling or data. Additionally, the user quite frequently toggled between only a couple filters to compare the results. What should have been an experience of rapidly flipping between two views on the data was actually a belabored rendering experience. As the developer this was frustrating because they were asking for and receiving the same data over and over again.</p>
 
 <p>To solve this problem, I built a very simple mechanism that affords <em>just enough caching</em> to persist these payload objects only while the user is viewing the page. In this way the user would be guaranteed to get a fresh copy from the server on each page load.</p>
 
-<p>Essentially, I hooked my caching routine around the function that made the AJAX request. Using this approach an AJAX request only occurred once, and all future requests pulled from the cache.</p>
+<p>Essentially, I hooked my caching routine around the function that made the AJAX request for new chart data. Using this approach an AJAX request only occurred once, and all future requests pulled from the cache.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -128,6 +128,7 @@
 <span class='line-number'>27</span>
 <span class='line-number'>28</span>
 <span class='line-number'>29</span>
+<span class='line-number'>30</span>
 </pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Called when someone adjusts a filter</span>
 </span><span class='line'><span class="kd">function</span> <span class="nx">updateChart</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">chart</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>
@@ -135,13 +136,13 @@
 </span><span class='line'>    <span class="kd">var</span> <span class="nx">opts</span> <span class="o">=</span> <span class="nx">requestParamsFor</span><span class="p">(</span><span class="nx">chart</span><span class="p">,</span> <span class="nx">key</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="c1">// Generate a cache key based on this object</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">cacheKey</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">hh</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">getKey</span><span class="p">(</span><span class="nx">opts</span><span class="p">);</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">cacheKey</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">getKey</span><span class="p">(</span><span class="nx">opts</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">hh</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">exists</span><span class="p">(</span><span class="nx">cacheKey</span><span class="p">))</span> <span class="p">{</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="c1">// If the key exists then the request has happened in the past</span>
 </span><span class='line'>        <span class="c1">// use the cached result to refresh the chart.</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">hh</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">cacheKey</span><span class="p">);</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">cacheKey</span><span class="p">);</span>
 </span><span class='line'>        <span class="nx">onSuccess</span><span class="p">(</span><span class="nx">kind</span><span class="p">,</span> <span class="nx">opts</span><span class="p">,</span> <span class="nx">chart</span><span class="p">,</span> <span class="nx">code</span><span class="p">,</span> <span class="nx">result</span><span class="p">);</span>
 </span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 </span><span class='line'>        <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
@@ -149,9 +150,10 @@
 </span><span class='line'>            <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
 </span><span class='line'>            <span class="nx">data</span><span class="o">:</span> <span class="nx">opts</span><span class="p">,</span>
 </span><span class='line'>            <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
 </span><span class='line'>                <span class="c1">// Since this was a new request store the results in the cache </span>
 </span><span class='line'>                <span class="c1">// at the location specified by the cache key.</span>
-</span><span class='line'>                <span class="nx">$</span><span class="p">.</span><span class="nx">hh</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">cacheKey</span><span class="p">,</span> <span class="nx">result</span><span class="p">);</span>
+</span><span class='line'>                <span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">cacheKey</span><span class="p">,</span> <span class="nx">result</span><span class="p">);</span>
 </span><span class='line'>                <span class="nx">onSuccess</span><span class="p">(</span><span class="nx">kind</span><span class="p">,</span> <span class="nx">opts</span><span class="p">,</span> <span class="nx">chart</span><span class="p">,</span> <span class="nx">code</span><span class="p">,</span> <span class="nx">result</span><span class="p">);</span>
 </span><span class='line'>            <span class="p">}</span>
 </span><span class='line'>        <span class="p">});</span>
@@ -160,7 +162,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Here is the local cache object in all it&#8217;s detail:</p>
+<p>Here is the local cache class in all it&#8217;s detail:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

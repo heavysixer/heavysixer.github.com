@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2012-04-04T14:53:50-05:00</updated>
+  <updated>2012-04-04T15:02:10-05:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -20,11 +20,11 @@
     <id>http://heavysixer.github.com/blog/2012/03/28/client-side-request-caching-with-javascript</id>
     <content type="html"><![CDATA[<p>Recently I was writing an enterprise data visualization application that made heavy user of interactive charts and graphs. Like most best-of-breed data-viz apps this one supported very robust filters for slicing and dicing through the dataset. Each time the user adjusted one of these filters the application made new AJAX request and idled until the results were returned.</p>
 
-<p>Technically, this approach worked fine, but because the data-segmentation occurred on the server side the charts began to feel sluggish because they were always polling or data. Additionally, the user quite frequently toggled between only a couple filters to compare the results. What should have been an experience of rapidly flipping between two views on the data was actually a belabored rendering experience, which was frustrating because they were asking for and receiving the same data over and over again.</p>
+<p>Technically, this approach worked fine, but because the data-segmentation occurred on the server the charts felt sluggish because they were always polling or data. Additionally, the user quite frequently toggled between only a couple filters to compare the results. What should have been an experience of rapidly flipping between two views on the data was actually a belabored rendering experience. As the developer this was frustrating because they were asking for and receiving the same data over and over again.</p>
 
 <p>To solve this problem, I built a very simple mechanism that affords <em>just enough caching</em> to persist these payload objects only while the user is viewing the page. In this way the user would be guaranteed to get a fresh copy from the server on each page load.</p>
 
-<p>Essentially, I hooked my caching routine around the function that made the AJAX request. Using this approach an AJAX request only occurred once, and all future requests pulled from the cache.</p>
+<p>Essentially, I hooked my caching routine around the function that made the AJAX request for new chart data. Using this approach an AJAX request only occurred once, and all future requests pulled from the cache.</p>
 
 <p>``` javascript
 // Called when someone adjusts a filter
@@ -34,13 +34,13 @@ function updateChart(url, chart, key) {</p>
 var opts = requestParamsFor(chart, key);
 
 // Generate a cache key based on this object
-var cacheKey = $.hh.cache.getKey(opts);
+var cacheKey = $.cache.getKey(opts);
 
 if ($.hh.cache.exists(cacheKey)) {
 
     // If the key exists then the request has happened in the past
     // use the cached result to refresh the chart.
-    var result = $.hh.cache.get(cacheKey);
+    var result = $.cache.get(cacheKey);
     onSuccess(kind, opts, chart, code, result);
 } else {
     $.ajax({
@@ -48,9 +48,10 @@ if ($.hh.cache.exists(cacheKey)) {
         type: 'POST',
         data: opts,
         success: function(result) {
+
             // Since this was a new request store the results in the cache 
             // at the location specified by the cache key.
-            $.hh.cache.add(cacheKey, result);
+            $.cache.add(cacheKey, result);
             onSuccess(kind, opts, chart, code, result);
         }
     });
@@ -61,7 +62,7 @@ if ($.hh.cache.exists(cacheKey)) {
 
 <p>```</p>
 
-<p>Here is the local cache object in all it's detail:</p>
+<p>Here is the local cache class in all it's detail:</p>
 
 <p>``` javascript
 $.cache = (function() {</p>
