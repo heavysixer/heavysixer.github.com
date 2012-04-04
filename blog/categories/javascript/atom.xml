@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2012-03-27T09:48:06-05:00</updated>
+  <updated>2012-04-04T14:53:50-05:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,221 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[client-side request caching with Javascript]]></title>
+    <link href="http://heavysixer.github.com/blog/2012/03/28/client-side-request-caching-with-javascript/"/>
+    <updated>2012-03-28T20:30:00-05:00</updated>
+    <id>http://heavysixer.github.com/blog/2012/03/28/client-side-request-caching-with-javascript</id>
+    <content type="html"><![CDATA[<p>Recently I was writing an enterprise data visualization application that made heavy user of interactive charts and graphs. Like most best-of-breed data-viz apps this one supported very robust filters for slicing and dicing through the dataset. Each time the user adjusted one of these filters the application made new AJAX request and idled until the results were returned.</p>
+
+<p>Technically, this approach worked fine, but because the data-segmentation occurred on the server side the charts began to feel sluggish because they were always polling or data. Additionally, the user quite frequently toggled between only a couple filters to compare the results. What should have been an experience of rapidly flipping between two views on the data was actually a belabored rendering experience, which was frustrating because they were asking for and receiving the same data over and over again.</p>
+
+<p>To solve this problem, I built a very simple mechanism that affords <em>just enough caching</em> to persist these payload objects only while the user is viewing the page. In this way the user would be guaranteed to get a fresh copy from the server on each page load.</p>
+
+<p>Essentially, I hooked my caching routine around the function that made the AJAX request. Using this approach an AJAX request only occurred once, and all future requests pulled from the cache.</p>
+
+<p>``` javascript
+// Called when someone adjusts a filter
+function updateChart(url, chart, key) {</p>
+
+<pre><code>// Builds the request params needed to correctly query the server. 
+var opts = requestParamsFor(chart, key);
+
+// Generate a cache key based on this object
+var cacheKey = $.hh.cache.getKey(opts);
+
+if ($.hh.cache.exists(cacheKey)) {
+
+    // If the key exists then the request has happened in the past
+    // use the cached result to refresh the chart.
+    var result = $.hh.cache.get(cacheKey);
+    onSuccess(kind, opts, chart, code, result);
+} else {
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: opts,
+        success: function(result) {
+            // Since this was a new request store the results in the cache 
+            // at the location specified by the cache key.
+            $.hh.cache.add(cacheKey, result);
+            onSuccess(kind, opts, chart, code, result);
+        }
+    });
+}
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<p>Here is the local cache object in all it's detail:</p>
+
+<p>``` javascript
+$.cache = (function() {</p>
+
+<pre><code>var _cache = {};
+var _keys = [];
+var _indexOf = function(arr, obj) {
+    var len = arr.length;
+    for (var i = 0; i &lt; len; i++) {
+        if (arr[i] == obj) {
+            return i;
+        }
+    }
+    return - 1;
+};
+var _serialize = function(opts) {
+    if ((opts).toString() === "[object Object]") {
+        return $.param(opts);
+    } else {
+        return (opts).toString();
+    }
+};
+var _remove = function(key) {
+    var t;
+    if ((t = _indexOf(_keys, key)) &gt; -1) {
+        _keys.splice(t, 1);
+        delete _cache[key];
+    }
+};
+var _removeAll = function() {
+    _cache = {};
+    _keys = [];
+};
+var add = function(key, obj) {
+    if (_keys.indexOf(key) === -1) {
+        _keys.push(key);
+    }
+    _cache[key] = obj;
+    return $.hh.cache.get(key);
+};
+var exists = function(key) {
+    return _cache.hasOwnProperty(key);
+};
+var purge = function() {
+    if (arguments.length &gt; 0) {
+        _remove(arguments[0]);
+    } else {
+        _removeAll();
+    }
+    return $.extend(true, {},
+    _cache);
+};
+var searchKeys = function(str) {
+    var keys = [];
+    var rStr;
+    rStr = new RegExp('\\b' + str + '\\b', 'i');
+    $.each(_keys,
+    function(i, e) {
+        if (e.match(rStr)) {
+            keys.push(e);
+        }
+    });
+    return keys;
+};
+var get = function(key) {
+    var val;
+    if (_cache[key] !== undefined) {
+        if ((_cache[key]).toString() === "[object Object]") {
+            val = $.extend(true, {},
+            _cache[key]);
+        } else {
+            val = _cache[key];
+        }
+    }
+    return val;
+};
+var getKey = function(opts) {
+    return _serialize(opts);
+};
+var getKeys = function() {
+    return _keys;
+};
+return {
+    add: add,
+    exists: exists,
+    purge: purge,
+    searchKeys: searchKeys,
+    get: get,
+    getKey: getKey,
+    getKeys: getKeys
+};
+</code></pre>
+
+<p>}).call(this);
+```</p>
+
+<p>Here are some jasmine tests which explain more features of the cache not covered in this post, and prove that it works!</p>
+
+<p>``` javascript
+it("should allow you to build a cache using keys",
+function() {</p>
+
+<pre><code>var obj = {
+    'foo': 'bar'
+};
+expect($.cache.exists("foo=bar")).toEqual(false);
+expect($.cache.getKey(obj)).toEqual('foo=bar');
+expect($.cache.getKey('foo')).toEqual('foo');
+expect($.cache.add("foo=bar", obj)).toEqual(obj);
+expect($.cache.exists("foo=bar")).toEqual(true);
+expect($.cache.get("foo=bar")).toEqual(obj);
+expect($.cache.get("bar")).toEqual(undefined);
+</code></pre>
+
+<p>});</p>
+
+<p>it("should allow you to empty the cache completely",
+function() {</p>
+
+<pre><code>$.cache.purge();
+expect($.cache.add("baz", 'baz')).toEqual('baz');
+expect($.cache.getKeys().length).toEqual(1);
+expect($.cache.purge()).toEqual({});
+</code></pre>
+
+<p>});</p>
+
+<p>it("should allow you to empty the cache of just a specific record",
+function() {</p>
+
+<pre><code>$.cache.purge();
+expect($.cache.add("baz", 'baz')).toEqual('baz');
+expect($.cache.add("boff", 'ball')).toEqual('ball');
+expect($.cache.getKeys()).toEqual(['baz', 'boff']);
+expect($.cache.purge('boff')).toEqual({
+    'baz': 'baz'
+});
+expect($.cache.getKeys()).toEqual(['baz']);
+expect($.cache.purge('bozz')).toEqual({
+    'baz': 'baz'
+});
+expect($.cache.getKeys()).toEqual(['baz']);
+</code></pre>
+
+<p>});</p>
+
+<p>it("should allow you to search for keys in the cache",
+function() {</p>
+
+<pre><code>$.cache.purge();
+var obj = {
+    'bar': 'baz'
+};
+$.cache.add('bar=baz', obj);
+expect($.cache.getKeys().length).toEqual(1);
+expect($.cache.getKeys()).toEqual(["bar=baz"]);
+expect($.cache.searchKeys("bar")).toEqual(["bar=baz"]);
+expect($.cache.searchKeys("bar=")).toEqual(["bar=baz"]);
+expect($.cache.searchKeys("bat")).toEqual([]);
+</code></pre>
+
+<p>});
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Generate Beautiful Gradients Using Javascript]]></title>
