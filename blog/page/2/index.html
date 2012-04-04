@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Transactions In Rails - Mark Daggett's Blog</title>
+  <title>Mark Daggett's Blog</title>
   <meta name="author" content="Mark Daggett">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://heavysixer.github.com/blog/2011/12/01/transactions-in-rails">
+  <link rel="canonical" href="http://heavysixer.github.com/blog/page/2">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -60,12 +60,15 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">Transactions in Rails</h1>
+      <h1 class="entry-title"><a href="/blog/2011/12/01/transactions-in-rails/">Transactions in Rails</a></h1>
     
     
       <p class="meta">
@@ -88,7 +91,7 @@
   </header>
 
 
-<div class="entry-content"><p>Recently I was tasked to write tests for the transactions of an existing application. This gave me the opportunity to learn more about the codebase, while also improving the test coverage. Generally, most of the transaction code looked fine. However, there were some instances where transactions were used incorrectly or inefficiently. I assumed this is just because of a misunderstanding of how transactions work within Rails, and so I thought iʼd take some time and give an overview of the common errors I found and some best practices for using transactions in Rails.</p>
+  <div class="entry-content"><p>Recently I was tasked to write tests for the transactions of an existing application. This gave me the opportunity to learn more about the codebase, while also improving the test coverage. Generally, most of the transaction code looked fine. However, there were some instances where transactions were used incorrectly or inefficiently. I assumed this is just because of a misunderstanding of how transactions work within Rails, and so I thought iʼd take some time and give an overview of the common errors I found and some best practices for using transactions in Rails.</p>
 
 <p>Let me also state at the beginning that most of these examples are not my own, they come directly from the Rails source, which give example usages of applying transactions RTFM FTW.</p>
 
@@ -292,66 +295,33 @@ As a rule, transactions are only needed when changes to multiple records must su
 </ol>
 
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Mark Daggett</span></span>
-
-      
-
-
-
-
-
-
-
-
   
 
 
-<time datetime="2011-12-01T11:39:00-06:00" pubdate data-updated="true">Dec 1<span>st</span>, 2011</time>
-      
-
-<span class="categories">
+    </article>
   
-    <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/software-design/'>Software Design</a>
-  
-</span>
-
-
-    </p>
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://heavysixer.github.com/blog/2011/12/01/transactions-in-rails/" data-via="" data-counturl="http://heavysixer.github.com/blog/2011/12/01/transactions-in-rails/" >Tweet</a>
-  
-  
-  
-</div>
-
+    <a href="/blog/archives">Blog Archives</a>
     
-    <p class="meta">
-      
-      
-        <a class="basic-alignment right" href="/blog/2011/12/04/css-anti-patterns/" title="next Post: CSS Anti-patterns">CSS Anti-patterns &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
 </div>
-  </section>
-
-</div>
-
 <aside class="sidebar">
+  <section>
+    <h1>About Me</h1>
+    <p>
+      I have worked for over a decade within the fields of experience and user interaction design, concept development and strategy, through a variety of start-up ventures, consulting and advisory roles.
+      <ul>
+        <li><a href='/images/daggett-resume-2011.pdf'>Resume</a></li>
+        <li><a href="https://github.com/heavysixer">Github Repos</a></li>
+        <li><a href="http://www.linkedin.com/in/heavysixer">Linkedin</a></li>
+      </ul>
+    </p>
+    <p>I am the founder of <a href="http://www.humansized.com">Humansized inc.</a>, a social innovations company in Kansas City, and a co-founder of <a href="http://www.pledgie.com">Pledgie.com</a> a site that allows anyone to crowd-fund their initiatives.</p>
+  </section>
   
     <section>
   <h1>Recent Posts</h1>
@@ -388,7 +358,6 @@ As a rule, transactions are only needed when changes to multiple records must su
   
 </aside>
 
-
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -403,10 +372,7 @@ As a rule, transactions are only needed when changes to multiple records must su
       var disqus_shortname = 'markdaggettcom';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://heavysixer.github.com/blog/2011/12/01/transactions-in-rails/';
-        var disqus_url = 'http://heavysixer.github.com/blog/2011/12/01/transactions-in-rails/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
