@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Daggett">
 
   
-  <meta name="description" content="Requirement documents should be a recipe not a shopping list. This metaphor is my attempt to encapsulate what a good requirements document is. Both a &hellip;">
+  <meta name="description" content="Jump and the net will appear.John Burroughsen.wikipedia.org/wiki/&hellip; Seven years ago there was much handwringing around leaving my job to start &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +62,45 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/05/on-jumping/">On Jumping</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-05T09:39:00-05:00" pubdate data-updated="true">Apr 5<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>Jump and the net will appear.</p><footer><strong>John Burroughs</strong><cite><a href='http://en.wikipedia.org/wiki/John_Burroughs'>en.wikipedia.org/wiki/&hellip;</a></cite></footer></blockquote>
+
+
+<p>Seven years ago there was much handwringing around leaving my job to start my own consultancy. That is until my friend told me this quote from John Burroughs. It is a compelling illustration about faith in yourself and that the world around you values you. It often resurfaces for me when I am mulling over a risky proposition. The best thing about this quote is when properly applied, if the net doesn&#8217;t appear&#8230; well it won&#8217;t hurt long!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1497,216 +1536,6 @@ I am a Steven Johnson fan-boy and his latest offering does not disappoint. It is
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/12/04/css-anti-patterns/">CSS Anti-patterns</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-12-04T11:06:00-06:00" pubdate data-updated="true">Dec 4<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Over the last month of two I have been working on a large enterprise Rails site. The backend has been implemented by a core group of developers but the frontend CSS and HTML have been handed off several times. As I worked to refactor some of the views I noticed several anti-patterns reoccurring in the code that I thought I would highlight and propose work arounds. While all of the examples I present in this file are extracted directly from the site in question I have seen them occur over and over again on other projects.</p>
-
-<h2>1. Unclear Naming Conventions</h2>
-
-<p>If a tag in an HTML page performs a task then a good CSS name should describe what the job is. It should have semantic value and should not where possible describe only visual attributes.</p>
-
-<figure class='code'><figcaption><span>Anti-pattern Example</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.teal</span> <span class="p">{</span>
-</span><span class='line'><span class="k">color</span><span class="o">:</span> <span class="m">#1EC5E9</span><span class="p">;</span>
-</span><span class='line'><span class="k">font-style</span><span class="o">:</span> <span class="k">italic</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This class name gives very little semantic value to tag it is applied to. The class &#8220;teal&#8221; only describes the visualness of the tag. Furthermore this name is only relevant while the visual design of the page stays the same. If the design changes then every instance of the &#8220;teal&#8221; class will need to be removed throughout the codebase if the color changes. What is worse is if the CSS attributes within the class are updated without changing the name then the name becomes meaningless. A better approach would be to understand what the teal color is for. If it is meant to draw emphasis to a bit of text then choose a name like &#8220;highlight&#8221; so that it is more clear what job it is to perform.</p>
-
-<h2>2. Invalid Declarations</h2>
-
-<p>When writing CSS periodically run your classes through a CSS validator to ensure its syntax is correct. The problem with invalid declarations is that they may not break the tag in question but may corrupt the rest of the cascade causing classes defined later in the file from working. Whenever I am hunting down a CSS error the first thing I do is ensure I am working off a valid document. I can&#8217;t tell you how many times just fixing the code in one part of the file fixed mystery bugs that appeared lower in the document.</p>
-
-<h2>3. Unnecessary verboseness</h2>
-
-<p>  Where possible try to compact your CSS attributes into one line:</p>
-
-<figure class='code'><figcaption><span>Anti-pattern Example</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'>  <span class="nt">background</span><span class="o">:</span> <span class="nf">#2175BE</span><span class="o">;</span>
-</span><span class='line'>  <span class="nt">background-image</span><span class="o">:</span> <span class="nt">url</span><span class="o">(../</span><span class="nt">images</span><span class="o">/</span><span class="nt">bottomshadownav</span><span class="nc">.png</span><span class="o">);</span>
-</span><span class='line'>  <span class="nt">background-position</span><span class="o">:</span> <span class="nt">bottom</span><span class="o">;</span>
-</span><span class='line'>  <span class="nt">background-repeat</span><span class="o">:</span> <span class="nt">repeat-x</span><span class="o">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>Improved Version</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'>  <span class="nt">background</span><span class="o">:</span> <span class="nf">#2175BE</span> <span class="nt">url</span><span class="o">(../</span><span class="nt">images</span><span class="o">/</span><span class="nt">bottomshadownav</span><span class="nc">.png</span><span class="o">)</span> <span class="nt">repeat-x</span> <span class="nt">bottom</span><span class="o">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>4. Overly Specific Classes</h2>
-
-<p>I strive to make CSS classes do only one thing. That does not mean that my classes only have only one attribute declaration, but it means that I try to assign them only one job to perform. This allows me to build up complex behaviors and visuals to html tags by combining several simple CSS classes. Resist the urge to add properties to your class that doesn&#8217;t describe the job it does. This will also make your HTML more clear to read, and easier to extend. Consider the two examples below:</p>
-
-<figure class='code'><figcaption><span>Anti-pattern Example</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'>  <span class="nc">.slider</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">height</span><span class="o">:</span> <span class="m">27px</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">float</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>Improved Version</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'>  <span class="nc">.slider</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">height</span><span class="o">:</span> <span class="m">27px</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="nc">.left</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">float</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>5. Browser Specific Overrides</h2>
-
-<p>Where possible resist the urge to place browser specific hacks in the master CSS file. The proper approach is to peel these classes off into an override stylesheet that will be loaded only when the user is using that particular browser. The reason we put override classes in their own file is for two reasons. It simplifies the master CSS file, and gives the developer an easy way to eliminate CSS from the site when the site no longer needs to support a deprecated browser.</p>
-
-<figure class='code'><figcaption><span>Anti-pattern Example</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'>  <span class="nc">.decile</span> <span class="nt">img</span> <span class="p">{</span>
-</span><span class='line'>  <span class="err">_</span><span class="k">margin</span><span class="o">:</span> <span class="m">0px</span> <span class="c">/* IE 6 Hack */</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>6. Needless Duplication</h2>
-
-<p>Part of writing good CSS is to generalize common tasks where possible. In the example below you&#8217;ll notice that both classes are essentially the same.</p>
-
-<figure class='code'><figcaption><span>Anti-pattern Example</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'>  <span class="nc">.comparator</span> <span class="nt">a</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">margin-right</span><span class="o">:</span> <span class="m">3px</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">3px</span> <span class="m">13px</span> <span class="m">3px</span> <span class="m">13px</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="nc">.ambition</span> <span class="nt">a</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">3px</span> <span class="m">13px</span> <span class="m">3px</span> <span class="m">13px</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">margin-right</span><span class="o">:</span> <span class="m">3px</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>Improved Version</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'>  <span class="nt">a</span><span class="nc">.link</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">padding</span><span class="o">:</span> <span class="m">3px</span> <span class="m">10px</span> <span class="m">3px</span> <span class="m">10px</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">margin-right</span><span class="o">:</span> <span class="m">3px</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>7. Overuse of exclamation point</h2>
-
-<p>The &#8220;!&#8221; override is a brute force method to ensure an attribute of your class cannot be overwritten. This should be used as a last resort and not to mask poor design or abstraction of classes. Overuse of the exclamation point is like a shouting match between all your CSS classes, almost never ends well.</p>
-
-<h2>8. &#8220;Cargo Culting&#8221; through Copy + Paste</h2>
-
-<p>Copying CSS en masse and pasting it into the document without making fundamental changes to the class can be a sign of disconnect between the designer and developer or a signal that the developer / designer doesn&#8217;t know (or care) about how the copied CSS works. Bulk copying CSS creates deadweight in the CSS file and makes it harder to maintain and extend.</p>
-
-<p>In the first case where a developer is implementing a design given to them by a front-end developer it is entirely possible the developer won&#8217;t know how the CSS works. Later, they may find themselves needing to replicate a style elsewhere in the site. Often this means they bulk copy several classes and paste them elsewhere in the document. Typically, they make a trivial changes needed e.g. change the font-size and then rename the class. The proper approach would be to abstract the first class so that it is more generalized and can service both instances of how it needs to be implemented.</p>
-
-<p>However, I found several examples where entire blocks of code appeared three and four times in the same file with absolutely no difference! This is absolutely unacceptable in a professional product.</p>
-
-<h2>9. Unused Classes</h2>
-
-<p>With any site under constant development it is easy for classes to become unused within the html. Developers and designers must make it part of their development process to remove unused classes from the CSS otherwise the site can become bogged down with all the deadweight inside the CSS file. There are projects like &#8220;deadweight&#8221; which are specifically dedicated to helping you prune your CSS of unused code.</p>
-
-<h2>10. Needless Namespacing</h2>
-
-<p>Namespacing is used to change the way a child class works when its parent class changes. This is a great way to keep your HTML and CSS flexible because it means that a single change to the parent element can change the look and feel of all the containing children. However, if you over namespace your CSS by binding it to specific html tags where not absolutely needed you make the CSS brittle and hard to maintain.</p>
-
-<figure class='code'><figcaption><span>Anti-pattern Example</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'>  <span class="nc">.qipp-inputs</span> <span class="nt">table</span> <span class="nt">tr</span><span class="nc">.metric</span> <span class="nt">td</span><span class="nc">.metric_name</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">border-bottom</span><span class="o">:</span> <span class="m">1px</span> <span class="k">dotted</span> <span class="m">#B6CBD2</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">padding-left</span><span class="o">:</span> <span class="m">20px</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">text-align</span><span class="o">:</span> <span class="k">left</span> <span class="cp">!important</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>Improved Example</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'>  <span class="nc">.qipp-inputs</span> <span class="nc">.metric</span> <span class="nt">td</span><span class="nc">.metric_name</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">border-bottom</span><span class="o">:</span> <span class="m">1px</span> <span class="k">dotted</span> <span class="m">#B6CBD2</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">padding-left</span><span class="o">:</span> <span class="m">20px</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">text-align</span><span class="o">:</span> <span class="k">left</span> <span class="cp">!important</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I welcome any discussion or feedback on these patterns and would love to improve this document where possible. What anti-patterns have you seen in CSS files you&#8217;ve worked on?</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1734,6 +1563,10 @@ I am a Steven Johnson fan-boy and his latest offering does not disappoint. It is
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/04/05/on-jumping/">On Jumping</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/04/04/thoughts-on-requirement-docs/">Thoughts on Requirement Gathering</a>
       </li>
     
@@ -1747,10 +1580,6 @@ I am a Steven Johnson fan-boy and his latest offering does not disappoint. It is
     
       <li class="post">
         <a href="/blog/2012/03/25/the-minimally-viable-party/">The Minimally Viable Party</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/23/generate-beautiful-gradients-using-javascript/">Generate Beautiful Gradients Using Javascript</a>
       </li>
     
   </ul>
