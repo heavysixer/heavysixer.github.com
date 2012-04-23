@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ruby | Mark Daggett's Blog]]></title>
+  <link href="http://heavysixer.github.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://heavysixer.github.com/"/>
+  <updated>2012-04-23T10:50:37-05:00</updated>
+  <id>http://heavysixer.github.com/</id>
+  <author>
+    <name><![CDATA[Mark Daggett]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Reading RFID Cards With Ruby and the Mac]]></title>
+    <link href="http://heavysixer.github.com/blog/2012/04/23/reading-rfid-cards-with-ruby/"/>
+    <updated>2012-04-23T09:18:00-05:00</updated>
+    <id>http://heavysixer.github.com/blog/2012/04/23/reading-rfid-cards-with-ruby</id>
+    <content type="html"><![CDATA[<p>This weekend I fooled around with the Sparkfun "RFID Starter Kit". I purchased it from my local technology barn for around $50.00. I am teaching myself physical computing, and projects like that can be completed in an afternoon, are a great way to learn "just enough" to keep a junior hardware hacker like myself from getting frustrated.</p>
+
+<p>I was thrilled to find out that getting this board to talk to Ruby took virtually no effort. In fact, it was so simple it almost felt like I was cheating some how. Here are the steps that I followed to get the ID-12 RFID Scanner and Reader talking to Ruby.</p>
+
+<ol>
+<li><p>Download the most recent drivers from Future Technology Devices International:
+ <a href="http://www.ftdichip.com/Drivers/VCP/MacOSX/FTDIUSBSerialDriver_v2_2_14.dmg">http://www.ftdichip.com/Drivers/VCP/MacOSX/FTDIUSBSerialDriver_v2_2_14.dmg</a>
+ The package contains two sets of drivers. Make sure that you install the version that is right for your operating system.</p></li>
+<li><p>Install the serialport gem for Ruby</p></li>
+</ol>
+
+
+<p>  gem install serialport (I used version 1.0.4)</p>
+
+<ol>
+<li><p>Mount the scanner on top of the reader by lining up the prongs in the appropriate slot. Then plug the reader into the Mini-USB port of the mac.</p></li>
+<li><p>From the console, locate the virtual com port the drivers created when you plugged in your Mini-USB cable.</p></li>
+</ol>
+
+
+<p>  :~ ls -la /dev</p>
+
+<p>  Scanning the output from this command you should see the device listed similar to this:  cu.usbserial-XXXXXX (where X's represent a driver id). Mine showed up as "cu.usbserial-A900ftPb" but yours may be different.</p>
+
+<ol>
+<li>Use this sample code to print the unique RFID id stored inside the card, when someone swipes the card over the scanner.</li>
+</ol>
+
+
+<p> ``` ruby
+ # Simple example of reading from serial port to interface with the RFID reader.
+ require "serialport"
+ class RfidReader
+   attr_accessor :key</p>
+
+<p>   def initialize(port)</p>
+
+<pre><code> port_str = port
+ baud_rate = 9600
+ data_bits = 8
+ stop_bits = 1
+ parity = SerialPort::NONE
+ @sp = SerialPort.new(port_str, baud_rate, data_bits, stop_bits, parity)
+ @key_parts = []
+ @key_limit = 16 # number of slots in the RFID card.
+ while true do
+   main
+ end
+ @sp.close
+</code></pre>
+
+<p>   end</p>
+
+<p>   def key_detected?</p>
+
+<pre><code> @key_parts &lt;&lt; @sp.getc
+ if @key_parts.size &gt;= @key_limit
+   self.key = @key_parts.join()
+   @key_parts = []
+   true
+ else
+   false
+ end
+</code></pre>
+
+<p>   end</p>
+
+<p>   def main</p>
+
+<pre><code> if key_detected?
+   puts self.key
+ end
+</code></pre>
+
+<p>   end
+ end</p>
+
+<p> RfidReader.new("/dev/cu.usbserial-A900ftPb")  #may be different for you
+ ```</p>
+
+<p>Once you have the unique ID the possibilities become nearly limitless, you can use the card to update twitter, or turn on your lights, turn on the coffee pot, fire the nerf guns, release the hounds etc. Have fun, I know I will!</p>
+]]></content>
+  </entry>
+  
+</feed>
