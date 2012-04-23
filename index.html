@@ -99,24 +99,14 @@
 <li><p>Download the most recent drivers from Future Technology Devices International:
  <a href="http://www.ftdichip.com/Drivers/VCP/MacOSX/FTDIUSBSerialDriver_v2_2_14.dmg">http://www.ftdichip.com/Drivers/VCP/MacOSX/FTDIUSBSerialDriver_v2_2_14.dmg</a>
  The package contains two sets of drivers. Make sure that you install the version that is right for your operating system.</p></li>
-<li><p>Install the serialport gem for Ruby</p></li>
-</ol>
-
-
-<p>  gem install serialport (I used version 1.0.4)</p>
-
-<ol>
+<li><p>Install the serialport gem for Ruby
+ gem install serialport (I used version 1.0.4)</p></li>
 <li><p>Mount the scanner on top of the reader by lining up the prongs in the appropriate slot. Then plug the reader into the Mini-USB port of the mac.</p></li>
-<li><p>From the console, locate the virtual com port the drivers created when you plugged in your Mini-USB cable.</p></li>
-</ol>
+<li><p>From the console, locate the virtual com port the drivers created when you plugged in your Mini-USB cable.
+ :~ ls -la /dev</p>
 
-
-<p>  :~ ls -la /dev</p>
-
-<p>  Scanning the output from this command you should see the device listed similar to this:  cu.usbserial-XXXXXX (where X&#8217;s represent a driver id). Mine showed up as &#8220;cu.usbserial-A900ftPb&#8221; but yours may be different.</p>
-
-<ol>
-<li>Use this sample code to print the unique RFID id stored inside the card, when someone swipes the card over the scanner.</li>
+<p> Scanning the output from this command you should see the device listed similar to this:  cu.usbserial-XXXXXX (where X&#8217;s represent a driver id). Mine showed up as &#8220;cu.usbserial-A900ftPb&#8221; but yours may be different.</p></li>
+<li><p>Use this sample code to print the unique RFID id stored inside the card, when someone swipes the card over the scanner.</p></li>
 </ol>
 
 
