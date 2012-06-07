@@ -4,7 +4,7 @@
   <title><![CDATA[Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2012-04-29T13:23:53-05:00</updated>
+  <updated>2012-06-07T12:09:34-05:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Task chunking or why we leave our cards in the ATM]]></title>
+    <link href="http://heavysixer.github.com/blog/2012/06/07/task-chunking/"/>
+    <updated>2012-06-07T12:06:00-05:00</updated>
+    <id>http://heavysixer.github.com/blog/2012/06/07/task-chunking</id>
+    <content type="html"><![CDATA[<p>Have you ever left your bank card inside an ATM machine? You are not alone, I have done it more times than I care to admit, and each time it happens I am left with the <em>pants around your ankles</em> feeling that you get when you realize you are the worlds biggest idiot. Until recently, I didn’t have a way to explain this reoccurring blind spot; but now I do. ATM designers don’t understand the concept of task chunking.</p>
+
+<p>Recently, when rereading through “The Humane Interface” by Jef Raskin I rediscovered his explanation of chunking and gestures in interface design. I won’t touch of gestures, but Raskin defines chunking as: “the combining of separate items of cognition into a single mental unit, a process that allows us to deal with many items as though they are one.”</p>
+
+<p>Humans can only focus on one thing a time, therefore when planning a system for use by humans you should make sure that the system doesn’t require user’s to do more than one thing at a time. This is not to say that systems can’t be a mix of short and longterm goals, games do this all the time. For example, players may have a small task like collecting an amulet, but this is done within the larger scope of completing the level and the even larger arc of beating the game. Task chunking is about short-term cognition, which means when players are focused on getting the amulet they cannot be simultaneously thinking about completing the level.</p>
+
+<p>In the case of using ATMs there is a single short-term task, which is to deposit or withdraw cash. However, banks for the most part get this wrong. They treat the entire time you are standing in front of their machines as a single mental unit. In their mental model the task begins with you inserting your card and ends with you reclaiming it. However, the customer’s mental model is different. They only want to receive or deposit money, and when they do either of these they often consider their task complete.</p>
+
+<p>The problem with using most ATMs is that they put the customer’s most important event in the middle of their process. This would be like placing a quarter of the movie after the end credits. Nobody would see that part of the movie because, while the credits may be the most important to the actor they are the least important to the view. Moreover, moviegoers are trained to head for the exits when they see the credits start rolling.</p>
+
+<p>I would wager that if the ATM never dispensed money, virtually nobody would leave their card in the machine. However, when the machine spits bills out onto the street, customers recognize this as the start of the task the mean to complete. This is the point where the initial task of using the ATM bifurcates into a new task of securing the exposed money. This is also where people like me forget all about their debit card.</p>
+
+<p>Most of the time customers do get their card back, realizing even though they are done with the ATM, the ATM is not done with them. However, if there are other environmental factors at play like poor weather, lack of time, or thuggish people in the bushes customers may forget about the less important task of completing the bank’s arbitrary process for using their ATM.</p>
+
+<p>Over the years, banks have tried various tactics to get their customer’s attention after the cash is dispensed. Sometimes they refresh ATM screen hoping that the interface shift will cause the customer to look back to the monitor. They might also play a reoccurring sound that signals the customer that their attention is needed.</p>
+
+<p>Fundamentally, these attempts are just patches, and should signal to the bank that their process is broken. The real solution is not to bifurcate the original task. This can be accomplished by placing all essential but less important tasks before money is dispensed.</p>
+
+<p>As a designer I try to be conscious of task chunking when planning out my applications. First I enumerate the discrete tasks in my process and map any potential hotspots where bifurcation by the user may occur. Next, I determine if I can wrap this potential offshoot into the master task chunk. If consolidation is not possible I try to move important tasks in my task chunk before this potential offshoot. My goal is to keep the user’s attention focused on a single pathway. Anytime I make them double-back to complete a task for the benefit of my application I know I have done something wrong.</p>
+
+<p>As a footnote I am happy to report that Bank Of America’s new ATMs improve their approach to task chunking. They return your card immediately after you enter your pin. Of course now I have to unlearn years of using the ATMs which has taught me to walk away from the machine once I get my card back!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Reading RFID Cards With Ruby and the Mac]]></title>

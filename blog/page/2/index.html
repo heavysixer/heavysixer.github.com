@@ -9,7 +9,12 @@
   <meta name="author" content="Mark Daggett">
 
   
-  <meta name="description" content="Periodically sites that incorporate user generated content need a way to moderate the incoming stream before publishing it to the site. Typically &hellip;">
+  <meta name="description" content="Here is a simple Rails validator that you can use to ensure an attribute of a model cannot be changed once it has been assigned a value. 1
+2
+3
+4
+5
+6 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +79,87 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/23/simple-rails-3-validator-for-unchangeable-attributes/">Simple Rails 3 Validator for Unchangeable Attributes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-23T09:23:00-05:00" pubdate data-updated="true">Mar 23<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Here is a simple Rails validator that you can use to ensure an attribute of a model cannot be changed once it has been assigned a value.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UnchangeableValidator</span> <span class="o">&lt;</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">EachValidator</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">validate_each</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">!</span><span class="n">object</span><span class="o">.</span><span class="n">new_record?</span> <span class="o">&amp;&amp;</span> <span class="n">value</span><span class="o">.</span><span class="n">present?</span>
+</span><span class='line'>      <span class="n">original</span> <span class="o">=</span> <span class="n">object</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:where</span><span class="p">,</span> <span class="s2">&quot;id = </span><span class="si">#{</span><span class="n">object</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;id, </span><span class="si">#{</span><span class="n">attribute</span><span class="o">.</span><span class="n">to_s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">original</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span> <span class="o">!=</span> <span class="n">value</span>
+</span><span class='line'>        <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;cannot be changed once assigned&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can use it this way:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:unchangeable</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:presence</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here are some specs to prove it works:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;should not allow you to change an email for an existing record&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s2">&quot;test@test.com&quot;</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:email</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;cannot be changed once assigned&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -834,6 +920,10 @@ As a rule, transactions are only needed when changes to multiple records must su
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/06/07/task-chunking/">Task chunking or why we leave our cards in the ATM</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/04/23/reading-rfid-cards-with-ruby/">Reading RFID Cards With Ruby and the Mac</a>
       </li>
     
@@ -847,10 +937,6 @@ As a rule, transactions are only needed when changes to multiple records must su
     
       <li class="post">
         <a href="/blog/2012/04/04/thoughts-on-requirement-docs/">Thoughts on Requirement Gathering</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/28/client-side-request-caching-with-javascript/">client-side request caching with Javascript</a>
       </li>
     
   </ul>
