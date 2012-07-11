@@ -4,7 +4,7 @@
   <title><![CDATA[Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2012-06-24T15:05:02-05:00</updated>
+  <updated>2012-07-11T09:53:29-05:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,167 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[crowd sourcing concepts]]></title>
+    <link href="http://heavysixer.github.com/blog/2012/07/11/crowdsourcing-concepts/"/>
+    <updated>2012-07-11T09:42:00-05:00</updated>
+    <id>http://heavysixer.github.com/blog/2012/07/11/crowdsourcing-concepts</id>
+    <content type="html"><![CDATA[<p>Below is the results of a brainstorming session with myself and Hege Sæbjørnsen as we thought through the concepts of crowd sourcing. We proposed several questions to one another and then attempted to answer them, or at least frame the question more fully. These notes are pretty raw, and much of the answers are well-documented elsewhere. However, I still thought it was worth sharing.</p>
+
+<h1>Crowd Sourcing</h1>
+
+<p>The use of a collection of people with expert knowledge / interest around a very specific topic to fill a role that has been typically held by a few highly educated &#8220;editors&#8221; (wisdom of the crowds).</p>
+
+<p>Crowd sourcing is an active engagement not only passively viewing the content. This is a two way street, you can&#8217;t strip mine the crowd, you must engage in a conversation and allow for two way conversation. You must harvest and plant.</p>
+
+<h2>Crowd</h2>
+
+<p>Collections subgroups or individuals at varying levels of engagement linked around some common attribute(s).</p>
+
+<h3>potential subgroups</h3>
+
+<ul>
+<li>The Unaware Public</li>
+<li>Students</li>
+<li>Researcher / Educator</li>
+<li>Artists / Designers</li>
+<li>Makers</li>
+<li>Engineers / Scientists</li>
+<li>Social Innovators / Entrepreneurs</li>
+<li>Politicians</li>
+<li>Professionals</li>
+<li>Grassroots Organizations</li>
+<li>Physically located within a specific proximity</li>
+<li>Contextual community on another platform (Facebook, Twitter, Flickr)</li>
+<li>Griefers / Trolls (spreaders of misinformation, or just enjoy conflict)</li>
+</ul>
+
+
+<p>Do we have priority subgroups and who are they, and how do we speak to them?</p>
+
+<p>Once you define the crowd composition then you choose the target audience to source from.</p>
+
+<h2>Source</h2>
+
+<ul>
+<li>Ideas / Opinions / Solutions / Visions in response to our brief</li>
+<li>Their social graph, and sphere of influence</li>
+<li>Their money</li>
+<li>Curation (potentially &amp; to what extent)</li>
+<li>Vet and or Improve Submissions</li>
+<li>Volunteers / local ambassadors</li>
+</ul>
+
+
+<h3>What Media Do We Source</h3>
+
+<p>Are we limiting people&#8217;s inputs when we state &#8220;read&#8221; stories?</p>
+
+<ul>
+<li>Biographies / Essays</li>
+<li>Comments on sourced material</li>
+<li>Poems / Quotes etc.</li>
+<li>Documentary Photography</li>
+<li>Fine-art Photography</li>
+<li>Documentary Video</li>
+<li>Fine-art Video</li>
+<li>Tools &amp; Tool Making</li>
+<li>Research</li>
+<li>Schematics / Blueprints</li>
+</ul>
+
+
+<h2>Goals Crowd Sourcing</h2>
+
+<ul>
+<li>Engaging a larger distributed audience</li>
+<li>Collecting and then refining of raw materials</li>
+<li>Democratic path to engagement / flattened hierarchy / grass-roots</li>
+<li>composition over aggregation</li>
+<li>Build a base of future (contextually relevant) engagement with a slice of the crowd</li>
+</ul>
+
+
+<h2>Tasks for the crowd</h2>
+
+<ul>
+<li>create or upload their content to the site</li>
+<li>find existing relevant content created by others and share it on the site.</li>
+<li>make linkages between content through activities like tagging (folksonomies)</li>
+<li>download readymade content and share it in the local community</li>
+<li>build a knowledge base around future</li>
+</ul>
+
+
+<h3>Ways To Curate</h3>
+
+<ul>
+<li>Crowd Voting, likes, retweets, tags, replies etc.</li>
+<li>Local Expert, who promotes certain content over other</li>
+<li>Selection Panel / Judging Panel, which offers periodic content review and selection</li>
+</ul>
+
+
+<h3>Expectation of the Crowd</h3>
+
+<ul>
+<li>Clarity of engagement a specific call to action</li>
+<li>A way to visualize the crowd&#8217;s input</li>
+<li>A way to visualize the crowd through metrics (e.g. countries, total count, visitors)</li>
+<li>A way to visualize the crowd&#8217;s influence / impact</li>
+<li>A low barrier of entry</li>
+<li>A way to find my community</li>
+</ul>
+
+
+<h3>What&#8217;s in it for the Crowd member</h3>
+
+<ul>
+<li>Ready made distribution platform</li>
+<li>Tools to mine the wisdom of the crowd</li>
+<li>A way to fund your involvement in the project</li>
+<li>Recognition and enhancement of your social reputation</li>
+<li>Be a part of a larger well-respected initiative</li>
+<li>The potential to participate in person in Rio</li>
+<li>A tool to find other members you share interests with</li>
+</ul>
+
+
+<h3>Measurement / Quantifying The Crowd</h3>
+
+<ul>
+<li>How do you measure engagement with the crowd?</li>
+<li>How do you measure distribution within the crowd?</li>
+<li>How do you measure the inertia of the crowd?</li>
+<li>How do you measure changes in the sentiment? (moving from casually aware to active participant)</li>
+</ul>
+
+
+<h4>Crowd Composition</h4>
+
+<p>Less like a mob and more like filling the seats in structure or setting we&#8217;ve defined.
+This allows us to initially curate the incoming content, and facilitate our &#8220;experts&#8221; (problematic?)</p>
+
+<h4>Questions</h4>
+
+<ul>
+<li>How do we handle out of scope submissions?</li>
+<li>How much is online vs. offline?</li>
+<li>How is attribution of content handled?</li>
+<li>Is there some greater tangible reward for contributing content?</li>
+</ul>
+
+
+<h4>Questions About Crowd Curation</h4>
+
+<ul>
+<li>Are we asking too much of our audience</li>
+<li>Are we going to allow for total organic organization of the content or will we offer an initial framework.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Spineless 0.2.1 Released]]></title>
