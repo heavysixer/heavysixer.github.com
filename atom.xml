@@ -4,7 +4,7 @@
   <title><![CDATA[Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2012-08-13T14:48:02-05:00</updated>
+  <updated>2013-02-15T09:28:33-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,767 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Pragmatic Javascript Style]]></title>
+    <link href="http://heavysixer.github.com/blog/2013/02/15/pragmatic-javascript-style/"/>
+    <updated>2013-02-15T09:08:00-06:00</updated>
+    <id>http://heavysixer.github.com/blog/2013/02/15/pragmatic-javascript-style</id>
+    <content type="html"><![CDATA[<p>My goal is to make you a better programmer, and I am going to do this by teaching you about style. I am not talking about fashion, because I
+think most programmers would flunk that test; unless, comic-con couture is a thing. Instead we&#8217;ll talk about the importance of style, how it
+forms, how it spreads and when to kill it. Specifically, we&#8217;ll look at style as it applies to programming. Ultimately, once we have a context
+for evaluating style I will introduce you to elements of programmatic style which have served me well over the years as a professional
+software developer.</p>
+<div class="section" id="what-is-style">
+<h2>What Is Style?</h2>
+<p>Style is often used as a measurement of quality. When someone is described as having style or being stylish, it is almost universally meant as
+a complement. If someones&#8217; style ever comes into question it is usually in comparison to someone else&#8217;s style. &quot;My style&#8217;s the best and so I
+challenge you&quot; screams 70&#8217;s era martial arts star.</p>
+<p>Stylishness is a fresh approach, a unique perspective, an unexpected insight into an activity. The application of a style can become so
+prominent that it expands the activity itself; that house is built in a Frank Lloyd Wright style. What starts as a personal style in painting
+can become an art movement almost overnight. Style spreads like a virus, it is the original meme, a mind virus that changes the way you see
+the world forever. Style is often the conduit where new ideas pulsate.</p>
+<p>How does style effect programmers? Well the good news about style for those algorithmically inclined is that, no matter how personal a style
+may seem, for it to exist it all, it must at some level be repeatable. Style must be codified into a series of steps, rules or combinations
+that can be followed, and then recognized by others. Therefore if style is a measurement of quality, and at the same time repeatable then it
+can be taught. Just ask Strunk and White.</p>
+<p>William Strunk Jr. wrote &quot;The Elements of Style&quot; while he was a professor at Cornell. He began with 7 rules for the usage of language, and 11
+principles of composition. His student E.B. White revised the book forty years later, by adding an additional 4 rules. The goal of the book
+was to give aspiring writers and grammarians a context from which to evaluate their own work.</p>
+<p>According to White, Strunk was compelled to write the &quot;little book&quot; out of sympathy for those afflicted with reading the writer&#8217;s ill-composed
+dreck: &quot;Will felt that the reader was in serious trouble most of the time, floundering in a swamp and that it was the duty of anyone
+attempting to write English to drain the swap quickly and get the reader up on dry ground, or at least throw a rope.&quot;</p>
+<p>Over the years the book has remained wildly popular by those learning to write efficiently, and is affectionately referred to as &quot;Strunk and
+White.&quot; That is not to say it has been universally loved or followed. Dorothy Parker is quoted in the New York Times as saying &quot;If you have
+any young friends who aspire to become writers, the second-greatest favor you can do them is to present them with copies of &#8216;The Elements of
+Style.&#8217; The first-greatest, of course, is to shoot them now, while they&#8217;re happy.&quot;</p>
+<p>Many found the rules too restrictive, and opinionated. White said Strunk believed &quot;&#8230;it was worse to be irresolute than to be wrong.&quot;
+Strunk&#8217;s assertions is that it takes passion to be stylish. You need to be able to draw boundaries, to allow this idea to flourish while
+forcing that one to die. Style is a sine wave attracting some and repelling others.</p>
+</div>
+<div class="section" id="what-is-programmatic-style">
+<h2>What is programmatic style?</h2>
+<p>As mentioned previously, Stunk and White wrote their book not only to empower and train writers, but to save readers from slogging through
+what was in their minds a textual tar pit. So too, good programmatic style services two audiences, the developer and the processor. That is
+to say that the code should be well-written, both syntactically, and technically. Below are qualities I consider essential in application
+of programmatic style:</p>
+<p><strong>Consistency</strong> - By repeatedly applying rules to the codebase we ensure consistency. Consistency, mitigates noise in the codebase, and
+brings the intent of the code into clearer focus. Put another way, if a developer is trying to piece together how to read your code, you have
+prevented them from understanding what it does. Consistency is concerned with how the code looks, e.g. naming conventions, use of whitespace,
+and method signatures; and how the code is written for example ensuring that all functions don&#8217;t return a string in one context and an integer
+in another.</p>
+<p><strong>Expressiveness</strong> - Code is by nature a symbolic language, where variability and abstractness is implicit. Therefore the developer must find a
+way to make the code meaningful to the reader. This can be archived though naming variables and methods precisely. When reviewing a class,
+method or variable the reader should understand the roles and responsibilities of the code by reading the code itself. If a method can only
+be understood by reading the comments above left by the writer it should be a clue that the code is not expressive.</p>
+<p><strong>Succinctness</strong> - Strive to do just enough. Good programming like good writing is  about clarity of purpose, and not merely
+compactness. It should be about reducing the complexity of a method, not it&#8217;s usefulness.</p>
+<p><strong>Restraint</strong> - Style should never overpower the subject itself. At that point style becomes the
+subject it becomes a facile artifice, a dish ruined by too much spice. I am reminded of a minimalist chess set I saw in college every piece
+was either a white or black cube, and all pieces were the same size. It was aesthetically beautiful and simultaneously unplayable.</p>
+</div>
+<div class="section" id="javascript-style-guide">
+<h2>Javascript Style Guide</h2>
+<p>This style guide was compiled by compiling, reviewing and considering choices I have made in my own work over the years, and coding practices
+of individuals, and development teams I admire in the Javascript community. As such this style guide should be seen as an amalgamation of
+inputs and influences from the larger Javascript community rather than the creative output of a singular individual. You can find a list of
+resources used in this guide in the additional resources section. This guide is broken into two sections: &quot;Rules for Visual Clarity&quot; and
+&quot;Rules for Computational Effectiveness&quot;.</p>
+</div>
+<div class="section" id="caveats">
+<h2>Caveats</h2>
+<p>Style guides are just that guides, they are meant to point you in the right direction, but they are at best mutable truth. Moreover,  coding
+theory changes constantly and it is important not to lock yourself into a dogmatic approach to the application of these styles. As my
+professor Clyde Fowler told me in my studio drawing class, &quot;you must think with your hands&quot;, and what he meant by that was you must think
+through doing, while maintaining the ability to get critical distance from your work.</p>
+</div>
+<div class="section" id="rules-for-clarity-how-others-see-code">
+<h2>Rules for Clarity - How others see code</h2>
+<div class="section" id="rules-of-thumb">
+<h3>Rules Of Thumb</h3>
+<ul class="simple">
+<li><strong>Write Clearly And Expressively</strong> - When naming variables, functions, or organizing code remember you are writing for humans to read it
+not compilers.</li>
+<li><strong>Following Existing Conventions</strong> - If you share your code anywhere, work on a team, or are hired to write code, then you are not writing
+for yourself</li>
+<li><strong>Write in Only One Language</strong> - Where possible don&#8217;t use Javascript as a surrogate for other languages.
+This means resisting the urge to write inline HTML, or CSS where possible.</li>
+<li><strong>Enforce A Uniform Column Width</strong> - Strive for consistent line lengths in source code. Long lines tire the eyes, and cause needless
+horizontal scrolling. An industry standard is 80 characters per line.</li>
+</ul>
+</div>
+<div class="section" id="document-formatting">
+<h3>Document Formatting</h3>
+<ol class="arabic simple">
+<li>Naming Conventions</li>
+</ol>
+<p>Javascript is a terse language of brackets, and symbols and one of the only way to make your code expressive to humans is through the names
+you choose for variables, functions and classes among others. Remember when choosing a name it should describe the role and responsibilities
+of that object. Vague or obtuse names like <em>doStuff</em> is like telling the reader <em>you figure it out</em>, which often times they won&#8217;t.</p>
+<ul class="simple">
+<li>Choose variables and functions with meaningful, expressive and descriptive names. Write for the reader not the compiler.</li>
+</ul>
+<pre class="literal-block">
+// Bad
+var a = 1,
+    aa = function(aaa) {
+        return '' + aaa;
+    };
+
+// Good
+var count = 1,
+    toString = function(num) {
+        return '' + num;
+    };
+</pre>
+<ul class="simple">
+<li>Constants should always belong to a namespace, and be written in uppercase with spaces replaced with underscores</li>
+</ul>
+<pre class="literal-block">
+// Bad
+MY_CONSTANT = 43;
+
+// Good
+com.humansized.MY_CONSTANT = 43;
+</pre>
+<ul class="simple">
+<li>Variables should be CamelCase</li>
+</ul>
+<pre class="literal-block">
+myVariableName
+</pre>
+<ul class="simple">
+<li>Classes should be PascalCase</li>
+</ul>
+<pre class="literal-block">
+MyAwesomeClass
+</pre>
+<ul class="simple">
+<li>Functions should be CamelCase</li>
+</ul>
+<pre class="literal-block">
+isLie(cake)
+</pre>
+<ul class="simple">
+<li>Namespaces should be CamelCase and use periods as a delimiter</li>
+</ul>
+<pre class="literal-block">
+com.site.namespace
+</pre>
+<ul class="simple">
+<li>Hungarian notation is not required but you can use it to convey they are objects constructed through or dependent on a library or framework</li>
+</ul>
+<pre class="literal-block">
+// JQuery infused variable
+var $listItem = $(&quot;li:first&quot;);
+
+// Angular.js uses the dollar sign to refer to angular-dependent variables
+$scope, $watch, $filter
+</pre>
+<ol class="arabic simple" start="2">
+<li>Constants And Variables</li>
+</ol>
+<ul class="simple">
+<li>Variables and constants definitions always go at the top of the scope</li>
+</ul>
+<pre class="literal-block">
+// Bad
+function iterate() {
+    var limit = 10;
+    for (var x = 0; x &lt; limit; x++) {
+        console.log(x);
+    }
+}
+
+// Good
+function iterate() {
+    var limit = 10,
+        x = 0;
+
+    for (x = 0; x &lt; limit; x++) {
+        console.log(x);
+    }
+}
+</pre>
+<ul class="simple">
+<li>Avoid polluting the global namespace by always declaring variables using <em>var</em></li>
+</ul>
+<pre class="literal-block">
+// Bad
+foo = 'bar';
+
+// Good
+var foo = 'bar';
+</pre>
+<ul class="simple">
+<li>Declare multiple variables using a single var declaration, but separate each variable with a newline</li>
+</ul>
+<pre class="literal-block">
+// Bad
+var foo = &quot;foo&quot;;
+var note = makeNote('Huge Success');
+
+// Good
+var foo = &quot;foo&quot;,
+    note = makeNote('Huge Success');
+</pre>
+<ul class="simple">
+<li>Declare unassigned variables last. This allows the reader to know they are needed but have delayed initialization.</li>
+<li>Do not assign variables inside a conditional statement, it often masks errors.</li>
+</ul>
+<pre class="literal-block">
+// Bad because it is easily misread as an equality test.
+if (foo = bar) {...}
+</pre>
+<ul class="simple">
+<li>Do not clobber arguments with variables names.</li>
+</ul>
+<pre class="literal-block">
+// Bad
+function addByOne(num) {
+    var num = num + 1;
+    return num;
+}
+
+// Good
+function addByOne(num) {
+    var newNum = num + 1;
+    return newNum;
+}
+</pre>
+<ol class="arabic simple" start="3">
+<li>Page Layout</li>
+</ol>
+<ul>
+<li><dl class="first docutils">
+<dt>Blank lines</dt>
+<dd><ul class="first last">
+<li><p class="first">Should always proceed the start of a comment</p>
+</li>
+<li><p class="first">Should be used to separate logically related code</p>
+<pre class="literal-block">
+// Bad
+var = wheels;
+
+wheels.clean()
+
+ car.apply(wheels);
+
+truck.drive();
+
+// Good
+var = wheels;
+wheels.clean()
+ car.apply(wheels);
+
+truck.drive();
+</pre>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Commas</dt>
+<dd><ul class="first last">
+<li><p class="first">Remove trailing comments in object declarations. It will break some runtime environments.</p>
+<pre class="literal-block">
+// Bad
+var foo = {
+    bar: 'baz',
+    foo: 'bar',
+}
+
+// Good
+var foo = {
+    bar: 'baz',
+    foo: 'bar'
+}
+</pre>
+</li>
+<li><p class="first">Don&#8217;t use comma first formatting, if you don&#8217;t know what that means keep it that way!</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Semicolons</dt>
+<dd><ul class="first last simple">
+<li>Even though Javascript determines semicolons to be optional many compilers expect them, therefore it is better to use them.</li>
+<li>Useful for clearly delineating the end of a logical statement</li>
+<li>Do not add meaningless semicolons</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Whitespace</dt>
+<dd><ul class="first last">
+<li><p class="first">Should be removed from the end of a line</p>
+</li>
+<li><p class="first">Should be removed from a blank line</p>
+</li>
+<li><p class="first">Should not mix spaces and tabs</p>
+</li>
+<li><p class="first">Should appear after each comma in a function declaration</p>
+<pre class="literal-block">
+// Bad
+function findUser(foo,bar,baz)
+
+// Good
+function findUser(foo, bar, baz)
+</pre>
+</li>
+<li><p class="first">Should not appear inside empty functions or literals</p>
+<pre class="literal-block">
+doThis();
+var foo = {};
+var arr = [];
+</pre>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Brackets And Braces</dt>
+<dd><ul class="first last">
+<li><p class="first">Use only where the compiler calls for it or where it enhances readability</p>
+</li>
+<li><p class="first">Brackets should appear on the line that requires them</p>
+<pre class="literal-block">
+// Bad
+if (hidden)
+{
+ ...
+}
+
+// Good
+if (hidden) {
+
+}
+</pre>
+</li>
+<li><p class="first">Add whitespace in front and between brackets to aid readability.</p>
+<pre class="literal-block">
+// Bad
+if (condition) goTo(10);
+
+// Good
+if (condition) {
+    goTo(10);
+}
+</pre>
+</li>
+<li><p class="first">There are a couple of exception to the previous rule</p>
+<pre class="literal-block">
+// No Whitespace needed when there is a single argument
+if (foo) ...
+
+// No whitespace when a parenthesis is used as a scope container
+;(function () {...})
+
+// No white space when brackets are used as a function argument
+function sortThis([2,3,4,1])
+</pre>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Strings</dt>
+<dd><ul class="first last">
+<li><p class="first">String should be constructed using single quotes</p>
+<pre class="literal-block">
+// Bad
+var foo = &quot;Bar&quot;;
+
+// Good
+var foo = 'Bar';
+</pre>
+</li>
+<li><p class="first">Strings longer than the pre-determined character line limit should be reconsidered, if required they should be concatenated</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Functions</dt>
+<dd><ul class="first last">
+<li><p class="first">Method signatures must be consistent. If a function returns a variable in one context it should return a variable in all contexts</p>
+<pre class="literal-block">
+// Bad
+var findFoo(isFoo) {
+    if ( isFoo === true ) {
+        return true;
+    }
+}
+
+// Good
+var findFoo(isFoo) {
+    if ( isFoo === true ) {
+        return true;
+    }
+    return false;
+}
+</pre>
+</li>
+<li><p class="first">While not a requirement, returning early from a function can make the intent more clear</p>
+<pre class="literal-block">
+// Good
+var findFoo(isFoo) {
+    if ( isFoo === true ) {
+        return true;
+    }
+    return false;
+}
+</pre>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Comments</dt>
+<dd><ul class="first last">
+<li><p class="first">Should never trail a statement</p>
+</li>
+<li><p class="first">Comments should be used sparingly, overuse of comments should suggest to the developer that their code is not expressive enough.</p>
+</li>
+<li><p class="first">Comments should aways be written as a complete thought.</p>
+</li>
+<li><p class="first">Multiline comments should always use the multiline syntax</p>
+<pre class="literal-block">
+// Some really
+// bad multiline comment
+
+/**
+ * A well-formed multiline comment
+ * so there...
+ */
+</pre>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="rules-for-computational-effectiveness">
+<h2>Rules for Computational Effectiveness</h2>
+<div class="section" id="id1">
+<h3>Rules Of Thumb</h3>
+<ul class="simple">
+<li><strong>Assume File Will Be Concatenated</strong> - Modern applications often munge source Javascript into a streamline file for production. You should
+defensively program your scripts to protect from switches in operation context and scope corruption.</li>
+<li><strong>Keep your code browser agnostic</strong> - Keep your business logic free of browser specific code by abstracting them into interfaces. This will
+keep your code on a clean upgrade path as browser fall in and out of fashion.</li>
+<li><strong>Never Use eval()</strong> - Ever</li>
+<li><strong>Never Use with()</strong> - Ever</li>
+<li><strong>Keep Prototype Pristine</strong> - Never modify the prototype of a builtins like Array.prototype because it can silently break other&#8217;s code which
+expect standard behavior.</li>
+</ul>
+<ol class="arabic simple">
+<li>Equality Comparisons And Conditional Evaluation</li>
+</ol>
+<ul>
+<li><p class="first">Use &quot;===&quot; instead of &quot;==&quot; use &quot;!==&quot; instead of &quot;!=&quot; this is because Javascript is very loose when testing equality.</p>
+</li>
+<li><p class="first">When just testing for truthiness you can coerce the values</p>
+<pre class="literal-block">
+if (foo) {...}
+if (!foo) {...}
+</pre>
+</li>
+<li><p class="first">When testing for emptiness</p>
+<pre class="literal-block">
+if (!arr.length) { ... }
+</pre>
+</li>
+<li><p class="first">You must be explicit when testing for truth</p>
+<pre class="literal-block">
+// Bad because all of these will be coerced into true
+var zero = 0,
+empty = &quot;&quot;,
+knull = null,
+notANumber = NaN,
+notDefined
+
+if (!zero || !empty || !knull || !notANumber || !notDefined ) ...
+
+// Bad
+var truth = &quot;foo&quot;,
+alsoTrue = 1
+
+if (truth &amp;&amp; alsoTrue) ...
+
+// Good
+if (foo === true) ...
+</pre>
+</li>
+</ul>
+<ol class="arabic simple" start="2">
+<li>Constants and Variables</li>
+</ol>
+<ul>
+<li><p class="first">When deleting a variable set it to null instead calling #delete or setting it to undefined</p>
+<pre class="literal-block">
+// Bad because undefined means the variable is useful but as yet has no value
+this.unwanted = undefined;
+
+/**
+ * Bad because calling delete is much slower than reassigning a value.
+ * The only reason to use delete is if you want to remove the attribute from an objects list of keys.
+ */
+delete this.unwanted;
+
+// Good
+this.unwanted = null;
+</pre>
+</li>
+</ul>
+<ol class="arabic simple" start="3">
+<li>Functions</li>
+</ol>
+<ul>
+<li><p class="first">Function Expressions</p>
+<pre class="literal-block">
+// Anonymous Function
+var anon = function () {
+    return true;
+}
+
+// Named Function
+var named = function named() {
+    return true;
+};
+
+// Immediately-invoked function, hides its contents from the executing scope.
+;(function main() {
+    return true;
+})();
+</pre>
+</li>
+<li><p class="first">Anonymous functions are defined at parse-time, and therefore do not have their names hoisted to the top of the scope.</p>
+<pre class="literal-block">
+// Bad - Runtime Error
+iGoBoom();
+
+var iGoBoom = function () {
+    alert('boom');
+}
+
+// Good
+iGoBoom();
+function iGoBoom() {
+    alert('boom');
+}
+</pre>
+</li>
+<li><p class="first">Do not use function declaration within block statements it is not part of  ECMAScript; instead use a function expression.</p>
+<pre class="literal-block">
+// Bad
+if (ball.is(round)) {
+    function bounce(){
+
+        // Statements Continue
+    }
+    return bounce()
+}
+
+// Good
+if (ball.is(round)) {
+  var bounce = function () {
+
+      // Statements Continue
+  }
+}
+</pre>
+</li>
+<li><p class="first">Do not hide the native arguments object by using the same name in a function</p>
+<pre class="literal-block">
+// Bad
+var foo = function(arguments) {
+    alert(arguments.join(' '));
+}
+
+// Good
+var foo = function(args) {
+    alert(args.join(' '));
+}
+</pre>
+</li>
+</ul>
+<ol class="arabic simple" start="4">
+<li>Strings</li>
+</ol>
+<ul>
+<li><p class="first">When concatenating a string use Array#join for performance reasons.</p>
+<pre class="literal-block">
+// Bad
+var lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in\
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in\
+culpa qui officia deserunt mollit anim id est laborum.';
+
+// Good
+var lorem = ['Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in',
+'reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in',
+'culpa qui officia deserunt mollit anim id est laborum.'].join('');
+</pre>
+</li>
+</ul>
+<ol class="arabic simple" start="5">
+<li>Objects</li>
+</ol>
+<ul>
+<li><p class="first">Should use object literal vs new Object</p>
+<pre class="literal-block">
+// Bad
+var person = new Object();
+person.firstName = &quot;John&quot;;
+person.lastName = &quot;Doe&quot;;
+
+// Good
+var person = {
+  firstName: &quot;John&quot;,
+  lastName: &quot;Doe&quot;
+}
+</pre>
+</li>
+<li><p class="first">Don&#8217;t overwrite reserved words as keys</p>
+<pre class="literal-block">
+// Bad
+var person = { class : &quot;Person&quot; };
+
+// Good
+var person = { klass : &quot;Person&quot; };
+</pre>
+</li>
+</ul>
+<ol class="arabic simple" start="6">
+<li>Arrays</li>
+</ol>
+<ul>
+<li><p class="first">Should use literal syntax for creation</p>
+<pre class="literal-block">
+// Bad
+var arr = new Array();
+
+// Good
+var arr = [];
+</pre>
+</li>
+</ul>
+<ol class="arabic simple" start="7">
+<li>Responsibility Delegation</li>
+</ol>
+<ul>
+<li><p class="first">Only write code that is the responsibility of the program. Keep your code free of view layer and template code. Use a template library
+like mustache.js instead</p>
+<pre class="literal-block">
+var view = {
+    title: &quot;Joe&quot;,
+    calc: function () {
+        return 2 + 4;
+    }
+}, output;
+
+// Bad
+output = '&lt;div&gt;&lt;h5&gt;' + title + '&lt;/h5&gt;&lt;p&gt;' + calc() + '&lt;/div&gt;';
+
+// Good
+var output = Mustache.compilePartial('my-template', view);
+</pre>
+</li>
+<li><p class="first">Keep Javascript out of the HTML</p>
+<pre class="literal-block">
+// Bad
+&lt;button onclick=&quot;doSomething()&quot; id=&quot;something-btn&quot;&gt;Click Here&lt;/button&gt;
+
+// Good
+var element = document.getElementById(&quot;something-btn&quot;);
+element.addEventListener(&quot;click&quot;, doSomething, false);
+</pre>
+</li>
+</ul>
+<ol class="arabic simple" start="8">
+<li>Operating Context And Scope</li>
+</ol>
+<ul>
+<li><p class="first">Where possible wrap your code inside self executing functions. This will insulate your code from pollution by others, and make it easier
+to abstract</p>
+<pre class="literal-block">
+// Good
+;(function( window, document, undefined) {
+
+  // My Awesome Library
+})(this, document);
+</pre>
+</li>
+<li><p class="first">Design for duration-agnostic execution of code. This will prevent your code from building up a backlog of requests that may no longer
+be relevant</p>
+<pre class="literal-block">
+// Bad because this might take longer than 100 milliseconds to complete.
+setInterval(function () {
+  findFoo();
+}, 100);
+
+// Good this will only be called again once findFoo has completed.
+;(function main() {
+    findFoo();
+    setTimeout(main, 100);
+})();
+</pre>
+</li>
+<li><p class="first">Only use <em>this</em> in object constructors, methods and creating closures</p>
+</li>
+<li><p class="first">To prevent breaking community code declaring an operating context e.g. <cite>&quot;use strict&quot;</cite> should be wrapped inside a self-executing function
+for modules or inside a function itself when needed</p>
+<pre class="literal-block">
+// Bad
+var bar = findLooseyGoosey();
+
+&quot;use strict&quot;;
+
+var foo = findStrictly();
+
+// Good
+var bar = findLooseyGoosey();
+
+;(function () {
+  &quot;use strict&quot;;
+  var foo = findStrictly();
+})();
+</pre>
+</li>
+</ul>
+<ol class="arabic simple" start="9">
+<li>Coercion</li>
+</ol>
+<ul>
+<li><p class="first">Conversion over Coercion</p>
+<pre class="literal-block">
+var num = '1';
+
+// Bad implicit coercion
+num = +num;
+
+// Good expressive conversion
+num = parseInt(num, 10);
+</pre>
+</li>
+</ul>
+</div>
+</div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Felton on Felton]]></title>
@@ -282,8 +1043,8 @@ Consider the following example:</p>
 <p>When rendering templates, Spineless substitutes predefined template variables with those you supply using JSON. The JSON can be provided in at least two ways:</p>
 
 <ol>
-<li>By url encoded a json object into the <code>data-locals</code> attribute.</li>
-<li>Creating of modifying the JSON object using a helper function.</li>
+<li> By url encoded a json object into the <code>data-locals</code> attribute.</li>
+<li> Creating of modifying the JSON object using a helper function.</li>
 </ol>
 
 
