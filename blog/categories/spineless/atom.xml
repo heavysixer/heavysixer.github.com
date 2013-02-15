@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Spineless | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/spineless/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-02-15T09:31:24-06:00</updated>
+  <updated>2013-02-15T09:51:25-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -107,8 +107,8 @@ Consider the following example:</p>
 <p>When rendering templates, Spineless substitutes predefined template variables with those you supply using JSON. The JSON can be provided in at least two ways:</p>
 
 <ol>
-<li> By url encoded a json object into the <code>data-locals</code> attribute.</li>
-<li> Creating of modifying the JSON object using a helper function.</li>
+<li>By url encoded a json object into the <code>data-locals</code> attribute.</li>
+<li>Creating of modifying the JSON object using a helper function.</li>
 </ol>
 
 

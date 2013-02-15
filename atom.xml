@@ -4,7 +4,7 @@
   <title><![CDATA[Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-02-15T09:31:24-06:00</updated>
+  <updated>2013-02-15T09:51:25-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,1011 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Pragmatic Javascript Style]]></title>
+    <link href="http://heavysixer.github.com/blog/2013/02/15/pragmatic-javascript-style/"/>
+    <updated>2013-02-15T09:08:00-06:00</updated>
+    <id>http://heavysixer.github.com/blog/2013/02/15/pragmatic-javascript-style</id>
+    <content type="html"><![CDATA[<p>My goal is to make you a better programmer, and I am going to do this by teaching you about style. I am not talking about fashion, because I
+think most programmers would flunk that test; unless, comic-con couture is a thing. Instead we&#8217;ll talk about the importance of style, how it
+forms, how it spreads and when to kill it. Specifically, we&#8217;ll look at style as it applies to programming. Ultimately, once we have a context
+for evaluating style I will introduce you to elements of programmatic style which have served me well over the years as a professional
+software developer.</p>
+<div class="section" id="what-is-style">
+<h2>What Is Style?</h2>
+<p>Style is often used as a measurement of quality. When someone is described as having style or being stylish, it is almost universally meant as
+a complement. If someones&#8217; style ever comes into question it is usually in comparison to someone else&#8217;s style. &quot;My style&#8217;s the best and so I
+challenge you&quot; screams 70&#8217;s era martial arts star.</p>
+<p>Stylishness is a fresh approach, a unique perspective, an unexpected insight into an activity. The application of a style can become so
+prominent that it expands the activity itself; that house is built in a Frank Lloyd Wright style. What starts as a personal style in painting
+can become an art movement almost overnight. Style spreads like a virus, it is the original meme, a mind virus that changes the way you see
+the world forever. Style is often the conduit where new ideas pulsate.</p>
+<p>How does style effect programmers? Well the good news about style for those algorithmically inclined is that, no matter how personal a style
+may seem, for it to exist it all, it must at some level be repeatable. Style must be codified into a series of steps, rules or combinations
+that can be followed, and then recognized by others. Therefore if style is a measurement of quality, and at the same time repeatable then it
+can be taught. Just ask Strunk and White.</p>
+<p>William Strunk Jr. wrote &quot;The Elements of Style&quot; while he was a professor at Cornell. He began with 7 rules for the usage of language, and 11
+principles of composition. His student E.B. White revised the book forty years later, by adding an additional 4 rules. The goal of the book
+was to give aspiring writers and grammarians a context from which to evaluate their own work.</p>
+<p>According to White, Strunk was compelled to write the &quot;little book&quot; out of sympathy for those afflicted with reading the writer&#8217;s ill-composed
+dreck: &quot;Will felt that the reader was in serious trouble most of the time, floundering in a swamp and that it was the duty of anyone
+attempting to write English to drain the swap quickly and get the reader up on dry ground, or at least throw a rope.&quot;</p>
+<p>Over the years the book has remained wildly popular by those learning to write efficiently, and is affectionately referred to as &quot;Strunk and
+White.&quot; That is not to say it has been universally loved or followed. Dorothy Parker is quoted in the New York Times as saying &quot;If you have
+any young friends who aspire to become writers, the second-greatest favor you can do them is to present them with copies of &#8216;The Elements of
+Style.&#8217; The first-greatest, of course, is to shoot them now, while they&#8217;re happy.&quot;</p>
+<p>Many found the rules too restrictive, and opinionated. White said Strunk believed &quot;&#8230;it was worse to be irresolute than to be wrong.&quot;
+Strunk&#8217;s assertions is that it takes passion to be stylish. You need to be able to draw boundaries, to allow this idea to flourish while
+forcing that one to die. Style is a sine wave attracting some and repelling others.</p>
+</div>
+<div class="section" id="what-is-programmatic-style">
+<h2>What is programmatic style?</h2>
+<p>As mentioned previously, Stunk and White wrote their book not only to empower and train writers, but to save readers from slogging through
+what was in their minds a textual tar pit. So too, good programmatic style services two audiences, the developer and the processor. That is
+to say that the code should be well-written, both syntactically, and technically. Below are qualities I consider essential in application
+of programmatic style:</p>
+<p><strong>Consistency</strong> - By repeatedly applying rules to the codebase we ensure consistency. Consistency, mitigates noise in the codebase, and
+brings the intent of the code into clearer focus. Put another way, if a developer is trying to piece together how to read your code, you have
+prevented them from understanding what it does. Consistency is concerned with how the code looks, e.g. naming conventions, use of whitespace,
+and method signatures; and how the code is written for example ensuring that all functions don&#8217;t return a string in one context and an integer
+in another.</p>
+<p><strong>Expressiveness</strong> - Code is by nature a symbolic language, where variability and abstractness is implicit. Therefore the developer must find a
+way to make the code meaningful to the reader. This can be archived though naming variables and methods precisely. When reviewing a class,
+method or variable the reader should understand the roles and responsibilities of the code by reading the code itself. If a method can only
+be understood by reading the comments above left by the writer it should be a clue that the code is not expressive.</p>
+<p><strong>Succinctness</strong> - Strive to do just enough. Good programming like good writing is  about clarity of purpose, and not merely
+compactness. It should be about reducing the complexity of a method, not it&#8217;s usefulness.</p>
+<p><strong>Restraint</strong> - Style should never overpower the subject itself. At that point style becomes the
+subject it becomes a facile artifice, a dish ruined by too much spice. I am reminded of a minimalist chess set I saw in college every piece
+was either a white or black cube, and all pieces were the same size. It was aesthetically beautiful and simultaneously unplayable.</p>
+</div>
+<div class="section" id="javascript-style-guide">
+<h2>Javascript Style Guide</h2>
+<p>This style guide was compiled by compiling, reviewing and considering choices I have made in my own work over the years, and coding practices
+of individuals, and development teams I admire in the Javascript community. As such this style guide should be seen as an amalgamation of
+inputs and influences from the larger Javascript community rather than the creative output of a singular individual. You can find a list of
+resources used in this guide in the additional resources section. This guide is broken into two sections: &quot;Rules for Visual Clarity&quot; and
+&quot;Rules for Computational Effectiveness&quot;.</p>
+</div>
+<div class="section" id="caveats">
+<h2>Caveats</h2>
+<p>Style guides are just that guides, they are meant to point you in the right direction, but they are at best mutable truth. Moreover,  coding
+theory changes constantly and it is important not to lock yourself into a dogmatic approach to the application of these styles. As my
+professor Clyde Fowler told me in my studio drawing class, &quot;you must think with your hands&quot;, and what he meant by that was you must think
+through doing, while maintaining the ability to get critical distance from your work.</p>
+</div>
+<div class="section" id="rules-for-clarity-how-others-see-code">
+<h2>Rules for Clarity - How others see code</h2>
+<div class="section" id="rules-of-thumb">
+<h3>Rules Of Thumb</h3>
+<ul class="simple">
+<li><strong>Write Clearly And Expressively</strong> - When naming variables, functions, or organizing code remember you are writing for humans to read it
+not compilers.</li>
+<li><strong>Following Existing Conventions</strong> - If you share your code anywhere, work on a team, or are hired to write code, then you are not writing
+for yourself</li>
+<li><strong>Write in Only One Language</strong> - Where possible don&#8217;t use Javascript as a surrogate for other languages.
+This means resisting the urge to write inline HTML, or CSS where possible.</li>
+<li><strong>Enforce A Uniform Column Width</strong> - Strive for consistent line lengths in source code. Long lines tire the eyes, and cause needless
+horizontal scrolling. An industry standard is 80 characters per line.</li>
+</ul>
+</div>
+<div class="section" id="document-formatting">
+<h3>Document Formatting</h3>
+<ol class="arabic simple">
+<li>Naming Conventions</li>
+</ol>
+<p>Javascript is a terse language of brackets, and symbols and one of the only way to make your code expressive to humans is through the names
+you choose for variables, functions and classes among others. Remember when choosing a name it should describe the role and responsibilities
+of that object. Vague or obtuse names like <em>doStuff</em> is like telling the reader <em>you figure it out</em>, which often times they won&#8217;t.</p>
+<ul class="simple">
+<li>Choose variables and functions with meaningful, expressive and descriptive names. Write for the reader not the compiler.</li>
+</ul>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class="line">    <span class="nx">aa</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">aaa</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="s1">&#39;&#39;</span> <span class="o">+</span> <span class="nx">aaa</span><span class="p">;</span>
+</span><span class="line">    <span class="p">};</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class="line">    <span class="nx">toString</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="s1">&#39;&#39;</span> <span class="o">+</span> <span class="nx">num</span><span class="p">;</span>
+</span><span class="line">    <span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure><ul class="simple">
+<li>Constants should always belong to a namespace, and be written in uppercase with spaces replaced with underscores</li>
+</ul>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="nx">MY_CONSTANT</span> <span class="o">=</span> <span class="mi">43</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="nx">com</span><span class="p">.</span><span class="nx">humansized</span><span class="p">.</span><span class="nx">MY_CONSTANT</span> <span class="o">=</span> <span class="mi">43</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure><ul class="simple">
+<li>Variables should be CamelCase</li>
+</ul>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="nx">myVariableName</span>
+</span></code></pre></td></tr></table></div></figure><ul class="simple">
+<li>Classes should be PascalCase</li>
+</ul>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="nx">MyAwesomeClass</span>
+</span></code></pre></td></tr></table></div></figure><ul class="simple">
+<li>Functions should be CamelCase</li>
+</ul>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="nx">isLie</span><span class="p">(</span><span class="nx">cake</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure><ul class="simple">
+<li>Namespaces should be CamelCase and use periods as a delimiter</li>
+</ul>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="nx">com</span><span class="p">.</span><span class="nx">site</span><span class="p">.</span><span class="nx">namespace</span>
+</span></code></pre></td></tr></table></div></figure><ul class="simple">
+<li>Hungarian notation is not required but you can use it to convey they are objects constructed through or dependent on a library or framework</li>
+</ul>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// JQuery infused variable</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">$listItem</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;li:first&quot;</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Angular.js uses the dollar sign to refer to angular-dependent variables</span>
+</span><span class="line"><span class="nx">$scope</span><span class="p">,</span> <span class="nx">$watch</span><span class="p">,</span> <span class="nx">$filter</span>
+</span></code></pre></td></tr></table></div></figure><ol class="arabic simple" start="2">
+<li>Constants And Variables</li>
+</ol>
+<ul class="simple">
+<li>Variables and constants definitions always go at the top of the scope</li>
+</ul>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">function</span> <span class="nx">iterate</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="kd">var</span> <span class="nx">limit</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class="line">    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">limit</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">function</span> <span class="nx">iterate</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="kd">var</span> <span class="nx">limit</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+</span><span class="line">        <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">for</span> <span class="p">(</span><span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">limit</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure><ul class="simple">
+<li>Avoid polluting the global namespace by always declaring variables using <em>var</em></li>
+</ul>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure><ul class="simple">
+<li>Declare multiple variables using a single var declaration, but separate each variable with a newline</li>
+</ul>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;foo&quot;</span><span class="p">;</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">note</span> <span class="o">=</span> <span class="nx">makeNote</span><span class="p">(</span><span class="s1">&#39;Huge Success&#39;</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span>
+</span><span class="line">    <span class="nx">note</span> <span class="o">=</span> <span class="nx">makeNote</span><span class="p">(</span><span class="s1">&#39;Huge Success&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure><ul class="simple">
+<li>Declare unassigned variables last. This allows the reader to know they are needed but have delayed initialization.</li>
+<li>Do not assign variables inside a conditional statement, it often masks errors.</li>
+</ul>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad because it is easily misread as an equality test.</span>
+</span><span class="line"><span class="k">if</span> <span class="p">(</span><span class="nx">foo</span> <span class="o">=</span> <span class="nx">bar</span><span class="p">)</span> <span class="p">{...}</span>
+</span></code></pre></td></tr></table></div></figure><ul class="simple">
+<li>Do not clobber arguments with variables names.</li>
+</ul>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">function</span> <span class="nx">addByOne</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="nx">num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="nx">num</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">function</span> <span class="nx">addByOne</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="kd">var</span> <span class="nx">newNum</span> <span class="o">=</span> <span class="nx">num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="nx">newNum</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure><ol class="arabic simple" start="3">
+<li>Page Layout</li>
+</ol>
+<ul>
+<li><dl class="first docutils">
+<dt>Blank lines</dt>
+<dd><ul class="first last">
+<li><p class="first">Should always proceed the start of a comment</p>
+</li>
+<li><p class="first">Should be used to separate logically related code</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">var</span> <span class="o">=</span> <span class="nx">wheels</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="nx">wheels</span><span class="p">.</span><span class="nx">clean</span><span class="p">()</span>
+</span><span class="line">
+</span><span class="line"> <span class="nx">car</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">wheels</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="nx">truck</span><span class="p">.</span><span class="nx">drive</span><span class="p">();</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="o">=</span> <span class="nx">wheels</span><span class="p">;</span>
+</span><span class="line"><span class="nx">wheels</span><span class="p">.</span><span class="nx">clean</span><span class="p">()</span>
+</span><span class="line"> <span class="nx">car</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">wheels</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="nx">truck</span><span class="p">.</span><span class="nx">drive</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Commas</dt>
+<dd><ul class="first last">
+<li><p class="first">Remove trailing comments in object declarations. It will break some runtime environments.</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">bar</span><span class="o">:</span> <span class="s1">&#39;baz&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="nx">foo</span><span class="o">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">bar</span><span class="o">:</span> <span class="s1">&#39;baz&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="nx">foo</span><span class="o">:</span> <span class="s1">&#39;bar&#39;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">Don&#8217;t use comma first formatting, if you don&#8217;t know what that means keep it that way!</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Semicolons</dt>
+<dd><ul class="first last simple">
+<li>Even though Javascript determines semicolons to be optional many compilers expect them, therefore it is better to use them.</li>
+<li>Useful for clearly delineating the end of a logical statement</li>
+<li>Do not add meaningless semicolons</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Whitespace</dt>
+<dd><ul class="first last">
+<li><p class="first">Should be removed from the end of a line</p>
+</li>
+<li><p class="first">Should be removed from a blank line</p>
+</li>
+<li><p class="first">Should not mix spaces and tabs</p>
+</li>
+<li><p class="first">Should appear after each comma in a function declaration</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">function</span> <span class="nx">findUser</span><span class="p">(</span><span class="nx">foo</span><span class="p">,</span><span class="nx">bar</span><span class="p">,</span><span class="nx">baz</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">function</span> <span class="nx">findUser</span><span class="p">(</span><span class="nx">foo</span><span class="p">,</span> <span class="nx">bar</span><span class="p">,</span> <span class="nx">baz</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">Should not appear inside empty functions or literals</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="nx">doThis</span><span class="p">();</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[];</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Brackets And Braces</dt>
+<dd><ul class="first last">
+<li><p class="first">Use only where the compiler calls for it or where it enhances readability</p>
+</li>
+<li><p class="first">Brackets should appear on the line that requires them</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="k">if</span> <span class="p">(</span><span class="nx">hidden</span><span class="p">)</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line"> <span class="p">...</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="k">if</span> <span class="p">(</span><span class="nx">hidden</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">Add whitespace in front and between brackets to aid readability.</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="k">if</span> <span class="p">(</span><span class="nx">condition</span><span class="p">)</span> <span class="nx">goTo</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="k">if</span> <span class="p">(</span><span class="nx">condition</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">goTo</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">There are a couple of exception to the previous rule</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// No Whitespace needed when there is a single argument</span>
+</span><span class="line"><span class="k">if</span> <span class="p">(</span><span class="nx">foo</span><span class="p">)</span> <span class="p">...</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// No whitespace when a parenthesis is used as a scope container</span>
+</span><span class="line"><span class="p">;(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{...})</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// No white space when brackets are used as a function argument</span>
+</span><span class="line"><span class="kd">function</span> <span class="nx">sortThis</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Strings</dt>
+<dd><ul class="first last">
+<li><p class="first">String should be constructed using single quotes</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;Bar&quot;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;Bar&#39;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">Strings longer than the pre-determined character line limit should be reconsidered, if required they should be concatenated</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Functions</dt>
+<dd><ul class="first last">
+<li><p class="first">Method signatures must be consistent. If a function returns a variable in one context it should return a variable in all contexts</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">findFoo</span><span class="p">(</span><span class="nx">isFoo</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="k">if</span> <span class="p">(</span> <span class="nx">isFoo</span> <span class="o">===</span> <span class="kc">true</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">findFoo</span><span class="p">(</span><span class="nx">isFoo</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="k">if</span> <span class="p">(</span> <span class="nx">isFoo</span> <span class="o">===</span> <span class="kc">true</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">While not a requirement, returning early from a function can make the intent more clear</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">findFoo</span><span class="p">(</span><span class="nx">isFoo</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="k">if</span> <span class="p">(</span> <span class="nx">isFoo</span> <span class="o">===</span> <span class="kc">true</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Comments</dt>
+<dd><ul class="first last">
+<li><p class="first">Should never trail a statement</p>
+</li>
+<li><p class="first">Comments should be used sparingly, overuse of comments should suggest to the developer that their code is not expressive enough.</p>
+</li>
+<li><p class="first">Comments should aways be written as a complete thought.</p>
+</li>
+<li><p class="first">Multiline comments should always use the multiline syntax</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Some really</span>
+</span><span class="line"><span class="c1">// bad multiline comment</span>
+</span><span class="line">
+</span><span class="line"><span class="cm">/**</span>
+</span><span class="line"><span class="cm"> * A well-formed multiline comment</span>
+</span><span class="line"><span class="cm"> * so there...</span>
+</span><span class="line"><span class="cm"> */</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="rules-for-computational-effectiveness">
+<h2>Rules for Computational Effectiveness</h2>
+<div class="section" id="id1">
+<h3>Rules Of Thumb</h3>
+<ul class="simple">
+<li><strong>Assume File Will Be Concatenated</strong> - Modern applications often munge source Javascript into a streamline file for production. You should
+defensively program your scripts to protect from switches in operation context and scope corruption.</li>
+<li><strong>Keep your code browser agnostic</strong> - Keep your business logic free of browser specific code by abstracting them into interfaces. This will
+keep your code on a clean upgrade path as browser fall in and out of fashion.</li>
+<li><strong>Never Use eval()</strong> - Ever</li>
+<li><strong>Never Use with()</strong> - Ever</li>
+<li><strong>Keep Prototype Pristine</strong> - Never modify the prototype of a builtins like Array.prototype because it can silently break other&#8217;s code which
+expect standard behavior.</li>
+</ul>
+<ol class="arabic simple">
+<li>Equality Comparisons And Conditional Evaluation</li>
+</ol>
+<ul>
+<li><p class="first">Use &quot;===&quot; instead of &quot;==&quot; use &quot;!==&quot; instead of &quot;!=&quot; this is because Javascript is very loose when testing equality.</p>
+</li>
+<li><p class="first">When just testing for truthiness you can coerce the values</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="k">if</span> <span class="p">(</span><span class="nx">foo</span><span class="p">)</span> <span class="p">{...}</span>
+</span><span class="line"><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">foo</span><span class="p">)</span> <span class="p">{...}</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">When testing for emptiness</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">You must be explicit when testing for truth</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad because all of these will be coerced into true</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">zero</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class="line"><span class="nx">empty</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span class="line"><span class="nx">knull</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+</span><span class="line"><span class="nx">notANumber</span> <span class="o">=</span> <span class="kc">NaN</span><span class="p">,</span>
+</span><span class="line"><span class="nx">notDefined</span>
+</span><span class="line">
+</span><span class="line"><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">zero</span> <span class="o">||</span> <span class="o">!</span><span class="nx">empty</span> <span class="o">||</span> <span class="o">!</span><span class="nx">knull</span> <span class="o">||</span> <span class="o">!</span><span class="nx">notANumber</span> <span class="o">||</span> <span class="o">!</span><span class="nx">notDefined</span> <span class="p">)</span> <span class="p">...</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">truth</span> <span class="o">=</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span>
+</span><span class="line"><span class="nx">alsoTrue</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class="line">
+</span><span class="line"><span class="k">if</span> <span class="p">(</span><span class="nx">truth</span> <span class="o">&amp;&amp;</span> <span class="nx">alsoTrue</span><span class="p">)</span> <span class="p">...</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="k">if</span> <span class="p">(</span><span class="nx">foo</span> <span class="o">===</span> <span class="kc">true</span><span class="p">)</span> <span class="p">...</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li>Constants and Variables</li>
+</ol>
+<ul>
+<li><p class="first">When deleting a variable set it to null instead calling #delete or setting it to undefined</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad because undefined means the variable is useful but as yet has no value</span>
+</span><span class="line"><span class="k">this</span><span class="p">.</span><span class="nx">unwanted</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="cm">/**</span>
+</span><span class="line"><span class="cm"> * Bad because calling delete is much slower than reassigning a value.</span>
+</span><span class="line"><span class="cm"> * The only reason to use delete is if you want to remove the attribute from an objects list of keys.</span>
+</span><span class="line"><span class="cm"> */</span>
+</span><span class="line"><span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">unwanted</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="k">this</span><span class="p">.</span><span class="nx">unwanted</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li>Functions</li>
+</ol>
+<ul>
+<li><p class="first">Function Expressions</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Anonymous Function</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">anon</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Named Function</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">named</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">named</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class="line"><span class="p">};</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Immediately-invoked function, hides its contents from the executing scope.</span>
+</span><span class="line"><span class="p">;(</span><span class="kd">function</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class="line"><span class="p">})();</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">Anonymous functions are defined at parse-time, and therefore do not have their names hoisted to the top of the scope.</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad - Runtime Error</span>
+</span><span class="line"><span class="nx">iGoBoom</span><span class="p">();</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">iGoBoom</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;boom&#39;</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="nx">iGoBoom</span><span class="p">();</span>
+</span><span class="line"><span class="kd">function</span> <span class="nx">iGoBoom</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;boom&#39;</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">Do not use function declaration within block statements it is not part of  ECMAScript; instead use a function expression.</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="k">if</span> <span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="nx">round</span><span class="p">))</span> <span class="p">{</span>
+</span><span class="line">    <span class="kd">function</span> <span class="nx">bounce</span><span class="p">(){</span>
+</span><span class="line">
+</span><span class="line">        <span class="c1">// Statements Continue</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="k">return</span> <span class="nx">bounce</span><span class="p">()</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="k">if</span> <span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="nx">round</span><span class="p">))</span> <span class="p">{</span>
+</span><span class="line">  <span class="kd">var</span> <span class="nx">bounce</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">      <span class="c1">// Statements Continue</span>
+</span><span class="line">  <span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">Do not hide the native arguments object by using the same name in a function</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">arguments</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">alert</span><span class="p">(</span><span class="nx">arguments</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">));</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">alert</span><span class="p">(</span><span class="nx">args</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">));</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li>Strings</li>
+</ol>
+<ul>
+<li><p class="first">When concatenating a string use Array#join for performance reasons.</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">lorem</span> <span class="o">=</span> <span class="s1">&#39;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\</span>
+</span><span class="line"><span class="s1">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in\</span>
+</span><span class="line"><span class="s1">reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in\</span>
+</span><span class="line"><span class="s1">culpa qui officia deserunt mollit anim id est laborum.&#39;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">lorem</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.&#39;</span><span class="p">,</span>
+</span><span class="line"><span class="s1">&#39;Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in&#39;</span><span class="p">,</span>
+</span><span class="line"><span class="s1">&#39;reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in&#39;</span><span class="p">,</span>
+</span><span class="line"><span class="s1">&#39;culpa qui officia deserunt mollit anim id est laborum.&#39;</span><span class="p">].</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+<ol class="arabic simple" start="5">
+<li>Objects</li>
+</ol>
+<ul>
+<li><p class="first">Should use object literal vs new Object</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+</span><span class="line"><span class="nx">person</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">=</span> <span class="s2">&quot;John&quot;</span><span class="p">;</span>
+</span><span class="line"><span class="nx">person</span><span class="p">.</span><span class="nx">lastName</span> <span class="o">=</span> <span class="s2">&quot;Doe&quot;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class="line">  <span class="nx">firstName</span><span class="o">:</span> <span class="s2">&quot;John&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="nx">lastName</span><span class="o">:</span> <span class="s2">&quot;Doe&quot;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">Don&#8217;t overwrite reserved words as keys</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span> <span class="kr">class</span> <span class="o">:</span> <span class="s2">&quot;Person&quot;</span> <span class="p">};</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">klass</span> <span class="o">:</span> <span class="s2">&quot;Person&quot;</span> <span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+<ol class="arabic simple" start="6">
+<li>Arrays</li>
+</ol>
+<ul>
+<li><p class="first">Should use literal syntax for creation</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">();</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[];</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+<ol class="arabic simple" start="7">
+<li>Responsibility Delegation</li>
+</ol>
+<ul>
+<li><p class="first">Only write code that is the responsibility of the program. Keep your code free of view layer and template code. Use a template library
+like mustache.js instead</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="kd">var</span> <span class="nx">view</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;Joe&quot;</span><span class="p">,</span>
+</span><span class="line">    <span class="nx">calc</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line"><span class="p">},</span> <span class="nx">output</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="nx">output</span> <span class="o">=</span> <span class="s1">&#39;&lt;div&gt;&lt;h5&gt;&#39;</span> <span class="o">+</span> <span class="nx">title</span> <span class="o">+</span> <span class="s1">&#39;&lt;/h5&gt;&lt;p&gt;&#39;</span> <span class="o">+</span> <span class="nx">calc</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;&lt;/div&gt;&#39;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">output</span> <span class="o">=</span> <span class="nx">Mustache</span><span class="p">.</span><span class="nx">compilePartial</span><span class="p">(</span><span class="s1">&#39;my-template&#39;</span><span class="p">,</span> <span class="nx">view</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">Keep Javascript out of the HTML</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="o">&lt;</span><span class="nx">button</span> <span class="nx">onclick</span><span class="o">=</span><span class="s2">&quot;doSomething()&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;something-btn&quot;</span><span class="o">&gt;</span><span class="nx">Click</span> <span class="nx">Here</span><span class="o">&lt;</span><span class="err">/button&gt;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">element</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;something-btn&quot;</span><span class="p">);</span>
+</span><span class="line"><span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="nx">doSomething</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+<ol class="arabic simple" start="8">
+<li>Operating Context And Scope</li>
+</ol>
+<ul>
+<li><p class="first">Where possible wrap your code inside self executing functions. This will insulate your code from pollution by others, and make it easier
+to abstract</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="p">;(</span><span class="kd">function</span><span class="p">(</span> <span class="nb">window</span><span class="p">,</span> <span class="nb">document</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1">// My Awesome Library</span>
+</span><span class="line"><span class="p">})(</span><span class="k">this</span><span class="p">,</span> <span class="nb">document</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">Design for duration-agnostic execution of code. This will prevent your code from building up a backlog of requests that may no longer
+be relevant</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad because this might take longer than 100 milliseconds to complete.</span>
+</span><span class="line"><span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class="line">  <span class="nx">findFoo</span><span class="p">();</span>
+</span><span class="line"><span class="p">},</span> <span class="mi">100</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good this will only be called again once findFoo has completed.</span>
+</span><span class="line"><span class="p">;(</span><span class="kd">function</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">findFoo</span><span class="p">();</span>
+</span><span class="line">    <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">main</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+</span><span class="line"><span class="p">})();</span>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p class="first">Only use <em>this</em> in object constructors, methods and creating closures</p>
+</li>
+<li><p class="first">To prevent breaking community code declaring an operating context e.g. <cite>&quot;use strict&quot;</cite> should be wrapped inside a self-executing function
+for modules or inside a function itself when needed</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Bad</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">bar</span> <span class="o">=</span> <span class="nx">findLooseyGoosey</span><span class="p">();</span>
+</span><span class="line">
+</span><span class="line"><span class="s2">&quot;use strict&quot;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="nx">findStrictly</span><span class="p">();</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">bar</span> <span class="o">=</span> <span class="nx">findLooseyGoosey</span><span class="p">();</span>
+</span><span class="line">
+</span><span class="line"><span class="p">;(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class="line">  <span class="s2">&quot;use strict&quot;</span><span class="p">;</span>
+</span><span class="line">  <span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="nx">findStrictly</span><span class="p">();</span>
+</span><span class="line"><span class="p">})();</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+<ol class="arabic simple" start="9">
+<li>Coercion</li>
+</ol>
+<ul>
+<li><p class="first">Conversion over Coercion</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Bad implicit coercion</span>
+</span><span class="line"><span class="nx">num</span> <span class="o">=</span> <span class="o">+</span><span class="nx">num</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Good expressive conversion</span>
+</span><span class="line"><span class="nx">num</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">num</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+</div>
+</div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Felton on Felton]]></title>
@@ -282,8 +1287,8 @@ Consider the following example:</p>
 <p>When rendering templates, Spineless substitutes predefined template variables with those you supply using JSON. The JSON can be provided in at least two ways:</p>
 
 <ol>
-<li> By url encoded a json object into the <code>data-locals</code> attribute.</li>
-<li> Creating of modifying the JSON object using a helper function.</li>
+<li>By url encoded a json object into the <code>data-locals</code> attribute.</li>
+<li>Creating of modifying the JSON object using a helper function.</li>
 </ol>
 
 
