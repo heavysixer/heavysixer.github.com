@@ -4,7 +4,7 @@
   <title><![CDATA[Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-02-15T19:30:09-06:00</updated>
+  <updated>2013-02-15T19:32:38-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -18,7 +18,9 @@
     <link href="http://heavysixer.github.com/blog/2013/02/15/functions-explained/"/>
     <updated>2013-02-15T12:10:00-06:00</updated>
     <id>http://heavysixer.github.com/blog/2013/02/15/functions-explained</id>
-    <content type="html"><![CDATA[<p>Given that this document assumes readers are mostly fluent in Javascript, it may seem odd to include a section on functions. After all they are
+    <content type="html"><![CDATA[<div class="section" id="a-deep-dive-into-javascript-functions">
+<h2>A Deep Dive into Javascript Functions</h2>
+<p>Given that this document assumes readers are mostly fluent in Javascript, it may seem odd to include a section on functions. After all they are
 one of the most rudimentary components of Javascript. My assertion is this, just as a person can speak a language without the ability to read
 or write it, so too can developers use functions in Javascript and yet be blissfully unaware of their complexities.</p>
 <p>Typically developers only become aware of the specifics of functions when something they wrote explodes in their face. My goal in this section
@@ -29,6 +31,7 @@ the language spec, it does not mean that all runtime environments will work the 
 discuss common misconceptions of Javascript functions, and the silent bugs they introduce. However, debugging functions in detail is not
 covered. Fortunately, debugging has been documented by others in the Javascript community especially in Juriy Zaytsev&#8217;s excellent article &quot;Named
 Function Expressions Demystified&quot; <a class="footnote-reference" href="#id2" id="id1">[1]</a>.</p>
+</div>
 <div class="section" id="blocks-in-javascript">
 <h2>Blocks in Javascript</h2>
 <p>Before we can understand functions in Javascript we have to understand blocks. Javascript blocks are nothing more than statements grouped
