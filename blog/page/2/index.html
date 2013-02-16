@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Daggett">
 
   
-  <meta name="description" content="Rails has hidden gems just waiting to be discovered. I will demonstrate the use of Hash.slice, which is one of the core extensions of ActiveSupport. &hellip;">
+  <meta name="description" content="Recently I was writing an enterprise data visualization application that made heavy user of interactive charts and graphs. Like most best-of-breed &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -75,6 +75,401 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/28/client-side-request-caching-with-javascript/">Client-side Request Caching With Javascript</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-28T20:30:00-05:00" pubdate data-updated="true">Mar 28<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Recently I was writing an enterprise data visualization application that made heavy user of interactive charts and graphs. Like most best-of-breed data-viz apps this one supported very robust filters for slicing and dicing through the dataset. Each time the user adjusted one of these filters the application made new AJAX request and idled until the results were returned.</p>
+
+<p>Technically, this approach worked fine, but because the data-segmentation occurred on the server the charts felt sluggish because they were always polling or data. Additionally, the user quite frequently toggled between only a couple filters to compare the results. What should have been an experience of rapidly flipping between two views on the data was actually a belabored rendering experience. As the developer this was frustrating because they were asking for and receiving the same data over and over again.</p>
+
+<p>To solve this problem, I built a very simple mechanism that affords <em>just enough caching</em> to persist these payload objects only while the user is viewing the page. In this way the user would be guaranteed to get a fresh copy from the server on each page load.</p>
+
+<p>Essentially, I hooked my caching routine around the function that made the AJAX request for new chart data. Using this approach an AJAX request only occurred once, and all future requests pulled from the cache.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Called when someone adjusts a filter</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">updateChart</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">chart</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Builds the request params needed to correctly query the server. </span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">opts</span> <span class="o">=</span> <span class="nx">requestParamsFor</span><span class="p">(</span><span class="nx">chart</span><span class="p">,</span> <span class="nx">key</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Generate a cache key based on this object</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">cacheKey</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">getKey</span><span class="p">(</span><span class="nx">opts</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">hh</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">exists</span><span class="p">(</span><span class="nx">cacheKey</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// If the key exists then the request has happened in the past</span>
+</span><span class='line'>        <span class="c1">// use the cached result to refresh the chart.</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">cacheKey</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">onSuccess</span><span class="p">(</span><span class="nx">kind</span><span class="p">,</span> <span class="nx">opts</span><span class="p">,</span> <span class="nx">chart</span><span class="p">,</span> <span class="nx">code</span><span class="p">,</span> <span class="nx">result</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+</span><span class='line'>            <span class="nx">url</span><span class="o">:</span> <span class="nx">url</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">data</span><span class="o">:</span> <span class="nx">opts</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">// Since this was a new request store the results in the cache </span>
+</span><span class='line'>                <span class="c1">// at the location specified by the cache key.</span>
+</span><span class='line'>                <span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">cacheKey</span><span class="p">,</span> <span class="nx">result</span><span class="p">);</span>
+</span><span class='line'>                <span class="nx">onSuccess</span><span class="p">(</span><span class="nx">kind</span><span class="p">,</span> <span class="nx">opts</span><span class="p">,</span> <span class="nx">chart</span><span class="p">,</span> <span class="nx">code</span><span class="p">,</span> <span class="nx">result</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">});</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here is the local cache class in all it&#8217;s detail:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">_cache</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">_keys</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">_indexOf</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">arr</span><span class="p">,</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">==</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="nx">i</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">_serialize</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">opts</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">((</span><span class="nx">opts</span><span class="p">).</span><span class="nx">toString</span><span class="p">()</span> <span class="o">===</span> <span class="s2">&quot;[object Object]&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">$</span><span class="p">.</span><span class="nx">param</span><span class="p">(</span><span class="nx">opts</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="p">(</span><span class="nx">opts</span><span class="p">).</span><span class="nx">toString</span><span class="p">();</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">_remove</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">t</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">((</span><span class="nx">t</span> <span class="o">=</span> <span class="nx">_indexOf</span><span class="p">(</span><span class="nx">_keys</span><span class="p">,</span> <span class="nx">key</span><span class="p">))</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">_keys</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>            <span class="k">delete</span> <span class="nx">_cache</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">_removeAll</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">_cache</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>        <span class="nx">_keys</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">add</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">_keys</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">_keys</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="nx">_cache</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">$</span><span class="p">.</span><span class="nx">hh</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">exists</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">_cache</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">purge</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">_remove</span><span class="p">(</span><span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">_removeAll</span><span class="p">();</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="p">{},</span>
+</span><span class='line'>        <span class="nx">_cache</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">searchKeys</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">keys</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">rStr</span><span class="p">;</span>
+</span><span class='line'>        <span class="nx">rStr</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s1">&#39;\\b&#39;</span> <span class="o">+</span> <span class="nx">str</span> <span class="o">+</span> <span class="s1">&#39;\\b&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">_keys</span><span class="p">,</span>
+</span><span class='line'>        <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">rStr</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">keys</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">});</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">keys</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">get</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">val</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">_cache</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">((</span><span class="nx">_cache</span><span class="p">[</span><span class="nx">key</span><span class="p">]).</span><span class="nx">toString</span><span class="p">()</span> <span class="o">===</span> <span class="s2">&quot;[object Object]&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">val</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="p">{},</span>
+</span><span class='line'>                <span class="nx">_cache</span><span class="p">[</span><span class="nx">key</span><span class="p">]);</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">val</span> <span class="o">=</span> <span class="nx">_cache</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">val</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">getKey</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">opts</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">_serialize</span><span class="p">(</span><span class="nx">opts</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">getKeys</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">_keys</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">add</span><span class="o">:</span> <span class="nx">add</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">exists</span><span class="o">:</span> <span class="nx">exists</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">purge</span><span class="o">:</span> <span class="nx">purge</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">searchKeys</span><span class="o">:</span> <span class="nx">searchKeys</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">get</span><span class="o">:</span> <span class="nx">get</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">getKey</span><span class="o">:</span> <span class="nx">getKey</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">getKeys</span><span class="o">:</span> <span class="nx">getKeys</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here are some jasmine tests which explain more features of the cache not covered in this post, and prove that it works!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">it</span><span class="p">(</span><span class="s2">&quot;should allow you to build a cache using keys&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>        <span class="s1">&#39;foo&#39;</span><span class="o">:</span> <span class="s1">&#39;bar&#39;</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">exists</span><span class="p">(</span><span class="s2">&quot;foo=bar&quot;</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">getKey</span><span class="p">(</span><span class="nx">obj</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">&#39;foo=bar&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">getKey</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;foo=bar&quot;</span><span class="p">,</span> <span class="nx">obj</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">exists</span><span class="p">(</span><span class="s2">&quot;foo=bar&quot;</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;foo=bar&quot;</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;bar&quot;</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="kc">undefined</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">it</span><span class="p">(</span><span class="s2">&quot;should allow you to empty the cache completely&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">purge</span><span class="p">();</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;baz&quot;</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">&#39;baz&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">getKeys</span><span class="p">().</span><span class="nx">length</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">purge</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">({});</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">it</span><span class="p">(</span><span class="s2">&quot;should allow you to empty the cache of just a specific record&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">purge</span><span class="p">();</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;baz&quot;</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">&#39;baz&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;boff&quot;</span><span class="p">,</span> <span class="s1">&#39;ball&#39;</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">&#39;ball&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">getKeys</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">([</span><span class="s1">&#39;baz&#39;</span><span class="p">,</span> <span class="s1">&#39;boff&#39;</span><span class="p">]);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">purge</span><span class="p">(</span><span class="s1">&#39;boff&#39;</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">({</span>
+</span><span class='line'>        <span class="s1">&#39;baz&#39;</span><span class="o">:</span> <span class="s1">&#39;baz&#39;</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">getKeys</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">([</span><span class="s1">&#39;baz&#39;</span><span class="p">]);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">purge</span><span class="p">(</span><span class="s1">&#39;bozz&#39;</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">({</span>
+</span><span class='line'>        <span class="s1">&#39;baz&#39;</span><span class="o">:</span> <span class="s1">&#39;baz&#39;</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">getKeys</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">([</span><span class="s1">&#39;baz&#39;</span><span class="p">]);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">it</span><span class="p">(</span><span class="s2">&quot;should allow you to search for keys in the cache&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">purge</span><span class="p">();</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>        <span class="s1">&#39;bar&#39;</span><span class="o">:</span> <span class="s1">&#39;baz&#39;</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;bar=baz&#39;</span><span class="p">,</span> <span class="nx">obj</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">getKeys</span><span class="p">().</span><span class="nx">length</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">getKeys</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">([</span><span class="s2">&quot;bar=baz&quot;</span><span class="p">]);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">searchKeys</span><span class="p">(</span><span class="s2">&quot;bar&quot;</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">([</span><span class="s2">&quot;bar=baz&quot;</span><span class="p">]);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">searchKeys</span><span class="p">(</span><span class="s2">&quot;bar=&quot;</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">([</span><span class="s2">&quot;bar=baz&quot;</span><span class="p">]);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">searchKeys</span><span class="p">(</span><span class="s2">&quot;bat&quot;</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">([]);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>

@@ -1,0 +1,658 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Functions Explained - Mark Daggett's Blog</title>
+  <meta name="author" content="Mark Daggett">
+
+  
+  <meta name="description" content="Given that this document assumes readers are mostly fluent in Javascript, it may seem odd to include a section on functions. After all they are
+one &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://heavysixer.github.com/blog/2013/02/15/functions-explained">
+  <link href="/favicon.ico" rel="icon">
+  
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Mark Daggett's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1950734-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1>Mark Daggett's Blog</h1>
+  
+    <h2><a href="/">Innovator & Bricoleur</a></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation">
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:heavysixer.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="http://markdaggett.com/images/daggett-resume-2011.pdf">Resume</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Functions Explained</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-15T12:10:00-06:00" pubdate data-updated="true">Feb 15<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Given that this document assumes readers are mostly fluent in Javascript, it may seem odd to include a section on functions. After all they are
+one of the most rudimentary components of Javascript. My assertion is this, just as a person can speak a language without the ability to read
+or write it, so too can developers use functions in Javascript and yet be blissfully unaware of their complexities.</p>
+<p>Typically developers only become aware of the specifics of functions when something they wrote explodes in their face. My goal in this section
+is to expose the intricacies of Javascript functions to you, which will hopefully save you from having to pull syntactic shrapnel from your
+codebase.</p>
+<p>A word of caution before we begin; Javascript is only as good as its interpreter. While the concepts we&#8217;ll consider are well-covered in
+the language spec, it does not mean that all runtime environments will work the same way. In other words your milage may vary. This section will
+discuss common misconceptions of Javascript functions, and the silent bugs they introduce. However, debugging functions in detail is not
+covered. Fortunately, debugging has been documented by others in the Javascript community especially in Juriy Zaytsev&#8217;s excellent article &quot;Named
+Function Expressions Demystified&quot; <a class="footnote-reference" href="#id2" id="id1">[1]</a>.</p>
+<div class="section" id="blocks-in-javascript">
+<h2>Blocks in Javascript</h2>
+<p>Before we can understand functions in Javascript we have to understand blocks. Javascript blocks are nothing more than statements grouped
+together. Blocks start with a left curly bracket &quot;{&quot; and end with a right one &quot;}&quot;. Simply put, <strong>blocks allow statements inside the brackets
+to be executed together</strong>. Blocks form the most basic control structure in Javascript. The following are a few examples of how blocks in
+Javascript:</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Block as an anonymous self-executing function</span>
+</span><span class="line"><span class="p">;</span><span class="o">!</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="kd">var</span> <span class="nx">triumph</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class="line">        <span class="nx">cake</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class="line">        <span class="nx">satisfaction</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class="line">        <span class="nx">isLie</span><span class="p">,</span>
+</span><span class="line">        <span class="nx">note</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1">// Block used as part of function expression</span>
+</span><span class="line">    <span class="kd">var</span> <span class="nx">isLie</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="nx">val</span> <span class="o">===</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1">// Block used as part of a conditional statement</span>
+</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="nx">isLie</span><span class="p">(</span><span class="nx">cake</span><span class="p">))</span> <span class="p">{</span>
+</span><span class="line">        <span class="nx">triumph</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class="line">        <span class="nx">makeNote</span><span class="p">(</span><span class="s1">&#39;huge success&#39;</span><span class="p">);</span>
+</span><span class="line">        <span class="nx">satisfaction</span> <span class="o">+=</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1">// Block used as part of a function declaration</span>
+</span><span class="line">    <span class="kd">function</span> <span class="nx">makeNote</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="nx">note</span> <span class="o">=</span> <span class="nx">message</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line"><span class="p">}();</span>
+</span></code></pre></td></tr></table></div></figure><p>As we saw above, functions are essentially <em>named blocks</em>, which the developer can invoke on demand. This is easy to demonstrate:</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// The inline conditional block statement is executed only once per cycle.</span>
+</span><span class="line"><span class="k">if</span> <span class="p">(</span><span class="nx">isLie</span><span class="p">(</span><span class="nx">cake</span><span class="p">))</span> <span class="p">{</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">function</span> <span class="nx">makeNote</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// The function declaration is executed as many times as it is called.</span>
+</span><span class="line"><span class="nx">makeNote</span><span class="p">(</span><span class="s2">&quot;Moderate Success&quot;</span><span class="p">);</span>
+</span><span class="line"><span class="nx">makeNote</span><span class="p">(</span><span class="s2">&quot;Huge Success&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></div>
+<div class="section" id="function-arguments">
+<h2>Function Arguments</h2>
+<p>Functions like control flow statements (if, for, while etc.) can be initialized by passing arguments into the function body. In Javascript
+variables are either a <strong>complex type</strong> (e.g. Object, Array) or a <strong>primitive type</strong> (e.g. String, Integer). When a complex object is supplied
+as an argument it is <strong>passed by reference</strong> to the function body. Instead of sending a copy of the variable, Javascript sends a pointer to its
+location in memory. Conversely, when passing a primitive type to a function Javascript <strong>passes by value</strong>. This difference can lead to subtle bugs
+because conceptually we often treat functions as a black box, and assume they can only effect the enclosing scope by returning a variable.
+With pass by reference, the argument object is modified even though it may not returned by the function. Pass by reference and pass by value
+are demonstrated below:</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="kd">var</span> <span class="nx">object</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class="line">    <span class="s1">&#39;foo&#39;</span><span class="o">:</span> <span class="s1">&#39;bar&#39;</span>
+</span><span class="line"><span class="p">},</span>
+</span><span class="line"><span class="nx">num</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Passed by reference</span>
+</span><span class="line"><span class="p">;</span><span class="o">!</span><span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;baz&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="p">}(</span><span class="nx">o</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// =&gt; &#39;baz&#39;</span>
+</span><span class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">object</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Passed by value;</span>
+</span><span class="line"><span class="p">;</span><span class="o">!</span><span class="kd">function</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">num</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class="line"><span class="p">}(</span><span class="nx">num</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// =&gt; 1</span>
+</span><span class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">num</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></div>
+<div class="section" id="function-types">
+<h2>Function Types</h2>
+<p>Now that we have a better understanding of blocks, and arguments lets dive deeper into <strong>Function Declaration</strong> and <strong>Function Expression</strong>,
+the two types of functions used in Javascript. To the casual reader the two appear very similar:</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// Function Declaration</span>
+</span><span class="line"><span class="kd">function</span> <span class="nx">isLie</span><span class="p">(</span><span class="nx">cake</span><span class="p">){</span>
+</span><span class="line">    <span class="k">return</span> <span class="nx">cake</span> <span class="o">===</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Function Expression</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">isLie</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cake</span><span class="p">){</span>
+</span><span class="line">    <span class="k">return</span> <span class="nx">cake</span> <span class="o">===</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure><p>The only real difference between the two, is when they are evaluated. A function declaration can be accessed by the interpreter as it is being
+parsed. The function expression on the other hand is part of an assignment expression, which prevents Javascript from evaluating it until the
+program has completed the assignment. This difference may seem minor, but implications are huge; consider the following example:</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// =&gt; Hi, I&#39;m a function declaration!</span>
+</span><span class="line"><span class="nx">declaration</span><span class="p">();</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">function</span> <span class="nx">declaration</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hi, I&#39;m a function declaration!&quot;</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// =&gt; Uncaught TypeError: undefined is not a function</span>
+</span><span class="line"><span class="nx">expression</span><span class="p">();</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">expression</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hi, I&#39;m a function expression!&quot;</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure><p>As you can see in the previous example the <em>expression</em> function threw an exception when it was invoked, but the <em>declaration</em> function
+executed just fine. This exception gets to the heart of the difference between declaration and expression functions. Javascript <em>knows</em>
+about declaration function and can parse it before the program executes. Therefore, it doesn&#8217;t matter if the program invokes the function
+before it is defined. This is because behind the scenes Javascript has <em>hoisted</em> the function to the top of the current scope. The function
+expression is not evaluated until it is assigned to a variable; therefore it is still <em>undefined</em> when invoked. This is why good code style is
+to define all variables at the top of the current scope. Had we done this then our script would visually match what Javascript is doing during
+parsetime.</p>
+<p>The concept to take away is that <strong>during parsetime Javascript moves all function declarations to the top of the current scope</strong>. This is why
+it doesn&#8217;t matter where declarative functions appear in the script body.</p>
+<p>To further explore the distinctions between declarations and expressions, consider the following:</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="kd">function</span> <span class="nx">sayHi</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;hi&quot;</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">hi</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">sayHi</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// =&gt; &quot;hi&quot;</span>
+</span><span class="line"><span class="nx">hi</span><span class="p">();</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// =&gt; &#39;hello&#39;</span>
+</span><span class="line"><span class="nx">sayHi</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure><p>Casually reading this code, one might assume that the declaration function would get clobbered because it function expression has an identical
+name. However, since the second function is part of an assignment expression it is given its own scope, and Javascript treats them as seperate
+entities. To make things even more confusing look at this example:</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="kd">var</span> <span class="nx">sayHo</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// =&gt; function</span>
+</span><span class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="p">(</span><span class="nx">sayHey</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// =&gt; undefined</span>
+</span><span class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="p">(</span><span class="nx">sayHo</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="k">if</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="kd">function</span> <span class="nx">sayHey</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;hey&quot;</span><span class="p">);</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">    <span class="nx">sayHo</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">sayHo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;ho&quot;</span><span class="p">);</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class="line">    <span class="kd">function</span> <span class="nx">sayHey</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;no&quot;</span><span class="p">);</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">    <span class="nx">sayHo</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">sayHo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;no&quot;</span><span class="p">);</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// =&gt; no</span>
+</span><span class="line"><span class="nx">sayHey</span><span class="p">();</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// =&gt; ho</span>
+</span><span class="line"><span class="nx">sayHo</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure><p>In the previous example we saw that functions of the same name were considered different if one was an expression and the other was a
+declaration. In this example we are attempting to conditionally define the function based on how the program executes. Reading the script&#8217;s
+control flow you&#8217;d expect <em>sayHey</em> to return &quot;hey&quot; since the conditional statement evaluates true. Instead it returns &quot;no&quot;, meaning the second
+version of the <em>sayHey</em> function clobbered the first. Even more confusing is that the <em>sayHo</em> function behaves the opposite way! Again, the
+difference comes down to parsetime versus runtime.</p>
+<p>We already learned that when Javascript parses the script it collects all of the function declarations and hoists them to the top of the current
+scope. When this happens it clobbers the first version of <em>sayHey</em> with the second because they exist in the same scope. This explains why
+it returns &quot;no.&quot; We also know that function expressions are ignored by the parser until the assignment process completes. Assignment happens
+during runtime, which is also when the conditional statement is evaluated. That explains why the <em>sayHo</em> function was able to be conditionally
+defined. The key to remember here is that <strong>function declarations can not be conditionally defined. If you need conditional definition use a function expression</strong>.
+Furthermore, <strong>function declarations should NEVER be made inside a control flow statement</strong>, due to the different ways interpreters handle it.</p>
+</div>
+<div class="section" id="function-scopes">
+<h2>Function Scopes</h2>
+<p>Unlike many other languages which are scoped to the block, Javascript is scoped to the function. In Ruby (version 1.9.+) you can write this:</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="nx">x</span> <span class="o">=</span> <span class="mi">20</span>
+</span><span class="line"><span class="mi">10</span><span class="p">.</span><span class="nx">times</span> <span class="k">do</span> <span class="o">|</span><span class="nx">x</span><span class="o">|</span>
+</span><span class="line">
+</span><span class="line">  <span class="err">#</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">..</span><span class="mi">9</span>
+</span><span class="line">  <span class="nx">puts</span> <span class="nx">x</span>
+</span><span class="line"><span class="nx">end</span>
+</span><span class="line">
+</span><span class="line"><span class="err">#</span> <span class="o">=&gt;</span> <span class="mi">20</span>
+</span><span class="line"><span class="nx">puts</span> <span class="nx">x</span>
+</span></code></pre></td></tr></table></div></figure><p>What this demonstrates is that each block gets its own scope. Conversely, if we wrote similar code in Javascript:</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Functions have their own scope</span>
+</span><span class="line"><span class="p">;</span><span class="o">!</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="s2">&quot;foo&quot;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1">// =&gt; &quot;foo&quot;</span>
+</span><span class="line">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+</span><span class="line"><span class="p">}();</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// =&gt; 20</span>
+</span><span class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="k">for</span> <span class="p">(</span><span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1">// =&gt; 0..9</span>
+</span><span class="line">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// =&gt; 10</span>
+</span><span class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure><p>In Javascript <em>x</em> is available inside the for loop, because as a control statement it belongs to the enclosing scope. This is not intuitive to
+many developers used to block level scope. Javascript handles the need of block level scope at least partially through the use of closures
+which we&#8217;ll discuss later.</p>
+</div>
+<div class="section" id="debugging-functions">
+<h2>Debugging Functions</h2>
+<p>Before we wrap this topic up, lets briefly touch on debugging functions. In Javascript naming a function expression is completely optional;
+so why do it? The answer is to aid the debugging process. Named function expressions have access to their name within the newly defined scope,
+but not in the enclosing scope. Without a name their anonymous nature can make them feel a bit like ghosts in the machine when it comes to
+debugging.</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="kd">var</span> <span class="nx">namedFunction</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">named</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1">// =&gt; function</span>
+</span><span class="line">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">named</span><span class="p">));</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line"><span class="nx">namedFunction</span><span class="p">();</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// =&gt; undefined</span>
+</span><span class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">named</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure><p>Nameless function expressions will be displayed in the stack trace as &quot;(anonymous function)&quot; or something similar. Naming your function
+expression gives you clarity when trying to unwind an exception whose call stack may feel miles long.</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="cm">/*</span>
+</span><span class="line"><span class="cm"> * It is much harder to debug anonymous function expressions</span>
+</span><span class="line"><span class="cm"> * Uncaught boom</span>
+</span><span class="line"><span class="cm"> *    - (anonymous function)</span>
+</span><span class="line"><span class="cm"> *    - window.onload</span>
+</span><span class="line"><span class="cm"> */</span>
+</span><span class="line"><span class="p">;</span><span class="o">!</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="k">throw</span><span class="p">(</span><span class="s2">&quot;boom&quot;</span><span class="p">);</span>
+</span><span class="line"><span class="p">}();</span>
+</span><span class="line">
+</span><span class="line"><span class="cm">/*</span>
+</span><span class="line"><span class="cm"> * Naming your function expressions give you a place to start looking when debuggin.</span>
+</span><span class="line"><span class="cm"> * Uncaught boom</span>
+</span><span class="line"><span class="cm"> *    - goBoom</span>
+</span><span class="line"><span class="cm"> *    - window.onload</span>
+</span><span class="line"><span class="cm"> */</span>
+</span><span class="line"><span class="p">;</span><span class="o">!</span><span class="kd">function</span> <span class="nx">goBoom</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="k">throw</span><span class="p">(</span><span class="s2">&quot;boom&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="p">}();</span>
+</span></code></pre></td></tr></table></div></figure><table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://kangax.github.com/nfe/">http://kangax.github.com/nfe/</a></td></tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about" title="About the author (Mark Daggett)" rel="author">Mark Daggett</a></span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-15T12:10:00-06:00" pubdate data-updated="true">Feb 15<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://heavysixer.github.com/blog/2013/02/15/functions-explained/" data-via="" data-counturl="http://heavysixer.github.com/blog/2013/02/15/functions-explained/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/15/pragmatic-javascript-style/" title="Previous Post: Pragmatic Javascript Style">&laquo; Pragmatic Javascript Style</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Mark Daggett -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'markdaggettcom';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://heavysixer.github.com/blog/2013/02/15/functions-explained/';
+        var disqus_url = 'http://heavysixer.github.com/blog/2013/02/15/functions-explained/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
