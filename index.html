@@ -9,8 +9,7 @@
   <meta name="author" content="Mark Daggett">
 
   
-  <meta name="description" content="A Deep Dive into Javascript Functions
-Based on my readership I have to assume most of you are familiar with Javascript already. Therefore, it may &hellip;">
+  <meta name="description" content="In the excellent book &quot;The Pragmatic Programmer: From Journeyman to Mater&quot; Hunt and Thomas use the metaphor of a wood worker&#8217;s jig to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +75,239 @@ Based on my readership I have to assume most of you are familiar with Javascript
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/18/javascript-jigs/">Javascript Jigs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-18T09:06:00-06:00" pubdate data-updated="true">Feb 18<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In the excellent book &quot;The Pragmatic Programmer: From Journeyman to Mater&quot; Hunt and Thomas use the metaphor of a wood worker&#8217;s jig to describe
+how a smart programmer reduces the repetitive nature of coding by creating reusable templates or code generators:</p>
+<blockquote>
+&quot;When woodworkers are faced with the task of producing the same thing over and over, they cheat. They build themselves a jig or a template.
+If they get the jig right once, they can reproduce a piece of work time after time. The jig takes away complexity and reduces the chances
+of making mistakes, leaving the craftsman free to concentrate on quality.&quot;</blockquote>
+<p>To be a jig the solution is highly specific and good for one task, for example making a complex cut. At first you might
+want to conflate jigs and design patterns together, because they are both reusable solutions to a problem. Jigs are precise where design
+patterns are generalized. While Hunt and Thomas said jigs are generators, I will use them in the context of helpers, friendly little functions
+or classes that do one thing well. Many of the most popular Javascript libraries started as a collection of jigs. Prototype and JQuery for
+example, were initially just a collection of reusable snippets that acted like speed-boosts, and shortcuts for discrete problems.</p>
+<p>What follows are a collection of jigs that are useful in modern Javascript applications.</p>
+<div class="section" id="self-executing-functions">
+<h2>Self Executing Functions</h2>
+<p>The immediately invoked function expression (IIFE) is one jig you will see various libraries and frameworks use repeatedly. In its most basic form it can be
+written in a couple of ways:</p>
+<pre class="literal-block">
+;(function(){
+    ...
+})();
+
+;!function(){
+    ...
+}();
+
+;-function(){
+    ...
+}();
+
+;+function(){
+    ...
+}();
+
+;~function(){
+    ...
+}();
+
+// Not Recommended
+;void function(){
+    ...
+}();
+
+// Not Recommended
+;delete function(){
+    ...
+}();
+</pre>
+<p>The beauty of the IIFE is that it uses a unary expression to coerce a function declaration, which would normally need to be explicitly called
+into a function expression that can self-execute. Behind the scenes Javascript is running a unary operation on the function declaration, the
+result of that operation is the function expression, which is immediately invoked with the trailing parentheses &quot;()&quot;. Besides being elegant code
+the IIFE also affords the following:</p>
+<ul class="simple">
+<li>It provides a closure which prevents naming conflicts</li>
+<li>It provides elegant block scoping</li>
+<li>It prevents pollution of the global namespace.</li>
+<li>It promotes the developer to think in terms of modular code.</li>
+</ul>
+<p>One other point worth mentioning is the use of the semicolon prepending the statement. Adding this provides a bit of defensive programming
+against other malformed modules that might have a trailing semicolon. If this were just a function declaration it would be absorbed into the
+preceding module. This can often occur when multiple scripts are concatenated together as part of a deploy process. It is highly recommended
+that you follow this convention to protect yourself against mystery bugs in production.</p>
+</div>
+<div class="section" id="modules">
+<h2>Modules</h2>
+<p>Modules are very common is many programming languages, though Javascript doesn&#8217;t have a native representation for them. As such other developers
+have developed a spec for encapsulating your code inside a reusable module. The following code is based off an example in the &quot;Principles of
+Writing Consistent, Idiomatic JavaScript&quot; <a class="footnote-reference" href="#id3" id="id1">[1]</a>.</p>
+<p>There are a couple of elements that should be called out in this jig:</p>
+<ul class="simple">
+<li>We see two different examples of the self executing function jig being used. This is to ensure proper closure around the module itself and the
+initializer function that adds it to the global namespace.</li>
+<li>Invoking this function returns an object with a bound reference to the private variable &quot;data&quot;. This allows the developer to enforce
+the use of getters and setters for access to the data variable.</li>
+</ul>
+<pre class="literal-block">
+;!function(global) {
+  var Module = (function() {
+
+    // Mostly Private Variable
+    var data = 'secret';
+
+    return {
+
+      bool: true,
+      string: 'a string',
+      array: [1, 2, 3, 4],
+      object: {
+        lang: &quot;en-Us&quot;
+      },
+      getData: function() {
+        return data;
+      },
+      setData: function(value) {
+        return (data = value);
+      }
+    };
+  })();
+
+  // expose our module to the global object
+  global.Module = Module;
+
+}(this);
+</pre>
+</div>
+<div class="section" id="safeeval">
+<h2>safeEval</h2>
+<p>The eval function and its siblings setTimeout, setInterval and Function all have access to the Javascript compiler, which means it is a bit
+like running with scissors. Since eval typically does more harm than good people try to work around it as much as possible. This jig does just
+that giving you eval like features without calling the function.</p>
+<pre class="literal-block">
+// A string representation of an a object similar to what you might get with JSON.
+var dataString = '{&quot;foo&quot;:&quot;bar&quot;}';
+
+;!function(global, data){
+
+    // the variable name provided is replaced with the evaluated code.
+    global[data] = new Function(&quot;return&quot; + global[data])()
+}(this, &quot;dataString&quot;);
+
+// dataString is now Object {foo: &quot;bar&quot;}
+</pre>
+</div>
+<div class="section" id="pubsub">
+<h2>PubSub</h2>
+<p>PubSub is short for a publish-subscribe message system, where objects ask to receive messages that are broadcast by publishers. The main
+advantage of PubSub is that the subscribers are loosely coupled allowing just about any object to publish and subscribe to messages. PubSub
+systems also have been proven to scale much nicer that tightly coupled client / server paradigms. This implementation of PubSub was written
+by Ben Alman and can be download from his Github account <a class="footnote-reference" href="#id4" id="id2">[2]</a>. Let&#8217;s take a look at this jig in detail. Again, the first thing you should
+notice is that this jig uses the IIFE jig too (see a pattern yet?). This jig does depend on jQuery for access to the &quot;on&quot;,&quot;off&quot;, and &quot;trigger&quot;
+functions. This jig stores an internal list of subscribers as keys of the internal object &quot;o&quot;. When a message is broadcast all the subscribers
+have the arguments supplied by the publisher transferred to them.</p>
+<pre class="literal-block">
+;(function($) {
+
+  var o = $({});
+
+  $.subscribe = function() {
+    o.on.apply(o, arguments);
+  };
+
+  $.unsubscribe = function() {
+    o.off.apply(o, arguments);
+  };
+
+  $.publish = function() {
+    o.trigger.apply(o, arguments);
+  };
+
+}(jQuery));
+
+// Usage Examples
+// Creates a &quot;named&quot; logging function.
+
+function createLogger(name) {
+  return function(event, a, b) {
+
+    // Skip the first argument (event object) but log the name and other args.
+    console.log(name, a, b);
+  };
+}
+
+// Subscribe to the &quot;foo&quot; topic (bind to the &quot;foo&quot; event, no namespace).
+$.subscribe('foo', createLogger('foo'));
+
+// Subscribe to the &quot;foo.bar&quot; topic (bind to the &quot;foo&quot; event, &quot;bar&quot; namespace).
+$.subscribe('foo.bar', createLogger('foo.bar'));
+
+/*
+ * logs:
+ * foo 1 2
+ * foo.bar 1 2
+ * foo.baz 1 2
+ */
+$.publish('foo', [1, 2]);
+
+/*
+ * logs:
+ * foo.bar 3 4
+ */
+$.publish('foo.bar', [3, 4]);
+</pre>
+</div>
+<div class="section" id="footnotes">
+<h2>Footnotes</h2>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="https://github.com/rwldrn/idiomatic.js/">https://github.com/rwldrn/idiomatic.js/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="https://github.com/cowboy/jquery-tiny-pubsub">https://github.com/cowboy/jquery-tiny-pubsub</a></td></tr>
+</tbody>
+</table>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2364,47 +2596,6 @@ Gives them explicit actions they can take to help your campaign.</p>
 
 
 <p>Seven years ago there was much handwringing around leaving my job to start my own consultancy. That is until my friend told me this quote from John Burroughs. It is a compelling illustration about faith in yourself and that the world values you. It often resurfaces for me when I am mulling over a risky proposition. The best thing about this quote is when properly applied, if the net doesn&#8217;t appear&#8230; well it won&#8217;t hurt long!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/04/thoughts-on-requirement-docs/">Thoughts on Requirement Gathering</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-04T15:10:00-05:00" pubdate data-updated="true">Apr 4<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>Requirement documents should be a recipe not a shopping list.</p></blockquote>
-
-
-<p>This metaphor is my attempt to encapsulate what a good requirements document is. Both a shopping list and a recipe are essentially lists of ingredients in various quantities. However, the recipe also includes a desired outcome and precise descriptions of how the ingredients are meant to be used.</p>
-
-<p>When evaluating a requirement document ask yourself if it gives you a clear understanding of what it is you are being asked to build, and how the independent parts work together. If it doesn&#8217;t do that then, my friend, you are reading a shopping list.</p>
 </div>
   
   
