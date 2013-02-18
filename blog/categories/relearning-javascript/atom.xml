@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Relearning Javascript | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/relearning-javascript/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-02-18T09:09:34-06:00</updated>
+  <updated>2013-02-18T09:21:18-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -245,6 +245,10 @@ $.publish = function() {
    * foo.bar 3 4
    </em>/
   $.publish('foo.bar', [3, 4]);</p>
+
+<p>Your Jigs Go Here
+~~~~~~~~~~~~~~~~~
+Please send me your favorite jigs. I would love to expand this post with more great Jigs.</p>
 
 <p>Footnotes
 ~~~~~~~~~</p>
