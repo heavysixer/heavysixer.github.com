@@ -4,7 +4,7 @@
   <title><![CDATA[Category: CSS | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/css/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-02-18T09:21:18-06:00</updated>
+  <updated>2013-02-21T13:29:37-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,96 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CYA With CSS]]></title>
+    <link href="http://heavysixer.github.com/blog/2013/02/21/cya-with-css/"/>
+    <updated>2013-02-21T12:27:00-06:00</updated>
+    <id>http://heavysixer.github.com/blog/2013/02/21/cya-with-css</id>
+    <content type="html"><![CDATA[<p>Using Design Time Classes To Polish Your Product
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
+
+<p>This post is dedicated to <em>CYA</em> with <em>CSS</em>; for the uninitiated CYA means "cover your ass", and I assume that anyone reading my blog already
+knows what CSS is. Just as you can craft the JavaScript on your website to act defensively against unforeseen errors, so too can you use
+CSS at the design stage to ensure you don't end up with egg on your face post-launch.</p>
+
+<p>A while back, I was viewing the Github's source code (man I sound like such a nerd), and I noticed these classes added to their body
+tags: "<em>logged_in page-dashboard macintosh  env-production</em>". Several of these classes are obviously progressive enhancement style
+additions meant to change the layout / features of the page based on the visitor's browser. In my own sites I often include the controller
+and action params into the body tag so that I can scope my JavaScript and CSS executions. Doing this provides a convenient way to namespace
+your CSS and JS, without having to worry about polluting the global namespace.</p>
+
+<p>However one of Github additions stuck out at me "env-production".
+I have to imagine that <code>Kyle Neath &lt;http://http://warpspire.com/&gt;</code>_ was the one who added this to the page, and that he did it because
+he's wants the site to render differently based on the runtime environment of the sever.</p>
+
+<p>I thought about the possibilities of this technique and figured out that there are probably a whole host of ways to use these
+<strong>design time classes</strong>. The use of which would help ensure a polished final project. Here are just a couple of examples of how you
+might use them:</p>
+
+<ol>
+<li>If you are using a specific grid layout you could set an image to appear as a <code>background-image</code> of the body. Doing this would
+ensure your page conforms the the correct visual spacing and vertical rhythm. I know that "Blueprint CSS" used to have something like
+this back in the day. It might look something like this:</li>
+</ol>
+
+
+<p>.. code-block:: css</p>
+
+<p>  body.env-development {</p>
+
+<pre><code>background: url('/assets/grid.png') no-repeat scroll top left !important;
+</code></pre>
+
+<p>  }</p>
+
+<ol>
+<li>Often as developers we'll mock in a bit of functionality that the design calls for with the intention of making it work later.
+Unfortunately, this can mean that dead links get deployed. Here is how you could use a CSS selector and a design time class to
+color code all the links <em>without</em> a href attribute. This example adds a gaudy eye-searing color to all the dead links, to ensure you
+fix it before you deploy into production.</li>
+</ol>
+
+
+<p>.. code-block:: css</p>
+
+<p>  body.env-development {</p>
+
+<pre><code>a:not([href]) {
+  color:#00FF00 !important;
+  background-color:#ff00ff !important; 
+}
+</code></pre>
+
+<p>  }</p>
+
+<p>The best thing about design time classes is that because they are properly scoped to the body they just <em>disappear</em> in the production
+environment. This means you don't have to worry about them being seen by the end user.</p>
+
+<p>If you are using Rails it's a pretty straight forward process to get these classes into your application.</p>
+
+<p>.. code-block:: haml</p>
+
+<p>  %body{ :class => "#{app_classes}" }</p>
+
+<p>In your application helper you'd add something like this:</p>
+
+<p>.. code-block:: ruby</p>
+
+<p>  def app_classes</p>
+
+<pre><code>"#{Rails.env} #{params[:controller].gsub('/',' ')} #{params[:action]}"
+</code></pre>
+
+<p>  end</p>
+
+<p>More To Come
+~~~~~~~~~~~~</p>
+
+<p>Do you use Design time classes? If so what are they, share them in the comments or as a gist and maybe we can develop a nice resource
+of helpful snippets for others.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[CSS Anti-patterns]]></title>

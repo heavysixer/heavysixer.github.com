@@ -9,8 +9,8 @@
   <meta name="author" content="Mark Daggett">
 
   
-  <meta name="description" content="A Deep Dive into Javascript Functions
-Based on my readership I have to assume most of you are familiar with Javascript already. Therefore, it may &hellip;">
+  <meta name="description" content="A Deep Dive into JavaScript Functions
+Based on my readership I have to assume most of you are familiar with JavaScript already. Therefore, it may &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -103,25 +103,25 @@ Based on my readership I have to assume most of you are familiar with Javascript
 
 
 <div class="entry-content"><div class="section" id="a-deep-dive-into-javascript-functions">
-<h2>A Deep Dive into Javascript Functions</h2>
-<p>Based on my readership I have to assume most of you are familiar with Javascript already. Therefore, it may seem odd to include a post on functions. After all, they are
-one of the most rudimentary components of Javascript. My assertion is this, just as a person can speak a language without the ability to read
-or write it, so too can developers use functions in Javascript and yet be blissfully unaware of their complexities.</p>
+<h2>A Deep Dive into JavaScript Functions</h2>
+<p>Based on my readership I have to assume most of you are familiar with JavaScript already. Therefore, it may seem odd to include a post on functions. After all, they are
+one of the most rudimentary components of JavaScript. My assertion is this, just as a person can speak a language without the ability to read
+or write it, so too can developers use functions in JavaScript and yet be blissfully unaware of their complexities.</p>
 <p>Typically developers only become aware of the specifics of functions when something they wrote explodes in their face. My goal in this section
-is to expose the intricacies of Javascript functions to you, which will hopefully save you from having to pull syntactic shrapnel from your
+is to expose the intricacies of JavaScript functions to you, which will hopefully save you from having to pull syntactic shrapnel from your
 codebase.</p>
-<p>A word of caution before we begin; Javascript is only as good as its interpreter. While the concepts we&#8217;ll consider are well-covered in
+<p>A word of caution before we begin; JavaScript is only as good as its interpreter. While the concepts we&#8217;ll consider are well-covered in
 the language spec, it does not mean that all runtime environments will work the same way. In other words your milage may vary. This section will
-discuss common misconceptions of Javascript functions, and the silent bugs they introduce. However, debugging functions in detail is not
-covered. Fortunately, debugging has been documented by others in the Javascript community especially in Juriy Zaytsev&#8217;s excellent article &quot;Named
+discuss common misconceptions of JavaScript functions, and the silent bugs they introduce. However, debugging functions in detail is not
+covered. Fortunately, debugging has been documented by others in the JavaScript community especially in Juriy Zaytsev&#8217;s excellent article &quot;Named
 Function Expressions Demystified&quot; <a class="footnote-reference" href="#id2" id="id1">[1]</a>.</p>
 </div>
 <div class="section" id="blocks-in-javascript">
-<h2>Blocks in Javascript</h2>
-<p>Before we can understand functions in Javascript we have to understand blocks. Javascript blocks are nothing more than statements grouped
+<h2>Blocks in JavaScript</h2>
+<p>Before we can understand functions in JavaScript we have to understand blocks. JavaScript blocks are nothing more than statements grouped
 together. Blocks start with a left curly bracket &quot;{&quot; and end with a right one &quot;}&quot;. Simply put, <strong>blocks allow statements inside the brackets
-to be executed together</strong>. Blocks form the most basic control structure in Javascript. The following are a few examples of how blocks in
-Javascript:</p>
+to be executed together</strong>. Blocks form the most basic control structure in JavaScript. The following are a few examples of how blocks in
+JavaScript:</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -200,10 +200,10 @@ Javascript:</p>
 </span></code></pre></td></tr></table></div></figure></div>
 <div class="section" id="function-arguments">
 <h2>Function Arguments</h2>
-<p>Functions like control flow statements (if, for, while etc.) can be initialized by passing arguments into the function body. In Javascript
+<p>Functions like control flow statements (if, for, while etc.) can be initialized by passing arguments into the function body. In JavaScript
 variables are either a <strong>complex type</strong> (e.g. Object, Array) or a <strong>primitive type</strong> (e.g. String, Integer). When a complex object is supplied
-as an argument it is <strong>passed by reference</strong> to the function body. Instead of sending a copy of the variable, Javascript sends a pointer to its
-location in memory. Conversely, when passing a primitive type to a function Javascript <strong>passes by value</strong>. This difference can lead to subtle bugs
+as an argument it is <strong>passed by reference</strong> to the function body. Instead of sending a copy of the variable, JavaScript sends a pointer to its
+location in memory. Conversely, when passing a primitive type to a function JavaScript <strong>passes by value</strong>. This difference can lead to subtle bugs
 because conceptually we often treat functions as a black box, and assume they can only effect the enclosing scope by returning a variable.
 With pass by reference, the argument object is modified even though it may not returned by the function. Pass by reference and pass by value
 are demonstrated below:</p>
@@ -251,7 +251,7 @@ are demonstrated below:</p>
 <div class="section" id="function-types">
 <h2>Function Types</h2>
 <p>Now that we have a better understanding of blocks, and arguments lets dive deeper into <strong>Function Declaration</strong> and <strong>Function Expression</strong>,
-the two types of functions used in Javascript. To the casual reader the two appear very similar:</p>
+the two types of functions used in JavaScript. To the casual reader the two appear very similar:</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -271,7 +271,7 @@ the two types of functions used in Javascript. To the casual reader the two appe
 </span><span class="line">    <span class="k">return</span> <span class="nx">cake</span> <span class="o">===</span> <span class="kc">true</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure><p>The only real difference between the two, is when they are evaluated. A function declaration can be accessed by the interpreter as it is being
-parsed. The function expression on the other hand is part of an assignment expression, which prevents Javascript from evaluating it until the
+parsed. The function expression on the other hand is part of an assignment expression, which prevents JavaScript from evaluating it until the
 program has completed the assignment. This difference may seem minor, but implications are huge; consider the following example:</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -300,13 +300,13 @@ program has completed the assignment. This difference may seem minor, but implic
 </span><span class="line">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hi, I&#39;m a function expression!&quot;</span><span class="p">);</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure><p>As you can see in the previous example the <em>expression</em> function threw an exception when it was invoked, but the <em>declaration</em> function
-executed just fine. This exception gets to the heart of the difference between declaration and expression functions. Javascript <em>knows</em>
+executed just fine. This exception gets to the heart of the difference between declaration and expression functions. JavaScript <em>knows</em>
 about declaration function and can parse it before the program executes. Therefore, it doesn&#8217;t matter if the program invokes the function
-before it is defined. This is because behind the scenes Javascript has <em>hoisted</em> the function to the top of the current scope. The function
+before it is defined. This is because behind the scenes JavaScript has <em>hoisted</em> the function to the top of the current scope. The function
 expression is not evaluated until it is assigned to a variable; therefore it is still <em>undefined</em> when invoked. This is why good code style is
-to define all variables at the top of the current scope. Had we done this then our script would visually match what Javascript is doing during
+to define all variables at the top of the current scope. Had we done this then our script would visually match what JavaScript is doing during
 parsetime.</p>
-<p>The concept to take away is that <strong>during parsetime Javascript moves all function declarations to the top of the current scope</strong>. This is why
+<p>The concept to take away is that <strong>during parsetime JavaScript moves all function declarations to the top of the current scope</strong>. This is why
 it doesn&#8217;t matter where declarative functions appear in the script body.</p>
 <p>To further explore the distinctions between declarations and expressions, consider the following:</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -336,7 +336,7 @@ it doesn&#8217;t matter where declarative functions appear in the script body.</
 </span><span class="line"><span class="c1">// =&gt; &#39;hello&#39;</span>
 </span><span class="line"><span class="nx">sayHi</span><span class="p">();</span>
 </span></code></pre></td></tr></table></div></figure><p>Casually reading this code, one might assume that the declaration function would get clobbered because it function expression has an identical
-name. However, since the second function is part of an assignment expression it is given its own scope, and Javascript treats them as seperate
+name. However, since the second function is part of an assignment expression it is given its own scope, and JavaScript treats them as seperate
 entities. To make things even more confusing look at this example:</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -409,7 +409,7 @@ declaration. In this example we are attempting to conditionally define the funct
 control flow you&#8217;d expect <em>sayHey</em> to return &quot;hey&quot; since the conditional statement evaluates true. Instead it returns &quot;no&quot;, meaning the second
 version of the <em>sayHey</em> function clobbered the first. Even more confusing is that the <em>sayHo</em> function behaves the opposite way! Again, the
 difference comes down to parsetime versus runtime.</p>
-<p>We already learned that when Javascript parses the script it collects all of the function declarations and hoists them to the top of the current
+<p>We already learned that when JavaScript parses the script it collects all of the function declarations and hoists them to the top of the current
 scope. When this happens it clobbers the first version of <em>sayHey</em> with the second because they exist in the same scope. This explains why
 it returns &quot;no.&quot; We also know that function expressions are ignored by the parser until the assignment process completes. Assignment happens
 during runtime, which is also when the conditional statement is evaluated. That explains why the <em>sayHo</em> function was able to be conditionally
@@ -418,7 +418,7 @@ Furthermore, <strong>function declarations should NEVER be made inside a control
 </div>
 <div class="section" id="function-scopes">
 <h2>Function Scopes</h2>
-<p>Unlike many other languages which are scoped to the block, Javascript is scoped to the function. In Ruby (version 1.9.+) you can write this:</p>
+<p>Unlike many other languages which are scoped to the block, JavaScript is scoped to the function. In Ruby (version 1.9.+) you can write this:</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -437,7 +437,7 @@ Furthermore, <strong>function declarations should NEVER be made inside a control
 </span><span class="line">
 </span><span class="line"><span class="err">#</span> <span class="o">=&gt;</span> <span class="mi">20</span>
 </span><span class="line"><span class="nx">puts</span> <span class="nx">x</span>
-</span></code></pre></td></tr></table></div></figure><p>What this demonstrates is that each block gets its own scope. Conversely, if we wrote similar code in Javascript:</p>
+</span></code></pre></td></tr></table></div></figure><p>What this demonstrates is that each block gets its own scope. Conversely, if we wrote similar code in JavaScript:</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -480,13 +480,13 @@ Furthermore, <strong>function declarations should NEVER be made inside a control
 </span><span class="line">
 </span><span class="line"><span class="c1">// =&gt; 10</span>
 </span><span class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure><p>In Javascript <em>x</em> is available inside the for loop, because as a control statement it belongs to the enclosing scope. This is not intuitive to
-many developers used to block level scope. Javascript handles the need of block level scope at least partially through the use of closures
+</span></code></pre></td></tr></table></div></figure><p>In JavaScript <em>x</em> is available inside the for loop, because as a control statement it belongs to the enclosing scope. This is not intuitive to
+many developers used to block level scope. JavaScript handles the need of block level scope at least partially through the use of closures
 which we&#8217;ll discuss later.</p>
 </div>
 <div class="section" id="debugging-functions">
 <h2>Debugging Functions</h2>
-<p>Before we wrap this topic up, lets briefly touch on debugging functions. In Javascript naming a function expression is completely optional;
+<p>Before we wrap this topic up, lets briefly touch on debugging functions. In JavaScript naming a function expression is completely optional;
 so why do it? The answer is to aid the debugging process. Named function expressions have access to their name within the newly defined scope,
 but not in the enclosing scope. Without a name their anonymous nature can make them feel a bit like ghosts in the machine when it comes to
 debugging.</p>
@@ -583,7 +583,7 @@ expression gives you clarity when trying to unwind an exception whose call stack
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/javascript/'>Javascript</a>, <a class='category' href='/blog/categories/relearning-javascript/'>Relearning Javascript</a>
+    <a class='category' href='/blog/categories/javascript/'>JavaScript</a>, <a class='category' href='/blog/categories/relearning-javascript/'>Relearning JavaScript</a>
   
 </span>
 
@@ -601,10 +601,10 @@ expression gives you clarity when trying to unwind an exception whose call stack
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/02/15/pragmatic-javascript-style/" title="Previous Post: Pragmatic Javascript Style">&laquo; Pragmatic Javascript Style</a>
+        <a class="basic-alignment left" href="/blog/2013/02/15/pragmatic-javascript-style/" title="Previous Post: Pragmatic JavaScript Style">&laquo; Pragmatic JavaScript Style</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/02/18/javascript-jigs/" title="next Post: Javascript Jigs">Javascript Jigs &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2013/02/18/javascript-jigs/" title="next Post: JavaScript Jigs">JavaScript Jigs &raquo;</a>
       
     </p>
   </footer>

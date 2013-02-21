@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Javascript Jigs - Mark Daggett's Blog</title>
+  <title>JavaScript Jigs - Mark Daggett's Blog</title>
   <meta name="author" content="Mark Daggett">
 
   
-  <meta name="description" content="In the excellent book &quot;The Pragmatic Programmer: From Journeyman to Mater&quot; Hunt and Thomas use the metaphor of a wood worker&#8217;s jig to &hellip;">
+  <meta name="description" content="In the excellent book &quot;The Pragmatic Programmer: From Journeyman to Master&quot; Hunt and Thomas use the metaphor of a wood worker&#8217;s jig &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,7 +78,7 @@
   
   <header>
     
-      <h1 class="entry-title">Javascript Jigs</h1>
+      <h1 class="entry-title">JavaScript Jigs</h1>
     
     
       <p class="meta">
@@ -101,7 +101,7 @@
   </header>
 
 
-<div class="entry-content"><p>In the excellent book &quot;The Pragmatic Programmer: From Journeyman to Mater&quot; Hunt and Thomas use the metaphor of a wood worker&#8217;s jig to describe
+<div class="entry-content"><p>In the excellent book &quot;The Pragmatic Programmer: From Journeyman to Master&quot; Hunt and Thomas use the metaphor of a wood worker&#8217;s jig to describe
 how a smart programmer reduces the repetitive nature of coding by creating reusable templates or code generators:</p>
 <blockquote>
 &quot;When woodworkers are faced with the task of producing the same thing over and over, they cheat. They build themselves a jig or a template.
@@ -110,46 +110,73 @@ of making mistakes, leaving the craftsman free to concentrate on quality.&quot;<
 <p>To be a jig the solution is highly specific and good for one task, for example making a complex cut. At first you might
 want to conflate jigs and design patterns together, because they are both reusable solutions to a problem. Jigs are precise where design
 patterns are generalized. While Hunt and Thomas said jigs are generators, I will use them in the context of helpers, friendly little functions
-or classes that do one thing well. Many of the most popular Javascript libraries started as a collection of jigs. Prototype and JQuery for
+or classes that do one thing well. Many of the most popular JavaScript libraries started as a collection of jigs. Prototype and JQuery for
 example, were initially just a collection of reusable snippets that acted like speed-boosts, and shortcuts for discrete problems.</p>
-<p>What follows are a collection of jigs that are useful in modern Javascript applications.</p>
+<p>What follows are a collection of jigs that are useful in modern JavaScript applications.</p>
 <div class="section" id="self-executing-functions">
 <h2>Self Executing Functions</h2>
 <p>The immediately invoked function expression (IIFE) is one jig you will see various libraries and frameworks use repeatedly. In its most basic form it can be
-written in a couple of ways:</p>
-<pre class="literal-block">
-;(function(){
-    ...
-})();
-
-;!function(){
-    ...
-}();
-
-;-function(){
-    ...
-}();
-
-;+function(){
-    ...
-}();
-
-;~function(){
-    ...
-}();
-
-// Not Recommended
-;void function(){
-    ...
-}();
-
-// Not Recommended
-;delete function(){
-    ...
-}();
-</pre>
-<p>The beauty of the IIFE is that it uses a unary expression to coerce a function declaration, which would normally need to be explicitly called
-into a function expression that can self-execute. Behind the scenes Javascript is running a unary operation on the function declaration, the
+written in a couple of ways</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="p">;(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">})();</span>
+</span><span class="line">
+</span><span class="line"><span class="p">;</span><span class="o">!</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">}();</span>
+</span><span class="line">
+</span><span class="line"><span class="p">;</span><span class="o">-</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">}();</span>
+</span><span class="line">
+</span><span class="line"><span class="p">;</span><span class="o">+</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">}();</span>
+</span><span class="line">
+</span><span class="line"><span class="p">;</span><span class="o">~</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">}();</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Not Recommended</span>
+</span><span class="line"><span class="p">;</span><span class="k">void</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">}();</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Not Recommended</span>
+</span><span class="line"><span class="p">;</span><span class="k">delete</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">}();</span>
+</span></code></pre></td></tr></table></div></figure><p>The beauty of the IIFE is that it uses a unary expression to coerce a function declaration, which would normally need to be explicitly called
+into a function expression that can self-execute. Behind the scenes JavaScript is running a unary operation on the function declaration, the
 result of that operation is the function expression, which is immediately invoked with the trailing parentheses &quot;()&quot;. Besides being elegant code
 the IIFE also affords the following:</p>
 <ul class="simple">
@@ -165,7 +192,7 @@ that you follow this convention to protect yourself against mystery bugs in prod
 </div>
 <div class="section" id="modules">
 <h2>Modules</h2>
-<p>Modules are very common is many programming languages, though Javascript doesn&#8217;t have a native representation for them. As such other developers
+<p>Modules are very common is many programming languages, though JavaScript doesn&#8217;t have a native representation for them. As such other developers
 have developed a spec for encapsulating your code inside a reusable module. The following code is based off an example in the &quot;Principles of
 Writing Consistent, Idiomatic JavaScript&quot; <a class="footnote-reference" href="#id3" id="id1">[1]</a>.</p>
 <p>There are a couple of elements that should be called out in this jig:</p>
@@ -175,54 +202,87 @@ initializer function that adds it to the global namespace.</li>
 <li>Invoking this function returns an object with a bound reference to the private variable &quot;data&quot;. This allows the developer to enforce
 the use of getters and setters for access to the data variable.</li>
 </ul>
-<pre class="literal-block">
-;!function(global) {
-  var Module = (function() {
-
-    // Mostly Private Variable
-    var data = 'secret';
-
-    return {
-
-      bool: true,
-      string: 'a string',
-      array: [1, 2, 3, 4],
-      object: {
-        lang: &quot;en-Us&quot;
-      },
-      getData: function() {
-        return data;
-      },
-      setData: function(value) {
-        return (data = value);
-      }
-    };
-  })();
-
-  // expose our module to the global object
-  global.Module = Module;
-
-}(this);
-</pre>
-</div>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="p">;</span><span class="o">!</span><span class="kd">function</span><span class="p">(</span><span class="nx">global</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">  <span class="kd">var</span> <span class="nx">Module</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1">// Mostly Private Variable</span>
+</span><span class="line">    <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="s1">&#39;secret&#39;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">return</span> <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">      <span class="nx">bool</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class="line">      <span class="nx">string</span><span class="o">:</span> <span class="s1">&#39;a string&#39;</span><span class="p">,</span>
+</span><span class="line">      <span class="nx">array</span><span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+</span><span class="line">      <span class="nx">object</span><span class="o">:</span> <span class="p">{</span>
+</span><span class="line">        <span class="nx">lang</span><span class="o">:</span> <span class="s2">&quot;en-Us&quot;</span>
+</span><span class="line">      <span class="p">},</span>
+</span><span class="line">      <span class="nx">getData</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="nx">data</span><span class="p">;</span>
+</span><span class="line">      <span class="p">},</span>
+</span><span class="line">      <span class="nx">setData</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="p">(</span><span class="nx">data</span> <span class="o">=</span> <span class="nx">value</span><span class="p">);</span>
+</span><span class="line">      <span class="p">}</span>
+</span><span class="line">    <span class="p">};</span>
+</span><span class="line">  <span class="p">})();</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1">// expose our module to the global object</span>
+</span><span class="line">  <span class="nx">global</span><span class="p">.</span><span class="nx">Module</span> <span class="o">=</span> <span class="nx">Module</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="p">}(</span><span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></div>
 <div class="section" id="safeeval">
 <h2>safeEval</h2>
-<p>The eval function and its siblings setTimeout, setInterval and Function all have access to the Javascript compiler, which means it is a bit
+<p>The eval function and its siblings setTimeout, setInterval and Function all have access to the JavaScript compiler, which means it is a bit
 like running with scissors. Since eval typically does more harm than good people try to work around it as much as possible. This jig does just
 that giving you eval like features without calling the function.</p>
-<pre class="literal-block">
-// A string representation of an a object similar to what you might get with JSON.
-var dataString = '{&quot;foo&quot;:&quot;bar&quot;}';
-
-;!function(global, data){
-
-    // the variable name provided is replaced with the evaluated code.
-    global[data] = new Function(&quot;return&quot; + global[data])()
-}(this, &quot;dataString&quot;);
-
-// dataString is now Object {foo: &quot;bar&quot;}
-</pre>
-</div>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// A string representation of an a object similar to what you might get with JSON.</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">dataString</span> <span class="o">=</span> <span class="s1">&#39;{&quot;foo&quot;:&quot;bar&quot;}&#39;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="p">;</span><span class="o">!</span><span class="kd">function</span><span class="p">(</span><span class="nx">global</span><span class="p">,</span> <span class="nx">data</span><span class="p">){</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1">// the variable name provided is replaced with the evaluated code.</span>
+</span><span class="line">    <span class="nx">global</span><span class="p">[</span><span class="nx">data</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s2">&quot;return&quot;</span> <span class="o">+</span> <span class="nx">global</span><span class="p">[</span><span class="nx">data</span><span class="p">])()</span>
+</span><span class="line"><span class="p">}(</span><span class="k">this</span><span class="p">,</span> <span class="s2">&quot;dataString&quot;</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// dataString is now Object {foo: &quot;bar&quot;}</span>
+</span></code></pre></td></tr></table></div></figure></div>
 <div class="section" id="pubsub">
 <h2>PubSub</h2>
 <p>PubSub is short for a publish-subscribe message system, where objects ask to receive messages that are broadcast by publishers. The main
@@ -232,57 +292,103 @@ by Ben Alman and can be download from his Github account <a class="footnote-refe
 notice is that this jig uses the IIFE jig too (see a pattern yet?). This jig does depend on jQuery for access to the &quot;on&quot;,&quot;off&quot;, and &quot;trigger&quot;
 functions. This jig stores an internal list of subscribers as keys of the internal object &quot;o&quot;. When a message is broadcast all the subscribers
 have the arguments supplied by the publisher transferred to them.</p>
-<pre class="literal-block">
-;(function($) {
-
-  var o = $({});
-
-  $.subscribe = function() {
-    o.on.apply(o, arguments);
-  };
-
-  $.unsubscribe = function() {
-    o.off.apply(o, arguments);
-  };
-
-  $.publish = function() {
-    o.trigger.apply(o, arguments);
-  };
-
-}(jQuery));
-
-// Usage Examples
-// Creates a &quot;named&quot; logging function.
-
-function createLogger(name) {
-  return function(event, a, b) {
-
-    // Skip the first argument (event object) but log the name and other args.
-    console.log(name, a, b);
-  };
-}
-
-// Subscribe to the &quot;foo&quot; topic (bind to the &quot;foo&quot; event, no namespace).
-$.subscribe('foo', createLogger('foo'));
-
-// Subscribe to the &quot;foo.bar&quot; topic (bind to the &quot;foo&quot; event, &quot;bar&quot; namespace).
-$.subscribe('foo.bar', createLogger('foo.bar'));
-
-/*
- * logs:
- * foo 1 2
- * foo.bar 1 2
- * foo.baz 1 2
- */
-$.publish('foo', [1, 2]);
-
-/*
- * logs:
- * foo.bar 3 4
- */
-$.publish('foo.bar', [3, 4]);
-</pre>
-</div>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="p">;(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">  <span class="kd">var</span> <span class="nx">o</span> <span class="o">=</span> <span class="nx">$</span><span class="p">({});</span>
+</span><span class="line">
+</span><span class="line">  <span class="nx">$</span><span class="p">.</span><span class="nx">subscribe</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">o</span><span class="p">.</span><span class="nx">on</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+</span><span class="line">  <span class="p">};</span>
+</span><span class="line">
+</span><span class="line">  <span class="nx">$</span><span class="p">.</span><span class="nx">unsubscribe</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">o</span><span class="p">.</span><span class="nx">off</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+</span><span class="line">  <span class="p">};</span>
+</span><span class="line">
+</span><span class="line">  <span class="nx">$</span><span class="p">.</span><span class="nx">publish</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">o</span><span class="p">.</span><span class="nx">trigger</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+</span><span class="line">  <span class="p">};</span>
+</span><span class="line">
+</span><span class="line"><span class="p">}(</span><span class="nx">jQuery</span><span class="p">));</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Usage Examples</span>
+</span><span class="line"><span class="c1">// Creates a &quot;named&quot; logging function.</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">function</span> <span class="nx">createLogger</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">  <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1">// Skip the first argument (event object) but log the name and other args.</span>
+</span><span class="line">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">);</span>
+</span><span class="line">  <span class="p">};</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Subscribe to the &quot;foo&quot; topic (bind to the &quot;foo&quot; event, no namespace).</span>
+</span><span class="line"><span class="nx">$</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="nx">createLogger</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">));</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Subscribe to the &quot;foo.bar&quot; topic (bind to the &quot;foo&quot; event, &quot;bar&quot; namespace).</span>
+</span><span class="line"><span class="nx">$</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s1">&#39;foo.bar&#39;</span><span class="p">,</span> <span class="nx">createLogger</span><span class="p">(</span><span class="s1">&#39;foo.bar&#39;</span><span class="p">));</span>
+</span><span class="line">
+</span><span class="line"><span class="cm">/*</span>
+</span><span class="line"><span class="cm"> * logs:</span>
+</span><span class="line"><span class="cm"> * foo 1 2</span>
+</span><span class="line"><span class="cm"> * foo.bar 1 2</span>
+</span><span class="line"><span class="cm"> * foo.baz 1 2</span>
+</span><span class="line"><span class="cm"> */</span>
+</span><span class="line"><span class="nx">$</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]);</span>
+</span><span class="line">
+</span><span class="line"><span class="cm">/*</span>
+</span><span class="line"><span class="cm"> * logs:</span>
+</span><span class="line"><span class="cm"> * foo.bar 3 4</span>
+</span><span class="line"><span class="cm"> */</span>
+</span><span class="line"><span class="nx">$</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s1">&#39;foo.bar&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure></div>
 <div class="section" id="your-jigs-go-here">
 <h2>Your Jigs Go Here</h2>
 <p>Please send me your favorite jigs. I would love to expand this post with more great Jigs.</p>
@@ -330,7 +436,7 @@ $.publish('foo.bar', [3, 4]);
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/javascript/'>Javascript</a>, <a class='category' href='/blog/categories/relearning-javascript/'>Relearning Javascript</a>
+    <a class='category' href='/blog/categories/javascript/'>JavaScript</a>, <a class='category' href='/blog/categories/relearning-javascript/'>Relearning JavaScript</a>
   
 </span>
 
@@ -350,6 +456,8 @@ $.publish('foo.bar', [3, 4]);
       
         <a class="basic-alignment left" href="/blog/2013/02/15/functions-explained/" title="Previous Post: Functions Explained">&laquo; Functions Explained</a>
       
+      
+        <a class="basic-alignment right" href="/blog/2013/02/21/cya-with-css/" title="next Post: CYA With CSS">CYA With CSS &raquo;</a>
       
     </p>
   </footer>

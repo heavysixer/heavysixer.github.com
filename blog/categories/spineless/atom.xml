@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Spineless | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/spineless/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-02-18T09:21:18-06:00</updated>
+  <updated>2013-02-21T13:29:37-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -18,7 +18,7 @@
     <link href="http://heavysixer.github.com/blog/2012/06/24/spineless-0-dot-2-1-released/"/>
     <updated>2012-06-24T14:43:00-05:00</updated>
     <id>http://heavysixer.github.com/blog/2012/06/24/spineless-0-dot-2-1-released</id>
-    <content type="html"><![CDATA[<p>I have just pushed a new release of my Javascript application framework called Spineless. Spineless is a simple MVC stack without the need of a backbone.
+    <content type="html"><![CDATA[<p>I have just pushed a new release of my JavaScript application framework called Spineless. Spineless is a simple MVC stack without the need of a backbone.
 <a href="https://github.com/heavysixer/spineless">https://github.com/heavysixer/spineless</a></p>
 
 <p>The goal of Spineless is to provide "just enough framework" to succeed. If I have done my job, you should be able to write your first Spineless app in less than 10 minutes.</p>
@@ -38,7 +38,7 @@ with the project inside the /lib directory.</p>
 <p>Like any good MVC framework Spineless uses the concept of models, controllers and views.</p>
 
 <ol>
-<li>Spineless models are essentially Javascript objects and completely optional.</li>
+<li>Spineless models are essentially JavaScript objects and completely optional.</li>
 <li>Controllers are used to marshall commands from the views to the models where needed.</li>
 <li>Views are the visual interface that the user sees.</li>
 </ol>
@@ -93,7 +93,7 @@ Consider the following example:</p>
 
 <p>```</p>
 
-<p>If you want to manually trigger a route request from within Javascript you can call the <code>get</code> function:</p>
+<p>If you want to manually trigger a route request from within JavaScript you can call the <code>get</code> function:</p>
 
 <p>```javascript</p>
 

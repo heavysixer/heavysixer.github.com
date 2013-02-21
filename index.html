@@ -9,7 +9,8 @@
   <meta name="author" content="Mark Daggett">
 
   
-  <meta name="description" content="In the excellent book &quot;The Pragmatic Programmer: From Journeyman to Mater&quot; Hunt and Thomas use the metaphor of a wood worker&#8217;s jig to &hellip;">
+  <meta name="description" content="Using Design Time Classes To Polish Your Product
+This post is dedicated to CYA with CSS; for the uninitiated CYA means &quot;cover your ass&quot;, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,7 +82,102 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/02/18/javascript-jigs/">Javascript Jigs</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/02/21/cya-with-css/">CYA With CSS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-21T12:27:00-06:00" pubdate data-updated="true">Feb 21<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class="section" id="using-design-time-classes-to-polish-your-product">
+<h2>Using Design Time Classes To Polish Your Product</h2>
+<p>This post is dedicated to <em>CYA</em> with <em>CSS</em>; for the uninitiated CYA means &quot;cover your ass&quot;, and I assume that anyone reading my blog already
+knows what CSS is. Just as you can craft the JavaScript on your website to act defensively against unforeseen errors, so too can you use
+CSS at the design stage to ensure you don&#8217;t end up with egg on your face post-launch.</p>
+<p>A while back, I was viewing the Github&#8217;s source code (man I sound like such a nerd), and I noticed these classes added to their body
+tags: &quot;<em>logged_in page-dashboard macintosh  env-production</em>&quot;. Several of these classes are obviously progressive enhancement style
+additions meant to change the layout / features of the page based on the visitor&#8217;s browser. In my own sites I often include the controller
+and action params into the body tag so that I can scope my JavaScript and CSS executions. Doing this provides a convenient way to namespace
+your CSS and JS, without having to worry about polluting the global namespace.</p>
+<p>However one of Github additions stuck out at me &quot;env-production&quot;.
+I have to imagine that <a class="reference external" href="http://http://warpspire.com/">Kyle Neath</a> was the one who added this to the page, and that he did it because
+he&#8217;s wants the site to render differently based on the runtime environment of the sever.</p>
+<p>I thought about the possibilities of this technique and figured out that there are probably a whole host of ways to use these
+<strong>design time classes</strong>. The use of which would help ensure a polished final project. Here are just a couple of examples of how you
+might use them:</p>
+<p>1. If you are using a specific grid layout you could set an image to appear as a <cite>background-image</cite> of the body. Doing this would
+ensure your page conforms the the correct visual spacing and vertical rhythm. I know that &quot;Blueprint CSS&quot; used to have something like
+this back in the day. It might look something like this:</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="css"><span class="line"><span class="nt">body</span><span class="nc">.env-development</span> <span class="p">{</span>
+</span><span class="line">  <span class="k">background</span><span class="o">:</span> <span class="sx">url(&#39;/assets/grid.png&#39;)</span> <span class="k">no-repeat</span> <span class="k">scroll</span> <span class="k">top</span> <span class="k">left</span> <span class="cp">!important</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure><p>2. Often as developers we&#8217;ll mock in a bit of functionality that the design calls for with the intention of making it work later.
+Unfortunately, this can mean that dead links get deployed. Here is how you could use a CSS selector and a design time class to
+color code all the links <em>without</em> a href attribute. This example adds a gaudy eye-searing color to all the dead links, to ensure you
+fix it before you deploy into production.</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="css"><span class="line"><span class="nt">body</span><span class="nc">.env-development</span> <span class="p">{</span>
+</span><span class="line">  <span class="n">a</span><span class="o">:</span><span class="n">not</span><span class="p">([</span><span class="n">href</span><span class="p">])</span> <span class="err">{</span>
+</span><span class="line">    <span class="k">color</span><span class="o">:</span><span class="m">#00FF00</span> <span class="cp">!important</span><span class="p">;</span>
+</span><span class="line">    <span class="k">background-color</span><span class="o">:</span><span class="m">#ff00ff</span> <span class="cp">!important</span><span class="p">;</span>
+</span><span class="line">  <span class="p">}</span>
+</span><span class="line"><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure><p>The best thing about design time classes is that because they are properly scoped to the body they just <em>disappear</em> in the production
+environment. This means you don&#8217;t have to worry about them being seen by the end user.</p>
+<p>If you are using Rails it&#8217;s a pretty straight forward process to get these classes into your application.</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="haml"><span class="line"><span class="nt">%body</span><span class="p">{</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">app_classes</span><span class="si">}</span>&quot; }
+</span></code></pre></td></tr></table></div></figure><p>In your application helper you&#8217;d add something like this:</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">app_classes</span>
+</span><span class="line">  <span class="s2">&quot;</span><span class="si">#{</span><span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">params</span><span class="o">[</span><span class="ss">:controller</span><span class="o">].</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">params</span><span class="o">[</span><span class="ss">:action</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></div>
+<div class="section" id="more-to-come">
+<h2>More To Come</h2>
+<p>Do you use Design time classes? If so what are they, share them in the comments or as a gist and maybe we can develop a nice resource
+of helpful snippets for others.</p>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/18/javascript-jigs/">JavaScript Jigs</a></h1>
     
     
       <p class="meta">
@@ -104,7 +200,7 @@
   </header>
 
 
-  <div class="entry-content"><p>In the excellent book &quot;The Pragmatic Programmer: From Journeyman to Mater&quot; Hunt and Thomas use the metaphor of a wood worker&#8217;s jig to describe
+  <div class="entry-content"><p>In the excellent book &quot;The Pragmatic Programmer: From Journeyman to Master&quot; Hunt and Thomas use the metaphor of a wood worker&#8217;s jig to describe
 how a smart programmer reduces the repetitive nature of coding by creating reusable templates or code generators:</p>
 <blockquote>
 &quot;When woodworkers are faced with the task of producing the same thing over and over, they cheat. They build themselves a jig or a template.
@@ -113,46 +209,73 @@ of making mistakes, leaving the craftsman free to concentrate on quality.&quot;<
 <p>To be a jig the solution is highly specific and good for one task, for example making a complex cut. At first you might
 want to conflate jigs and design patterns together, because they are both reusable solutions to a problem. Jigs are precise where design
 patterns are generalized. While Hunt and Thomas said jigs are generators, I will use them in the context of helpers, friendly little functions
-or classes that do one thing well. Many of the most popular Javascript libraries started as a collection of jigs. Prototype and JQuery for
+or classes that do one thing well. Many of the most popular JavaScript libraries started as a collection of jigs. Prototype and JQuery for
 example, were initially just a collection of reusable snippets that acted like speed-boosts, and shortcuts for discrete problems.</p>
-<p>What follows are a collection of jigs that are useful in modern Javascript applications.</p>
+<p>What follows are a collection of jigs that are useful in modern JavaScript applications.</p>
 <div class="section" id="self-executing-functions">
 <h2>Self Executing Functions</h2>
 <p>The immediately invoked function expression (IIFE) is one jig you will see various libraries and frameworks use repeatedly. In its most basic form it can be
-written in a couple of ways:</p>
-<pre class="literal-block">
-;(function(){
-    ...
-})();
-
-;!function(){
-    ...
-}();
-
-;-function(){
-    ...
-}();
-
-;+function(){
-    ...
-}();
-
-;~function(){
-    ...
-}();
-
-// Not Recommended
-;void function(){
-    ...
-}();
-
-// Not Recommended
-;delete function(){
-    ...
-}();
-</pre>
-<p>The beauty of the IIFE is that it uses a unary expression to coerce a function declaration, which would normally need to be explicitly called
-into a function expression that can self-execute. Behind the scenes Javascript is running a unary operation on the function declaration, the
+written in a couple of ways</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="p">;(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">})();</span>
+</span><span class="line">
+</span><span class="line"><span class="p">;</span><span class="o">!</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">}();</span>
+</span><span class="line">
+</span><span class="line"><span class="p">;</span><span class="o">-</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">}();</span>
+</span><span class="line">
+</span><span class="line"><span class="p">;</span><span class="o">+</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">}();</span>
+</span><span class="line">
+</span><span class="line"><span class="p">;</span><span class="o">~</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">}();</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Not Recommended</span>
+</span><span class="line"><span class="p">;</span><span class="k">void</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">}();</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Not Recommended</span>
+</span><span class="line"><span class="p">;</span><span class="k">delete</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class="line">    <span class="p">...</span>
+</span><span class="line"><span class="p">}();</span>
+</span></code></pre></td></tr></table></div></figure><p>The beauty of the IIFE is that it uses a unary expression to coerce a function declaration, which would normally need to be explicitly called
+into a function expression that can self-execute. Behind the scenes JavaScript is running a unary operation on the function declaration, the
 result of that operation is the function expression, which is immediately invoked with the trailing parentheses &quot;()&quot;. Besides being elegant code
 the IIFE also affords the following:</p>
 <ul class="simple">
@@ -168,7 +291,7 @@ that you follow this convention to protect yourself against mystery bugs in prod
 </div>
 <div class="section" id="modules">
 <h2>Modules</h2>
-<p>Modules are very common is many programming languages, though Javascript doesn&#8217;t have a native representation for them. As such other developers
+<p>Modules are very common is many programming languages, though JavaScript doesn&#8217;t have a native representation for them. As such other developers
 have developed a spec for encapsulating your code inside a reusable module. The following code is based off an example in the &quot;Principles of
 Writing Consistent, Idiomatic JavaScript&quot; <a class="footnote-reference" href="#id3" id="id1">[1]</a>.</p>
 <p>There are a couple of elements that should be called out in this jig:</p>
@@ -178,54 +301,87 @@ initializer function that adds it to the global namespace.</li>
 <li>Invoking this function returns an object with a bound reference to the private variable &quot;data&quot;. This allows the developer to enforce
 the use of getters and setters for access to the data variable.</li>
 </ul>
-<pre class="literal-block">
-;!function(global) {
-  var Module = (function() {
-
-    // Mostly Private Variable
-    var data = 'secret';
-
-    return {
-
-      bool: true,
-      string: 'a string',
-      array: [1, 2, 3, 4],
-      object: {
-        lang: &quot;en-Us&quot;
-      },
-      getData: function() {
-        return data;
-      },
-      setData: function(value) {
-        return (data = value);
-      }
-    };
-  })();
-
-  // expose our module to the global object
-  global.Module = Module;
-
-}(this);
-</pre>
-</div>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="p">;</span><span class="o">!</span><span class="kd">function</span><span class="p">(</span><span class="nx">global</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">  <span class="kd">var</span> <span class="nx">Module</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1">// Mostly Private Variable</span>
+</span><span class="line">    <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="s1">&#39;secret&#39;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">return</span> <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">      <span class="nx">bool</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class="line">      <span class="nx">string</span><span class="o">:</span> <span class="s1">&#39;a string&#39;</span><span class="p">,</span>
+</span><span class="line">      <span class="nx">array</span><span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+</span><span class="line">      <span class="nx">object</span><span class="o">:</span> <span class="p">{</span>
+</span><span class="line">        <span class="nx">lang</span><span class="o">:</span> <span class="s2">&quot;en-Us&quot;</span>
+</span><span class="line">      <span class="p">},</span>
+</span><span class="line">      <span class="nx">getData</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="nx">data</span><span class="p">;</span>
+</span><span class="line">      <span class="p">},</span>
+</span><span class="line">      <span class="nx">setData</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="p">(</span><span class="nx">data</span> <span class="o">=</span> <span class="nx">value</span><span class="p">);</span>
+</span><span class="line">      <span class="p">}</span>
+</span><span class="line">    <span class="p">};</span>
+</span><span class="line">  <span class="p">})();</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1">// expose our module to the global object</span>
+</span><span class="line">  <span class="nx">global</span><span class="p">.</span><span class="nx">Module</span> <span class="o">=</span> <span class="nx">Module</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="p">}(</span><span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></div>
 <div class="section" id="safeeval">
 <h2>safeEval</h2>
-<p>The eval function and its siblings setTimeout, setInterval and Function all have access to the Javascript compiler, which means it is a bit
+<p>The eval function and its siblings setTimeout, setInterval and Function all have access to the JavaScript compiler, which means it is a bit
 like running with scissors. Since eval typically does more harm than good people try to work around it as much as possible. This jig does just
 that giving you eval like features without calling the function.</p>
-<pre class="literal-block">
-// A string representation of an a object similar to what you might get with JSON.
-var dataString = '{&quot;foo&quot;:&quot;bar&quot;}';
-
-;!function(global, data){
-
-    // the variable name provided is replaced with the evaluated code.
-    global[data] = new Function(&quot;return&quot; + global[data])()
-}(this, &quot;dataString&quot;);
-
-// dataString is now Object {foo: &quot;bar&quot;}
-</pre>
-</div>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// A string representation of an a object similar to what you might get with JSON.</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">dataString</span> <span class="o">=</span> <span class="s1">&#39;{&quot;foo&quot;:&quot;bar&quot;}&#39;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="p">;</span><span class="o">!</span><span class="kd">function</span><span class="p">(</span><span class="nx">global</span><span class="p">,</span> <span class="nx">data</span><span class="p">){</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1">// the variable name provided is replaced with the evaluated code.</span>
+</span><span class="line">    <span class="nx">global</span><span class="p">[</span><span class="nx">data</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s2">&quot;return&quot;</span> <span class="o">+</span> <span class="nx">global</span><span class="p">[</span><span class="nx">data</span><span class="p">])()</span>
+</span><span class="line"><span class="p">}(</span><span class="k">this</span><span class="p">,</span> <span class="s2">&quot;dataString&quot;</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// dataString is now Object {foo: &quot;bar&quot;}</span>
+</span></code></pre></td></tr></table></div></figure></div>
 <div class="section" id="pubsub">
 <h2>PubSub</h2>
 <p>PubSub is short for a publish-subscribe message system, where objects ask to receive messages that are broadcast by publishers. The main
@@ -235,57 +391,103 @@ by Ben Alman and can be download from his Github account <a class="footnote-refe
 notice is that this jig uses the IIFE jig too (see a pattern yet?). This jig does depend on jQuery for access to the &quot;on&quot;,&quot;off&quot;, and &quot;trigger&quot;
 functions. This jig stores an internal list of subscribers as keys of the internal object &quot;o&quot;. When a message is broadcast all the subscribers
 have the arguments supplied by the publisher transferred to them.</p>
-<pre class="literal-block">
-;(function($) {
-
-  var o = $({});
-
-  $.subscribe = function() {
-    o.on.apply(o, arguments);
-  };
-
-  $.unsubscribe = function() {
-    o.off.apply(o, arguments);
-  };
-
-  $.publish = function() {
-    o.trigger.apply(o, arguments);
-  };
-
-}(jQuery));
-
-// Usage Examples
-// Creates a &quot;named&quot; logging function.
-
-function createLogger(name) {
-  return function(event, a, b) {
-
-    // Skip the first argument (event object) but log the name and other args.
-    console.log(name, a, b);
-  };
-}
-
-// Subscribe to the &quot;foo&quot; topic (bind to the &quot;foo&quot; event, no namespace).
-$.subscribe('foo', createLogger('foo'));
-
-// Subscribe to the &quot;foo.bar&quot; topic (bind to the &quot;foo&quot; event, &quot;bar&quot; namespace).
-$.subscribe('foo.bar', createLogger('foo.bar'));
-
-/*
- * logs:
- * foo 1 2
- * foo.bar 1 2
- * foo.baz 1 2
- */
-$.publish('foo', [1, 2]);
-
-/*
- * logs:
- * foo.bar 3 4
- */
-$.publish('foo.bar', [3, 4]);
-</pre>
-</div>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="p">;(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">  <span class="kd">var</span> <span class="nx">o</span> <span class="o">=</span> <span class="nx">$</span><span class="p">({});</span>
+</span><span class="line">
+</span><span class="line">  <span class="nx">$</span><span class="p">.</span><span class="nx">subscribe</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">o</span><span class="p">.</span><span class="nx">on</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+</span><span class="line">  <span class="p">};</span>
+</span><span class="line">
+</span><span class="line">  <span class="nx">$</span><span class="p">.</span><span class="nx">unsubscribe</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">o</span><span class="p">.</span><span class="nx">off</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+</span><span class="line">  <span class="p">};</span>
+</span><span class="line">
+</span><span class="line">  <span class="nx">$</span><span class="p">.</span><span class="nx">publish</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">o</span><span class="p">.</span><span class="nx">trigger</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+</span><span class="line">  <span class="p">};</span>
+</span><span class="line">
+</span><span class="line"><span class="p">}(</span><span class="nx">jQuery</span><span class="p">));</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Usage Examples</span>
+</span><span class="line"><span class="c1">// Creates a &quot;named&quot; logging function.</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">function</span> <span class="nx">createLogger</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">  <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1">// Skip the first argument (event object) but log the name and other args.</span>
+</span><span class="line">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">);</span>
+</span><span class="line">  <span class="p">};</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Subscribe to the &quot;foo&quot; topic (bind to the &quot;foo&quot; event, no namespace).</span>
+</span><span class="line"><span class="nx">$</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="nx">createLogger</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">));</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// Subscribe to the &quot;foo.bar&quot; topic (bind to the &quot;foo&quot; event, &quot;bar&quot; namespace).</span>
+</span><span class="line"><span class="nx">$</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s1">&#39;foo.bar&#39;</span><span class="p">,</span> <span class="nx">createLogger</span><span class="p">(</span><span class="s1">&#39;foo.bar&#39;</span><span class="p">));</span>
+</span><span class="line">
+</span><span class="line"><span class="cm">/*</span>
+</span><span class="line"><span class="cm"> * logs:</span>
+</span><span class="line"><span class="cm"> * foo 1 2</span>
+</span><span class="line"><span class="cm"> * foo.bar 1 2</span>
+</span><span class="line"><span class="cm"> * foo.baz 1 2</span>
+</span><span class="line"><span class="cm"> */</span>
+</span><span class="line"><span class="nx">$</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]);</span>
+</span><span class="line">
+</span><span class="line"><span class="cm">/*</span>
+</span><span class="line"><span class="cm"> * logs:</span>
+</span><span class="line"><span class="cm"> * foo.bar 3 4</span>
+</span><span class="line"><span class="cm"> */</span>
+</span><span class="line"><span class="nx">$</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s1">&#39;foo.bar&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure></div>
 <div class="section" id="your-jigs-go-here">
 <h2>Your Jigs Go Here</h2>
 <p>Please send me your favorite jigs. I would love to expand this post with more great Jigs.</p>
@@ -342,25 +544,25 @@ $.publish('foo.bar', [3, 4]);
 
 
   <div class="entry-content"><div class="section" id="a-deep-dive-into-javascript-functions">
-<h2>A Deep Dive into Javascript Functions</h2>
-<p>Based on my readership I have to assume most of you are familiar with Javascript already. Therefore, it may seem odd to include a post on functions. After all, they are
-one of the most rudimentary components of Javascript. My assertion is this, just as a person can speak a language without the ability to read
-or write it, so too can developers use functions in Javascript and yet be blissfully unaware of their complexities.</p>
+<h2>A Deep Dive into JavaScript Functions</h2>
+<p>Based on my readership I have to assume most of you are familiar with JavaScript already. Therefore, it may seem odd to include a post on functions. After all, they are
+one of the most rudimentary components of JavaScript. My assertion is this, just as a person can speak a language without the ability to read
+or write it, so too can developers use functions in JavaScript and yet be blissfully unaware of their complexities.</p>
 <p>Typically developers only become aware of the specifics of functions when something they wrote explodes in their face. My goal in this section
-is to expose the intricacies of Javascript functions to you, which will hopefully save you from having to pull syntactic shrapnel from your
+is to expose the intricacies of JavaScript functions to you, which will hopefully save you from having to pull syntactic shrapnel from your
 codebase.</p>
-<p>A word of caution before we begin; Javascript is only as good as its interpreter. While the concepts we&#8217;ll consider are well-covered in
+<p>A word of caution before we begin; JavaScript is only as good as its interpreter. While the concepts we&#8217;ll consider are well-covered in
 the language spec, it does not mean that all runtime environments will work the same way. In other words your milage may vary. This section will
-discuss common misconceptions of Javascript functions, and the silent bugs they introduce. However, debugging functions in detail is not
-covered. Fortunately, debugging has been documented by others in the Javascript community especially in Juriy Zaytsev&#8217;s excellent article &quot;Named
+discuss common misconceptions of JavaScript functions, and the silent bugs they introduce. However, debugging functions in detail is not
+covered. Fortunately, debugging has been documented by others in the JavaScript community especially in Juriy Zaytsev&#8217;s excellent article &quot;Named
 Function Expressions Demystified&quot; <a class="footnote-reference" href="#id2" id="id1">[1]</a>.</p>
 </div>
 <div class="section" id="blocks-in-javascript">
-<h2>Blocks in Javascript</h2>
-<p>Before we can understand functions in Javascript we have to understand blocks. Javascript blocks are nothing more than statements grouped
+<h2>Blocks in JavaScript</h2>
+<p>Before we can understand functions in JavaScript we have to understand blocks. JavaScript blocks are nothing more than statements grouped
 together. Blocks start with a left curly bracket &quot;{&quot; and end with a right one &quot;}&quot;. Simply put, <strong>blocks allow statements inside the brackets
-to be executed together</strong>. Blocks form the most basic control structure in Javascript. The following are a few examples of how blocks in
-Javascript:</p>
+to be executed together</strong>. Blocks form the most basic control structure in JavaScript. The following are a few examples of how blocks in
+JavaScript:</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -439,10 +641,10 @@ Javascript:</p>
 </span></code></pre></td></tr></table></div></figure></div>
 <div class="section" id="function-arguments">
 <h2>Function Arguments</h2>
-<p>Functions like control flow statements (if, for, while etc.) can be initialized by passing arguments into the function body. In Javascript
+<p>Functions like control flow statements (if, for, while etc.) can be initialized by passing arguments into the function body. In JavaScript
 variables are either a <strong>complex type</strong> (e.g. Object, Array) or a <strong>primitive type</strong> (e.g. String, Integer). When a complex object is supplied
-as an argument it is <strong>passed by reference</strong> to the function body. Instead of sending a copy of the variable, Javascript sends a pointer to its
-location in memory. Conversely, when passing a primitive type to a function Javascript <strong>passes by value</strong>. This difference can lead to subtle bugs
+as an argument it is <strong>passed by reference</strong> to the function body. Instead of sending a copy of the variable, JavaScript sends a pointer to its
+location in memory. Conversely, when passing a primitive type to a function JavaScript <strong>passes by value</strong>. This difference can lead to subtle bugs
 because conceptually we often treat functions as a black box, and assume they can only effect the enclosing scope by returning a variable.
 With pass by reference, the argument object is modified even though it may not returned by the function. Pass by reference and pass by value
 are demonstrated below:</p>
@@ -490,7 +692,7 @@ are demonstrated below:</p>
 <div class="section" id="function-types">
 <h2>Function Types</h2>
 <p>Now that we have a better understanding of blocks, and arguments lets dive deeper into <strong>Function Declaration</strong> and <strong>Function Expression</strong>,
-the two types of functions used in Javascript. To the casual reader the two appear very similar:</p>
+the two types of functions used in JavaScript. To the casual reader the two appear very similar:</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -510,7 +712,7 @@ the two types of functions used in Javascript. To the casual reader the two appe
 </span><span class="line">    <span class="k">return</span> <span class="nx">cake</span> <span class="o">===</span> <span class="kc">true</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure><p>The only real difference between the two, is when they are evaluated. A function declaration can be accessed by the interpreter as it is being
-parsed. The function expression on the other hand is part of an assignment expression, which prevents Javascript from evaluating it until the
+parsed. The function expression on the other hand is part of an assignment expression, which prevents JavaScript from evaluating it until the
 program has completed the assignment. This difference may seem minor, but implications are huge; consider the following example:</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -539,13 +741,13 @@ program has completed the assignment. This difference may seem minor, but implic
 </span><span class="line">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hi, I&#39;m a function expression!&quot;</span><span class="p">);</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure><p>As you can see in the previous example the <em>expression</em> function threw an exception when it was invoked, but the <em>declaration</em> function
-executed just fine. This exception gets to the heart of the difference between declaration and expression functions. Javascript <em>knows</em>
+executed just fine. This exception gets to the heart of the difference between declaration and expression functions. JavaScript <em>knows</em>
 about declaration function and can parse it before the program executes. Therefore, it doesn&#8217;t matter if the program invokes the function
-before it is defined. This is because behind the scenes Javascript has <em>hoisted</em> the function to the top of the current scope. The function
+before it is defined. This is because behind the scenes JavaScript has <em>hoisted</em> the function to the top of the current scope. The function
 expression is not evaluated until it is assigned to a variable; therefore it is still <em>undefined</em> when invoked. This is why good code style is
-to define all variables at the top of the current scope. Had we done this then our script would visually match what Javascript is doing during
+to define all variables at the top of the current scope. Had we done this then our script would visually match what JavaScript is doing during
 parsetime.</p>
-<p>The concept to take away is that <strong>during parsetime Javascript moves all function declarations to the top of the current scope</strong>. This is why
+<p>The concept to take away is that <strong>during parsetime JavaScript moves all function declarations to the top of the current scope</strong>. This is why
 it doesn&#8217;t matter where declarative functions appear in the script body.</p>
 <p>To further explore the distinctions between declarations and expressions, consider the following:</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -575,7 +777,7 @@ it doesn&#8217;t matter where declarative functions appear in the script body.</
 </span><span class="line"><span class="c1">// =&gt; &#39;hello&#39;</span>
 </span><span class="line"><span class="nx">sayHi</span><span class="p">();</span>
 </span></code></pre></td></tr></table></div></figure><p>Casually reading this code, one might assume that the declaration function would get clobbered because it function expression has an identical
-name. However, since the second function is part of an assignment expression it is given its own scope, and Javascript treats them as seperate
+name. However, since the second function is part of an assignment expression it is given its own scope, and JavaScript treats them as seperate
 entities. To make things even more confusing look at this example:</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -648,7 +850,7 @@ declaration. In this example we are attempting to conditionally define the funct
 control flow you&#8217;d expect <em>sayHey</em> to return &quot;hey&quot; since the conditional statement evaluates true. Instead it returns &quot;no&quot;, meaning the second
 version of the <em>sayHey</em> function clobbered the first. Even more confusing is that the <em>sayHo</em> function behaves the opposite way! Again, the
 difference comes down to parsetime versus runtime.</p>
-<p>We already learned that when Javascript parses the script it collects all of the function declarations and hoists them to the top of the current
+<p>We already learned that when JavaScript parses the script it collects all of the function declarations and hoists them to the top of the current
 scope. When this happens it clobbers the first version of <em>sayHey</em> with the second because they exist in the same scope. This explains why
 it returns &quot;no.&quot; We also know that function expressions are ignored by the parser until the assignment process completes. Assignment happens
 during runtime, which is also when the conditional statement is evaluated. That explains why the <em>sayHo</em> function was able to be conditionally
@@ -657,7 +859,7 @@ Furthermore, <strong>function declarations should NEVER be made inside a control
 </div>
 <div class="section" id="function-scopes">
 <h2>Function Scopes</h2>
-<p>Unlike many other languages which are scoped to the block, Javascript is scoped to the function. In Ruby (version 1.9.+) you can write this:</p>
+<p>Unlike many other languages which are scoped to the block, JavaScript is scoped to the function. In Ruby (version 1.9.+) you can write this:</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -676,7 +878,7 @@ Furthermore, <strong>function declarations should NEVER be made inside a control
 </span><span class="line">
 </span><span class="line"><span class="err">#</span> <span class="o">=&gt;</span> <span class="mi">20</span>
 </span><span class="line"><span class="nx">puts</span> <span class="nx">x</span>
-</span></code></pre></td></tr></table></div></figure><p>What this demonstrates is that each block gets its own scope. Conversely, if we wrote similar code in Javascript:</p>
+</span></code></pre></td></tr></table></div></figure><p>What this demonstrates is that each block gets its own scope. Conversely, if we wrote similar code in JavaScript:</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -719,13 +921,13 @@ Furthermore, <strong>function declarations should NEVER be made inside a control
 </span><span class="line">
 </span><span class="line"><span class="c1">// =&gt; 10</span>
 </span><span class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure><p>In Javascript <em>x</em> is available inside the for loop, because as a control statement it belongs to the enclosing scope. This is not intuitive to
-many developers used to block level scope. Javascript handles the need of block level scope at least partially through the use of closures
+</span></code></pre></td></tr></table></div></figure><p>In JavaScript <em>x</em> is available inside the for loop, because as a control statement it belongs to the enclosing scope. This is not intuitive to
+many developers used to block level scope. JavaScript handles the need of block level scope at least partially through the use of closures
 which we&#8217;ll discuss later.</p>
 </div>
 <div class="section" id="debugging-functions">
 <h2>Debugging Functions</h2>
-<p>Before we wrap this topic up, lets briefly touch on debugging functions. In Javascript naming a function expression is completely optional;
+<p>Before we wrap this topic up, lets briefly touch on debugging functions. In JavaScript naming a function expression is completely optional;
 so why do it? The answer is to aid the debugging process. Named function expressions have access to their name within the newly defined scope,
 but not in the enclosing scope. Without a name their anonymous nature can make them feel a bit like ghosts in the machine when it comes to
 debugging.</p>
@@ -807,7 +1009,7 @@ expression gives you clarity when trying to unwind an exception whose call stack
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/02/15/pragmatic-javascript-style/">Pragmatic Javascript Style</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/02/15/pragmatic-javascript-style/">Pragmatic JavaScript Style</a></h1>
     
     
       <p class="meta">
@@ -884,10 +1086,10 @@ subject it becomes a facile artifice, a dish ruined by too much spice. I am remi
 was either a white or black cube, and all pieces were the same size. It was aesthetically beautiful and simultaneously unplayable.</p>
 </div>
 <div class="section" id="javascript-style-guide">
-<h2>Javascript Style Guide</h2>
+<h2>JavaScript Style Guide</h2>
 <p>This style guide was compiled by compiling, reviewing and considering choices I have made in my own work over the years, and coding practices
-of individuals, and development teams I admire in the Javascript community. As such this style guide should be seen as an amalgamation of
-inputs and influences from the larger Javascript community rather than the creative output of a singular individual. You can find a list of
+of individuals, and development teams I admire in the JavaScript community. As such this style guide should be seen as an amalgamation of
+inputs and influences from the larger JavaScript community rather than the creative output of a singular individual. You can find a list of
 resources used in this guide in the additional resources section. This guide is broken into two sections: &quot;Rules for Visual Clarity&quot; and
 &quot;Rules for Computational Effectiveness&quot;.</p>
 </div>
@@ -907,7 +1109,7 @@ through doing, while maintaining the ability to get critical distance from your 
 not compilers.</li>
 <li><strong>Following Existing Conventions</strong> - If you share your code anywhere, work on a team, or are hired to write code, then you are not writing
 for yourself</li>
-<li><strong>Write in Only One Language</strong> - Where possible don&#8217;t use Javascript as a surrogate for other languages.
+<li><strong>Write in Only One Language</strong> - Where possible don&#8217;t use JavaScript as a surrogate for other languages.
 This means resisting the urge to write inline HTML, or CSS where possible.</li>
 <li><strong>Enforce A Uniform Column Width</strong> - Strive for consistent line lengths in source code. Long lines tire the eyes, and cause needless
 horizontal scrolling. An industry standard is 80 characters per line.</li>
@@ -918,7 +1120,7 @@ horizontal scrolling. An industry standard is 80 characters per line.</li>
 <ol class="arabic simple">
 <li>Naming Conventions</li>
 </ol>
-<p>Javascript is a terse language of brackets, and symbols and one of the only way to make your code expressive to humans is through the names
+<p>JavaScript is a terse language of brackets, and symbols and one of the only way to make your code expressive to humans is through the names
 you choose for variables, functions and classes among others. Remember when choosing a name it should describe the role and responsibilities
 of that object. Vague or obtuse names like <em>doStuff</em> is like telling the reader <em>you figure it out</em>, which often times they won&#8217;t.</p>
 <ul class="simple">
@@ -1176,7 +1378,7 @@ of that object. Vague or obtuse names like <em>doStuff</em> is like telling the 
 <li><dl class="first docutils">
 <dt>Semicolons</dt>
 <dd><ul class="first last simple">
-<li>Even though Javascript determines semicolons to be optional many compilers expect them, therefore it is better to use them.</li>
+<li>Even though JavaScript determines semicolons to be optional many compilers expect them, therefore it is better to use them.</li>
 <li>Useful for clearly delineating the end of a logical statement</li>
 <li>Do not add meaningless semicolons</li>
 </ul>
@@ -1392,7 +1594,7 @@ of that object. Vague or obtuse names like <em>doStuff</em> is like telling the 
 <div class="section" id="id1">
 <h3>Rules Of Thumb</h3>
 <ul class="simple">
-<li><strong>Assume File Will Be Concatenated</strong> - Modern applications often munge source Javascript into a streamline file for production. You should
+<li><strong>Assume File Will Be Concatenated</strong> - Modern applications often munge source JavaScript into a streamline file for production. You should
 defensively program your scripts to protect from switches in operation context and scope corruption.</li>
 <li><strong>Keep your code browser agnostic</strong> - Keep your business logic free of browser specific code by abstracting them into interfaces. This will
 keep your code on a clean upgrade path as browser fall in and out of fashion.</li>
@@ -1405,7 +1607,7 @@ expect standard behavior.</li>
 <li>Equality Comparisons And Conditional Evaluation</li>
 </ol>
 <ul>
-<li><p class="first">Use &quot;===&quot; instead of &quot;==&quot; use &quot;!==&quot; instead of &quot;!=&quot; this is because Javascript is very loose when testing equality.</p>
+<li><p class="first">Use &quot;===&quot; instead of &quot;==&quot; use &quot;!==&quot; instead of &quot;!=&quot; this is because JavaScript is very loose when testing equality.</p>
 </li>
 <li><p class="first">When just testing for truthiness you can coerce the values</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -1714,7 +1916,7 @@ like mustache.js instead</p>
 </span><span class="line"><span class="c1">// Good</span>
 </span><span class="line"><span class="kd">var</span> <span class="nx">output</span> <span class="o">=</span> <span class="nx">Mustache</span><span class="p">.</span><span class="nx">compilePartial</span><span class="p">(</span><span class="s1">&#39;my-template&#39;</span><span class="p">,</span> <span class="nx">view</span><span class="p">);</span>
 </span></code></pre></td></tr></table></div></figure></li>
-<li><p class="first">Keep Javascript out of the HTML</p>
+<li><p class="first">Keep JavaScript out of the HTML</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -2093,7 +2295,7 @@ This allows us to initially curate the incoming content, and facilitate our &#82
   </header>
 
 
-  <div class="entry-content"><p>I have just pushed a new release of my Javascript application framework called Spineless. Spineless is a simple MVC stack without the need of a backbone.
+  <div class="entry-content"><p>I have just pushed a new release of my JavaScript application framework called Spineless. Spineless is a simple MVC stack without the need of a backbone.
 <a href="https://github.com/heavysixer/spineless">https://github.com/heavysixer/spineless</a></p>
 
 <p>The goal of Spineless is to provide &#8220;just enough framework&#8221; to succeed. If I have done my job, you should be able to write your first Spineless app in less than 10 minutes.</p>
@@ -2113,7 +2315,7 @@ with the project inside the /lib directory.</p>
 <p>Like any good MVC framework Spineless uses the concept of models, controllers and views.</p>
 
 <ol>
-<li>Spineless models are essentially Javascript objects and completely optional.</li>
+<li>Spineless models are essentially JavaScript objects and completely optional.</li>
 <li>Controllers are used to marshall commands from the views to the models where needed.</li>
 <li>Views are the visual interface that the user sees.</li>
 </ol>
@@ -2168,7 +2370,7 @@ Consider the following example:</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>If you want to manually trigger a route request from within Javascript you can call the <code>get</code> function:</p>
+<p>If you want to manually trigger a route request from within JavaScript you can call the <code>get</code> function:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">spineless</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;application&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">);</span><span class="err">`</span>
@@ -2561,45 +2763,6 @@ Gives them explicit actions they can take to help your campaign.</p>
 <h2>9. Be Grateful</h2>
 
 <p>When someone makes an effort to support your cause, be sure to say thank you.  It gives them a sense of connection and fulfillment that can lead to future support. It is also the right thing to do!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/05/on-jumping/">On Jumping</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-05T09:39:00-05:00" pubdate data-updated="true">Apr 5<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>Jump and the net will appear.</p><footer><strong>John Burroughs</strong><cite><a href='http://en.wikipedia.org/wiki/John_Burroughs'>en.wikipedia.org/wiki/&hellip;</a></cite></footer></blockquote>
-
-
-<p>Seven years ago there was much handwringing around leaving my job to start my own consultancy. That is until my friend told me this quote from John Burroughs. It is a compelling illustration about faith in yourself and that the world values you. It often resurfaces for me when I am mulling over a risky proposition. The best thing about this quote is when properly applied, if the net doesn&#8217;t appear&#8230; well it won&#8217;t hurt long!</p>
 </div>
   
   
