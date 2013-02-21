@@ -4,7 +4,7 @@
   <title><![CDATA[Category: CSS | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/css/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-02-21T13:29:37-06:00</updated>
+  <updated>2013-02-21T15:58:45-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -31,9 +31,9 @@ additions meant to change the layout / features of the page based on the visitor
 and action params into the body tag so that I can scope my JavaScript and CSS executions. Doing this provides a convenient way to namespace
 your CSS and JS, without having to worry about polluting the global namespace.</p>
 
-<p>However one of Github additions stuck out at me "env-production".
+<p>However one of Github's additions stuck out at me "env-production".
 I have to imagine that <code>Kyle Neath &lt;http://http://warpspire.com/&gt;</code>_ was the one who added this to the page, and that he did it because
-he's wants the site to render differently based on the runtime environment of the sever.</p>
+he wants the site to render differently based on the runtime environment of the sever.</p>
 
 <p>I thought about the possibilities of this technique and figured out that there are probably a whole host of ways to use these
 <strong>design time classes</strong>. The use of which would help ensure a polished final project. Here are just a couple of examples of how you
@@ -94,6 +94,11 @@ environment. This means you don't have to worry about them being seen by the end
 </code></pre>
 
 <p>  end</p>
+
+<ol>
+<li>Kyle suggested over twitter that another good use is to <code>change the favicon &lt;https://twitter.com/kneath/status/304706570246299648/photo/1&gt;</code>_ based on the server environment.</li>
+</ol>
+
 
 <p>More To Come
 ~~~~~~~~~~~~</p>

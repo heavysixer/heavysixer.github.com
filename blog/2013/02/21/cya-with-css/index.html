@@ -112,9 +112,9 @@ tags: &quot;<em>logged_in page-dashboard macintosh  env-production</em>&quot;. S
 additions meant to change the layout / features of the page based on the visitor&#8217;s browser. In my own sites I often include the controller
 and action params into the body tag so that I can scope my JavaScript and CSS executions. Doing this provides a convenient way to namespace
 your CSS and JS, without having to worry about polluting the global namespace.</p>
-<p>However one of Github additions stuck out at me &quot;env-production&quot;.
+<p>However one of Github&#8217;s additions stuck out at me &quot;env-production&quot;.
 I have to imagine that <a class="reference external" href="http://http://warpspire.com/">Kyle Neath</a> was the one who added this to the page, and that he did it because
-he&#8217;s wants the site to render differently based on the runtime environment of the sever.</p>
+he wants the site to render differently based on the runtime environment of the sever.</p>
 <p>I thought about the possibilities of this technique and figured out that there are probably a whole host of ways to use these
 <strong>design time classes</strong>. The use of which would help ensure a polished final project. Here are just a couple of examples of how you
 might use them:</p>
@@ -155,7 +155,10 @@ environment. This means you don&#8217;t have to worry about them being seen by t
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">app_classes</span>
 </span><span class="line">  <span class="s2">&quot;</span><span class="si">#{</span><span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">params</span><span class="o">[</span><span class="ss">:controller</span><span class="o">].</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">params</span><span class="o">[</span><span class="ss">:action</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
 </span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></div>
+</span></code></pre></td></tr></table></div></figure><ol class="arabic simple" start="3">
+<li>Kyle suggested over twitter that another good use is to <a class="reference external" href="https://twitter.com/kneath/status/304706570246299648/photo/1">change the favicon</a> based on the server environment.</li>
+</ol>
+</div>
 <div class="section" id="more-to-come">
 <h2>More To Come</h2>
 <p>Do you use Design time classes? If so what are they, share them in the comments or as a gist and maybe we can develop a nice resource
