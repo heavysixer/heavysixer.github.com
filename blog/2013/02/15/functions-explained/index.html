@@ -330,10 +330,10 @@ it doesn&#8217;t matter where declarative functions appear in the script body.</
 </span><span class="line">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">);</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="c1">// =&gt; &quot;hi&quot;</span>
+</span><span class="line"><span class="c1">// =&gt; &quot;hello&quot;</span>
 </span><span class="line"><span class="nx">hi</span><span class="p">();</span>
 </span><span class="line">
-</span><span class="line"><span class="c1">// =&gt; &#39;hello&#39;</span>
+</span><span class="line"><span class="c1">// =&gt; &#39;hi&#39;</span>
 </span><span class="line"><span class="nx">sayHi</span><span class="p">();</span>
 </span></code></pre></td></tr></table></div></figure><p>Casually reading this code, one might assume that the declaration function would get clobbered because it function expression has an identical
 name. However, since the second function is part of an assignment expression it is given its own scope, and JavaScript treats them as seperate
