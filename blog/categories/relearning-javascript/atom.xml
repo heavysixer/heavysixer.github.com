@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Relearning JavaScript | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/relearning-javascript/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-02-23T19:30:55-06:00</updated>
+  <updated>2013-02-23T19:35:52-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -1088,7 +1088,9 @@ of that object. Vague or obtuse names like <em>doStuff</em> is like telling the 
 <li><p>Functions</p>
 
 <ul>
-<li><p>Method signatures must be consistent. If a function returns a variable in one context it should return a variable in all contexts</p>
+<li>Method signatures must be consistent. If a function returns a variable in one context it should return a variable in all contexts</li>
+</ul>
+
 
 <p>.. code-block:: javascript</p>
 
@@ -1111,7 +1113,9 @@ of that object. Vague or obtuse names like <em>doStuff</em> is like telling the 
   return false;
 </code></pre>
 
-<p>  }</p></li>
+<p>  }</p>
+
+<ul>
 <li><p>While not a requirement, returning early from a function can make the intent more clear</p>
 
 <p>.. code-block:: javascript</p>
