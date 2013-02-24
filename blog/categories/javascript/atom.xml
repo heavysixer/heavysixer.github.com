@@ -4,7 +4,7 @@
   <title><![CDATA[Category: JavaScript | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-02-23T19:35:52-06:00</updated>
+  <updated>2013-02-24T13:22:27-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -371,7 +371,7 @@ are demonstrated below:</p>
 <pre><code>  obj.foo = 'baz';
 </code></pre>
 
-<p>  }(o);</p>
+<p>  }(object);</p>
 
 <p>  // => 'baz'
   console.log(object);</p>
@@ -1473,7 +1473,7 @@ var foo = findStrictly();
   num = +num;</p>
 
 <p>  // Good expressive conversion
-  num = parseInt(num, 10);</p></li>
+  num = Number(num);</p></li>
 </ul>
 
 ]]></content>
