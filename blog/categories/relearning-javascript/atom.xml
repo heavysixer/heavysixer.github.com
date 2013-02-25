@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Relearning JavaScript | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/relearning-javascript/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-02-24T13:22:27-06:00</updated>
+  <updated>2013-02-25T15:47:07-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,370 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Getting Closure]]></title>
+    <link href="http://heavysixer.github.com/blog/2013/02/25/getting-closure/"/>
+    <updated>2013-02-25T15:21:00-06:00</updated>
+    <id>http://heavysixer.github.com/blog/2013/02/25/getting-closure</id>
+    <content type="html"><![CDATA[<p>Understanding the Dark Arts of JavaScript Closures
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
+
+<pre><code> "No matter where you go, there you are." 
+ - Buckaroo Banzai
+</code></pre>
+
+<p>The purpose of this post is to explain how closures work in plain english, and to give a few compelling examples where the use of closures really improve
+the quality of your code.</p>
+
+<p>Like many others I am a self-taught programmer, and little over a decade ago I was also a freshly minted Creative Director working in Los Angels. I was employed
+by a major footwear brand, and had inherited a team of very bright and technically gifted programmers. I felt that I needed to learn enough code to speak
+intelligently to them. I didn't want to propose a feature that wasn't possible, and more importantly I wanted to understand the promise and the problems
+inherent in the medium we were building within. More generally though, I am just a very curious person who likes to learn. Once I started to pull that tread
+the world of programming began to unwind for me. Now years later, here I sit writing about the internals of JavaScript.</p>
+
+<p>Being that my computer science education has been ad-hoc there are many core concepts in JavaScript (and programming in general) that I wanted to understand
+better. My hypothesis is that there are others like me who have been using and abusing JavaScript for years. For this reason I decided to write on closures an
+often used but equally often misunderstood concept in JavaScript. Closures are important for a variety of reasons:</p>
+
+<ol>
+<li>They are both a feature and a philosophy that once understood makes many other concepts (e.g. data binding, promise objects) in JavaScript easier.</li>
+<li>They are one of the most powerful internals of the language, which many other so-called <em>real</em> languages don't support.</li>
+<li>They are where JavaScript is trending due to the rise in popularity of asynchronous execution.</li>
+</ol>
+
+
+<p>For all the potential benefits that closures offer, there is a <em>black magic</em> quality to them that can make them hard to understand. Let's start with a
+definition, <strong>A closure is the act of binding all free variables, and functions into a closed expression, that persist beyond the lexical scope from which they
+were created.</strong> While this is a succinct definition it is pretty impenetrable for the uninitiated; let's dig deeper.</p>
+
+<p>The Straight Dope On Scope
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Before we can truly understand closures we must take a step back and look at how scope works in JavaScript. When reading about JavaScript periodically
+writers will make reference to lexical scope, or the current and/or executing scope. Lexical scope simply means that where a statement is placed within the
+body of the script is important and effects how it can be accessed, and what in turn it has access to. In JavaScript unlike other languages the only way to
+create a new scope is through a function invocation [1]_. This is what programmers mean when they say JavaScript has function level scoping. This form of
+scoping may be anti-intuitive to programmers coming from languages that support block-level scoping e.g. Ruby.</p>
+
+<p>The following example demonstrates lexical scope:</p>
+
+<p>.. code-block:: javascript</p>
+
+<p>  // Free Variable
+  var iAmFree = 'Free to be me!';</p>
+
+<p>  function canHazAccess(notFree){</p>
+
+<pre><code>var notSoFree = "i am bound to this scope";
+
+// =&gt; "Free to be me!"
+console.log(iAmFree);
+</code></pre>
+
+<p>  }</p>
+
+<p>  // => ReferenceError: notSoFree is not defined
+  console.log(notSoFree)</p>
+
+<p>  canHazAccess();</p>
+
+<p>As you can see the function declaration <em>canHazAccess()</em> can reference the <em>iAmFree</em> variable; this is because the variable belongs to the enclosing scope. The
+<em>iAmFree</em> variable is an example of what in JavaScript is called a <strong>free variable</strong> [2]_. Free variables are any non-local variable which the function
+body has access to. To qualify as a free variable it must be defined outside the function body and not be passed as a function argument.</p>
+
+<p>Conversely, we see that referencing <em>notSoFree</em> from the enclosing scope produces an error. This is because at the point at which this variable
+was defined it was inside a new lexical scope (remember function invocation creates a new scope).</p>
+
+<p>Put another way, <strong>function level scopes act like one-way mirrors; they let elements inside the function body spy on variables in the outer scope, while they
+remain hidden.</strong> As we'll see below closures short-circuit this relationship, and provide a mechanism whereby the inner scopes internals can
+be accessed by the outer scope.</p>
+
+<p>Thisunderstandings
+~~~~~~~~~~~~~~~~~~</p>
+
+<p>One feature of scopes, that routinely throw developers off (even seasoned ones) is the use of the <em>this</em> keyword as it pertains to the lexical
+scope. In JavaScript the <strong>this keyword always refers to the owner of scope from which it is executing</strong>. Misunderstanding how <em>this</em> works can
+cause all sorts of weird errors where a developer assumes they are accessing a particular scope but are actually using another. Here is how this might
+happen:</p>
+
+<p>.. code-block:: javascript</p>
+
+<p>  var Car, tesla;</p>
+
+<p>  Car = function() {</p>
+
+<pre><code>this.start = function() {
+  console.log("car started");
+};
+
+this.turnKey = function() {
+  var carKey = document.getElementById('car_key');
+  carKey.onclick = function(event) {
+    this.start();
+  };
+};
+return this;
+</code></pre>
+
+<p>  };
+  tesla = new Car();</p>
+
+<p>  // Once a user click's the #carKey element they will see "Uncaught TypeError: Object  has no method 'start'"
+  tesla.turnKey();</p>
+
+<p>The developer who wrote this was headed in the right direction, but ultimately a <em>thisunderstanding</em> forced them off the rails. They correctly bound
+the click event to the <em>car_key</em> DOM element. However, they assumed that nesting the click binding inside the car class would give the DOM element a reference
+to the car's <em>this</em> context. The approach is intuitive and <em>looks legit</em>, especially based on what we know about free variables and lexical scope. Unfortunately,
+it's hopelessly borked; because as we learned earlier a new scope is created each time a function is invoked. Once the onclick event fired <em>this</em> now
+referred to the DOM element not the car class.</p>
+
+<p>Developers sometimes get around this scoping confusion by assigning <em>this</em> to a local free variable (e.g. that, _this, self, me). Here is the previous method
+rewritten to use a local free variable instead of <em>this</em>.</p>
+
+<p>.. code-block:: javascript</p>
+
+<p>  var Car, tesla;</p>
+
+<p>  Car = function() {</p>
+
+<pre><code>this.start = function() {
+  console.log("car started");
+};
+
+this.turnKey = function() {
+  var that = this;
+  var carKey = document.getElementById('carKey');
+  carKey.onclick = function(event) {
+    that.start();
+  };
+};
+return this;
+</code></pre>
+
+<p>  };
+  tesla = new Car();</p>
+
+<p>  // Once a user click's the #carKey element they will see "car started"
+  tesla.turnKey();</p>
+
+<p>Because <em>that</em> is a free variable, it won't be redefined when the onclick event is triggered. Instead it remains as a pointer to the previous <em>this</em> context.
+Technically, this solves the problem, and I am going to resist the urge of calling this an anti-pattern (for now). I have used this technique thousands of
+times over the years. However, it always <em>felt</em> like a hack, and fortunately, closures can help us marshall scopes in a much more elegant way.</p>
+
+<p>My First Closure
+~~~~~~~~~~~~~~~~</p>
+
+<p>In it's most basic form a closure is simply an outer function that returns an inner function. Doing this creates a mechanism to return an enclosed scope on
+demand. Here is a simple closure:</p>
+
+<p>.. code-block:: javascript</p>
+
+<p>  function outer(name) {</p>
+
+<pre><code>var hello = "hi",
+inner;
+
+return inner = function() {
+  return hello + " " + name;
+}
+</code></pre>
+
+<p>  }</p>
+
+<p>  // Create and use the closure
+  var name = outer("mark")();</p>
+
+<p>  // => 'hi mark'
+  console.log(name);</p>
+
+<p>In this example you can see that the local variable <em>hello</em> can be used in the return statement of the inner function. At the point of execution <em>hello</em> is a
+free variable belonging to the enclosing scope. This example borders on meaninglessness though; lets look at a slightly more complex closure:</p>
+
+<p>.. code-block:: javascript</p>
+
+<p>  function carFactory(kind) {</p>
+
+<pre><code>var wheelCount, start, car;
+wheelCount = 4;
+start = function() {
+  console.log('started with ' + wheelCount + ' wheels.');
+};
+
+// Closure created here.
+return (function() {
+  return {
+    make: kind,
+    wheels: wheelCount,
+    startEngine: start
+  };
+}());
+</code></pre>
+
+<p>  }</p>
+
+<p>  car = carFactory('Tesla');</p>
+
+<p>  // => Tesla
+  console.log(car.make);</p>
+
+<p>  // => started with 4 wheels.
+  car.startEngine();</p>
+
+<p>Why Use Closures
+~~~~~~~~~~~~~~~~
+Now that we know what closures are, let's look at some use cases on where they can elegantly solve common problems in JavaScript.</p>
+
+<ul>
+<li><p><strong>Object Factories</strong></p>
+
+<p>The previous closure implements what is commonly known as the Factory Pattern [3]_. In keeping with a Factory Pattern the internals of the factory can be
+quite complex but are abstracted away in part thanks to the closure. This highlights one of the best features of closures which is their ability to
+hide state. JavaScript doesn't have the concept of private or protected contexts, but using closures give us a good way to emulate some level of privacy.</p></li>
+<li><p><strong>Create A Binding Proxy</strong></p>
+
+<p>As promised lets revisit the Car class we wrote earlier. We solved the scoping problem by assigning the outer function's <em>this</em> reference to a <em>that</em> free
+variable. Instead of that approach we'll solve it through the use of closures. First we create a reusable closure function called <em>proxy</em>, which takes
+a function and a context and returns a new function with the supplied context applied. Then we wrap the onclick function with our <em>proxy</em> and pass in the <em>this</em>
+that references the current instance of the <em>Car</em> class. Coincidentally, this is a simplified version of what jQuery does in their own proxy function [4]_.</p>
+
+<p>.. code-block:: javascript</p>
+
+<p>  var Car, proxy, tesla;</p>
+
+<p>  Car = function() {</p>
+
+<pre><code>this.start = function() {
+  return console.log("car started");
+};
+this.turnKey = function() {
+  var carKey;
+  carKey = document.getElementById("carKey");
+  carKey.onclick = proxy(function(event) {
+    this.start();
+  }, this);
+};
+return this;
+</code></pre>
+
+<p>  };</p>
+
+<p>  // Use a closure to bind the outer scope's reference to this into the newly created inner scope.
+  proxy = function(callback, self) {</p>
+
+<pre><code>return function() {
+  return callback.apply(self, arguments);
+};
+</code></pre>
+
+<p>  };</p>
+
+<p>  tesla = new Car();</p>
+
+<p>  // Once a user click's the #carKey element they will see "car started"
+  tesla.turnKey();</p></li>
+<li><p><strong>Contextually Aware DOM Manipulation</strong></p>
+
+<p>This example comes from directly from Juriy Zaytsev's excellent article "Use Cases for JavaScript Closures" [5]_ . His example code demonstrates how to use a
+closure to ensure a DOM element has a unique ID. The larger takeaway is that you can use closures as a way to maintain internal states about your program in
+an encapsulated manner.</p>
+
+<p>.. code-block:: javascript</p>
+
+<p>  var getUniqueId = (function() {</p>
+
+<pre><code>var id = 0;
+return function(element) {
+  if (!element.id) {
+    element.id = 'generated-uid-' + id++;
+  }
+  return element.id;
+};
+</code></pre>
+
+<p>  })();</p>
+
+<p>  var elementWithId = document.createElement('p');
+  elementWithId.id = 'foo-bar';
+  var elementWithoutId = document.createElement('p');</p>
+
+<p>  // => 'foo-bar'
+  getUniqueId(elementWithId);</p>
+
+<p>  // => 'generated-id-0'
+  getUniqueId(elementWithoutId);</p></li>
+<li><p><strong>Singleton Module Pattern</strong></p>
+
+<p>Modules are used to encapsulate and organize related code together under one roof. Using modules keeps your codebase cleaner, easier to test, and reuse.
+Attribution for the Module Pattern is typically given to Richard Conford [6]<em>, though a number of people most notably Douglas Crockford are responsible for
+popularizing it. The Singleton Module is a flavor that restricts more than one instance of the object from existing. It is very useful for instances where
+you want several objects to share a resource. A much more in depth example of the Singleton Module can be found here [7]</em>, but for now consider the following
+example:</p>
+
+<p>.. code-block:: javascript</p>
+
+<p>  // Create a closure
+  var SecretStore = (function() {</p>
+
+<pre><code>var data, secret, newSecret;
+
+// Emulation of a private variables and functions
+data = 'secret';
+secret = function() {
+  return data;
+}
+newSecret = function(newValue) {
+  data = newValue;
+  return secret();
+}
+
+// Return an object literal which is the only way to access the private functions and variables
+return {
+  getSecret: secret,
+  setSecret: newSecret,
+};
+</code></pre>
+
+<p>  })();</p>
+
+<p>  var secret = SecretStore;</p>
+
+<p>  // => "secret"
+  console.log(secret.getSecret());</p>
+
+<p>  // => "foo"
+  console.log(secret.setSecret("foo"));</p>
+
+<p>  // => "foo"
+  console.log(secret.getSecret());</p>
+
+<p>  var secret2 = SecretStore;</p>
+
+<p>  // => "foo"
+  console.log(secret2.getSecret());</p></li>
+</ul>
+
+
+<p>TLDR Takeaways
+~~~~~~~~~~~~~~</p>
+
+<ol>
+<li><strong>Lexical scope gives importance to where code is located within the script body.</strong></li>
+<li><strong>Free variables are any non-local variable which the function body has access to.</strong></li>
+<li><strong>The only way for new scopes to be created in JavaScript is through function invocation.</strong></li>
+<li><strong>The <em>this</em> keyword always refers to the owner of scope from which it is executing.</strong></li>
+<li><strong>A closure allows a function to access variables outside of its lexical scope.</strong></li>
+</ol>
+
+
+<p>.. [1] http://howtonode.org/what-is-this
+.. [2] http://en.wikipedia.org/wiki/Free_variable
+.. [3] http://en.wikipedia.org/wiki/Factory_method_pattern
+.. [4] https://github.com/jquery/jquery/blob/master/src/core.js#L685
+.. [5] http://msdn.microsoft.com/en-us/magazine/ff696765.aspx
+.. [6] http://groups.google.com/group/comp.lang.javascript/msg/9f58bd11bd67d937
+.. [7] http://www.addyosmani.com/resources/essentialjsdesignpatterns/book/#singletonpatternjavascript</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[JavaScript Jigs]]></title>
