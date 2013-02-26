@@ -331,8 +331,10 @@ free variable belonging to the enclosing scope. This example borders on meaningl
 <span class="line-number">22</span>
 <span class="line-number">23</span>
 <span class="line-number">24</span>
-</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="kd">function</span> <span class="nx">carFactory</span><span class="p">(</span><span class="nx">kind</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">  <span class="kd">var</span> <span class="nx">wheelCount</span><span class="p">,</span> <span class="nx">start</span><span class="p">,</span> <span class="nx">car</span><span class="p">;</span>
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="kd">var</span> <span class="nx">car</span><span class="p">;</span>
+</span><span class="line"><span class="kd">function</span> <span class="nx">carFactory</span><span class="p">(</span><span class="nx">kind</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">  <span class="kd">var</span> <span class="nx">wheelCount</span><span class="p">,</span> <span class="nx">start</span><span class="p">;</span>
 </span><span class="line">  <span class="nx">wheelCount</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
 </span><span class="line">  <span class="nx">start</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 </span><span class="line">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;started with &#39;</span> <span class="o">+</span> <span class="nx">wheelCount</span> <span class="o">+</span> <span class="s1">&#39; wheels.&#39;</span><span class="p">);</span>

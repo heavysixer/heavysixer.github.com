@@ -4,7 +4,7 @@
   <title><![CDATA[Category: JavaScript | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-02-25T15:47:07-06:00</updated>
+  <updated>2013-02-26T12:00:49-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -193,9 +193,10 @@ free variable belonging to the enclosing scope. This example borders on meaningl
 
 <p>.. code-block:: javascript</p>
 
-<p>  function carFactory(kind) {</p>
+<p>  var car;
+  function carFactory(kind) {</p>
 
-<pre><code>var wheelCount, start, car;
+<pre><code>var wheelCount, start;
 wheelCount = 4;
 start = function() {
   console.log('started with ' + wheelCount + ' wheels.');
