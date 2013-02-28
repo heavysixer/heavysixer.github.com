@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Daggett">
 
   
-  <meta name="description" content="Soon the media waves will be jammed with &#8220;Best Of&#8221; lists as the last days of 2011 are ripped off the calendar. To get ahead of the curve &hellip;">
+  <meta name="description" content="Periodically sites that incorporate user generated content need a way to moderate the incoming stream before publishing it to the site. Typically &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,216 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/16/introducing-acts-as-moderated/">Introducing ActsAsModerated</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-16T09:06:00-06:00" pubdate data-updated="true">Dec 16<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Periodically sites that incorporate user generated content need a way to moderate the incoming stream before publishing it to the site. Typically this is accomplished by putting the content in a queue and allowing moderators to explicitly accept or reject content. I needed such functionality for a site I was working on so I wrote the &#8220;ActsAsModerated&#8221; plugin which allows specific columns of a model to be audited by a moderator at some later point.</p>
+
+<p>ActsAsModerated is good for:</p>
+
+<ul>
+<li>spot-checking user generated content</li>
+<li>being notified when new content is created</li>
+<li>tracking changes within a record</li>
+<li>spam checking</li>
+</ul>
+
+
+<p>Moreover, this plugin allows for custom callbacks and validations around the moderation event. This flexibility gives developers the ability to augment the moderation flow by stacking custom rules as needed. For example, a developer write code to assign a reputation score to a user and increment that score for every non-spam contribution they make. This would mean that you could auto approve any content that is made by a user above a certain score, thereby reducing the workload on moderators. I have been using this plugin for over a year on a very high-volume site and it has held up quite well, and so I thought I&#8217;d share it with the rest of the Ruby on Rails community.</p>
+
+<h3>Download &amp; Install</h3>
+
+<p>For those with ADD you can find acts_as_moderated here:
+<a href="https://github.com/heavysixer/acts_as_moderated">https://github.com/heavysixer/acts_as_moderated</a></p>
+
+<h3>Setup</h3>
+
+<p>Create the moderated_records table like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">create_table</span> <span class="s2">&quot;moderation_records&quot;</span><span class="p">,</span> <span class="ss">:force</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">integer</span>  <span class="s2">&quot;recordable_id&quot;</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">string</span>   <span class="s2">&quot;recordable_type&quot;</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">integer</span>  <span class="s2">&quot;state_id&quot;</span><span class="p">,</span>             <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">integer</span>  <span class="s2">&quot;decision_id&quot;</span><span class="p">,</span>          <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">boolean</span>  <span class="s2">&quot;flagged&quot;</span><span class="p">,</span>              <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">integer</span>  <span class="s2">&quot;moderator_id&quot;</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">string</span>   <span class="s2">&quot;reason&quot;</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">datetime</span> <span class="s2">&quot;created_at&quot;</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">datetime</span> <span class="s2">&quot;updated_at&quot;</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">text</span>     <span class="s2">&quot;inspected_attributes&quot;</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">boolean</span>  <span class="s2">&quot;rejected&quot;</span><span class="p">,</span>             <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">add_index</span> <span class="s2">&quot;moderation_records&quot;</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;decision_id&quot;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_moderation_records_on_decision_id&quot;</span>
+</span><span class='line'><span class="n">add_index</span> <span class="s2">&quot;moderation_records&quot;</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;flagged&quot;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_moderation_records_on_flagged&quot;</span>
+</span><span class='line'><span class="n">add_index</span> <span class="s2">&quot;moderation_records&quot;</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;moderator_id&quot;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_moderation_records_on_moderator_id&quot;</span>
+</span><span class='line'><span class="n">add_index</span> <span class="s2">&quot;moderation_records&quot;</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;recordable_id&quot;</span><span class="p">,</span> <span class="s2">&quot;recordable_type&quot;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_moderation_records_on_recordable_id_and_recordable_type&quot;</span>
+</span><span class='line'><span class="n">add_index</span> <span class="s2">&quot;moderation_records&quot;</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;rejected&quot;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_moderation_records_on_rejected&quot;</span>
+</span><span class='line'><span class="n">add_index</span> <span class="s2">&quot;moderation_records&quot;</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;state_id&quot;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_moderation_records_on_state_id&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Usage</h3>
+
+<p>ActsAsModerated has two integration points. The first is within the model(s) to be moderated, which can be done like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">acts_as_moderated</span> <span class="ss">:body</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The second integration point is the class that acts as the moderator. Typically this is some user or account class. The idea is that behind this integration point is to create an audit trail for decisions made by the moderator if you ever need to watch the watcher.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">class</span> <span class="nc">Account</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>    <span class="n">acts_as_moderator</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The plugin also supports an <strong>after_moderation</strong> callback on the record being moderated, which you can use to take action based on what the moderator did. For example:</p>
+
+<ul>
+<li>Delete the record if it is inappropriate or spam</li>
+<li>Email the content creator that their content has been approved / denied</li>
+</ul>
+
+
+<p>There are several dynamically created methods added to every acts_as_moderated class which moderators can use as a shortcut for making decisions. For example where <strong>@moderator</strong> is an object with <strong>acts_as_moderator</strong> applied:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="vi">@comment</span><span class="o">.</span><span class="n">marked_spam_by_moderator</span><span class="p">(</span><span class="vi">@moderator</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@comment</span><span class="o">.</span><span class="n">marked_scam_by_moderator</span><span class="p">(</span><span class="vi">@moderator</span><span class="p">,</span> <span class="ss">:reason</span> <span class="o">=&gt;</span> <span class="s1">&#39;this is obviously a scam, please delete.&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Default Ordering, Callbacks &amp; Flagging</h3>
+
+<p>The ModerationRecord class has a <strong>named_scope</strong> called <em>queue</em>, which will return records sorted oldest to newest. However, if you flag a record it will be returned first regardless of its age relative to unflagged records. This is useful if you want to ensure that moderators see potentially dangerous records first. A good way to flag a record is using the <strong>after_moderated</strong> callback for example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">acts_as_moderated</span> <span class="ss">:body</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">after_moderated</span><span class="p">(</span><span class="n">moderation_record</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">moderation_record</span><span class="o">.</span><span class="n">flag!</span> <span class="k">if</span> <span class="n">body</span> <span class="o">=~</span> <span class="sr">/viagra/i</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The moderation record will attempt to make callbacks on the model being moderated after a record is first created <strong>after_moderation</strong> and when a moderator rejects a record <strong>after_rejection</strong> here is an example of what they might do:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Story</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">acts_as_moderated</span> <span class="ss">:body</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">after_moderated</span><span class="p">(</span><span class="n">moderation_record</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">update_attribute</span><span class="p">(</span><span class="ss">:moderated</span><span class="p">,</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">after_rejection</span><span class="p">(</span><span class="n">moderation_record</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">update_attribute</span><span class="p">(</span><span class="ss">:rejected</span><span class="p">,</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Skipping moderation</h3>
+
+<p>The moderation plugin adds an <strong>attr_accessor</strong> called <strong>skip_moderation</strong>, which when set to true will prevent a moderation
+record from being created for that instance of a save. This is useful if you need to create records programmatically, which
+don&#8217;t need to be moderated initially but will need to be moderated at some later point. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="vi">@story</span> <span class="o">=</span> <span class="no">ModeratedStory</span><span class="o">.</span><span class="n">create</span> <span class="c1">#creates a moderation record</span>
+</span><span class='line'>  <span class="vi">@story</span> <span class="o">=</span> <span class="no">ModeratedStory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:skip_moderation</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span> <span class="c1">#does not create a moderation record</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A word to the wise however, since this <strong>attr_accessor</strong> prevents records from being moderated you will want to protect it from
+<em>mass_assignment</em> in your model.</p>
+
+<h4>Known Bugs</h4>
+
+<p>Presently if you use the <strong>:always_moderate</strong> flag on a STI model it will produce a never-ending series of record updates.
+I&#8217;ll keep working on this bug, in the meantime please do investigate!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: JavaScript | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-02-26T12:00:49-06:00</updated>
+  <updated>2013-02-27T20:27:44-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,80 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Javascript ParseTrees]]></title>
+    <link href="http://heavysixer.github.com/blog/2013/02/27/javascript-parsetrees/"/>
+    <updated>2013-02-27T20:22:00-06:00</updated>
+    <id>http://heavysixer.github.com/blog/2013/02/27/javascript-parsetrees</id>
+    <content type="html"><![CDATA[<p>I've been experimenting with the rkelly Ruby gem to help me explore the JavaScript parse tree. It is really fascinating, and I can see
+myself spending a lot of time spelunking through the language. Here is a simple example using the gem to iterate over each node in the
+parse tree and print out its type. Stay tuned, more to come!</p>
+
+<p>.. code-block:: ruby</p>
+
+<p>  require 'rubygems'
+  require 'rkelly'
+  parser = RKelly::Parser.new
+  src = &lt;&lt;EOF
+  // Create scrollLeft and scrollTop methods
+  jQuery.each( {scrollLeft: "pageXOffset", scrollTop: "pageYOffset"}, function( method, prop ) {</p>
+
+<pre><code>var top = "pageYOffset" === prop;
+
+jQuery.fn[ method ] = function( val ) {
+  return jQuery.access( this, function( elem, method, val ) {
+    var win = getWindow( elem );
+
+    if ( val === undefined ) {
+      return win ? win[ prop ] : elem[ method ];
+    }
+
+    if ( win ) {
+      win.scrollTo(
+        !top ? val : window.pageXOffset,
+        top ? val : window.pageYOffset
+      );
+
+    } else {
+      elem[ method ] = val;
+    }
+  }, method, val, arguments.length, null );
+};
+</code></pre>
+
+<p>  });</p>
+
+<p>  function getWindow( elem ) {</p>
+
+<pre><code>return jQuery.isWindow( elem ) ? elem : elem.nodeType === 9 &amp;&amp; elem.defaultView;
+</code></pre>
+
+<p>  }
+  EOF
+  ast = parser.parse(src)</p>
+
+<p>  =begin
+  Outputs something like this as it traverses the parseTree
+  RKelly::Nodes::SourceElementsNode
+  RKelly::Nodes::ExpressionStatementNode
+  RKelly::Nodes::FunctionCallNode
+  RKelly::Nodes::DotAccessorNode
+  RKelly::Nodes::ResolveNode
+  RKelly::Nodes::ArgumentsNode
+  RKelly::Nodes::ObjectLiteralNode
+  RKelly::Nodes::PropertyNode
+  ...
+  =end</p>
+
+<p>  ast.each do |node|</p>
+
+<pre><code>puts node.class
+</code></pre>
+
+<p>  end</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Getting Closure]]></title>
@@ -1841,192 +1915,6 @@ var foo = findStrictly();
   num = Number(num);</p></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Spineless 0.2.1 Released]]></title>
-    <link href="http://heavysixer.github.com/blog/2012/06/24/spineless-0-dot-2-1-released/"/>
-    <updated>2012-06-24T14:43:00-05:00</updated>
-    <id>http://heavysixer.github.com/blog/2012/06/24/spineless-0-dot-2-1-released</id>
-    <content type="html"><![CDATA[<p>I have just pushed a new release of my JavaScript application framework called Spineless. Spineless is a simple MVC stack without the need of a backbone.
-<a href="https://github.com/heavysixer/spineless">https://github.com/heavysixer/spineless</a></p>
-
-<p>The goal of Spineless is to provide "just enough framework" to succeed. If I have done my job, you should be able to write your first Spineless app in less than 10 minutes.</p>
-
-<p>Spineless is meant to run with virtually no dependencies. In the age of frameworks with massive dependency chains, here is a list of things you <em>DO NOT</em> need to run spineless.</p>
-
-<ol>
-<li>A persistance layer (e.g. database)</li>
-<li>A backend server (e.g. node.js)</li>
-<li>An internet connection! (srsly)</li>
-</ol>
-
-
-<p>Spineless has only two dependencies, JQuery and Mustache.js, both which come bundled
-with the project inside the /lib directory.</p>
-
-<p>Like any good MVC framework Spineless uses the concept of models, controllers and views.</p>
-
-<ol>
-<li>Spineless models are essentially JavaScript objects and completely optional.</li>
-<li>Controllers are used to marshall commands from the views to the models where needed.</li>
-<li>Views are the visual interface that the user sees.</li>
-</ol>
-
-
-<p>In addition to the normal MVC stack, Spineless also uses the concept of helpers and templates.</p>
-
-<ol>
-<li>Templates are HTML snippets, which are used by views to get better use of reusable code.</li>
-<li>Helpers are functions that modify a template's variables any way you choose.</li>
-</ol>
-
-
-<h2>Going Spineless in 10 minutes or less</h2>
-
-<p>The entire Spineless application resides inside the ".application" div. An application consists
-of a collection of controllers which in turn contain a collection of views.
-Consider the following example:</p>
-
-<p>```html</p>
-
-<pre><code>&lt;div class="application"&gt;
-  &lt;div class="controller" data-controller='application'&gt;
-    &lt;div class="view" data-action='index'&gt;
-      Hello World!
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-
-<p>```</p>
-
-<p>In this example you'll see that we have defined an application with a single controller. The name of the controller is defined by the <code>data-controller</code> attribute. This attribute is required by Spineless to route requests to the proper location. Views are much like controllers, but instead of using the <code>data-controller</code> attribute they use the <code>data-action</code>.</p>
-
-<h2>Routing Requests</h2>
-
-<p>Routing requests through Spineless is incredibly painless to make any link a spineless request just add the "route" class. For example:</p>
-
-<p>``` html</p>
-
-<pre><code>&lt;a class="route" href="http://heavysixer.github.com/application/hello"&gt;Hello&lt;/a&gt;
-</code></pre>
-
-<p>```</p>
-
-<p>When the user clicks on this link they will now be routed to the application controller where the <code>#hello</code> method will be called. If you are not using an element that support the <code>href</code> attribute you can also place your url inside a <code>data-href</code> attribute:</p>
-
-<p>``` html</p>
-
-<div class="route" data-href="/application/hello">Hello</div>
-
-
-<p>```</p>
-
-<p>If you want to manually trigger a route request from within JavaScript you can call the <code>get</code> function:</p>
-
-<p>```javascript</p>
-
-<pre><code>spineless.get('application', 'index');`
-</code></pre>
-
-<p>```</p>
-
-<h2>Passing local variables to templates</h2>
-
-<p>When rendering templates, Spineless substitutes predefined template variables with those you supply using JSON. The JSON can be provided in at least two ways:</p>
-
-<ol>
-<li>By url encoded a json object into the <code>data-locals</code> attribute.</li>
-<li>Creating of modifying the JSON object using a helper function.</li>
-</ol>
-
-
-<p>I will explain the helper function method next, but here is a simple example of what the data-locals method looks like:</p>
-
-<p>```html</p>
-
-<pre><code>&lt;div data-locals="{&amp;quot;name&amp;quot;:&amp;quot;Mark&amp;quot;}" data-template='hi-my-name-is'&gt;&lt;/div&gt;
-</code></pre>
-
-<p>```</p>
-
-<h2>Helper functions</h2>
-
-<p>Helpers are developer-created functions that execute during the rendering of specific templates. Just like in Rails, helpers are available globally across all views. To demonstrate, imagine we have two DIV tags with locals supplied as urlencoded JSON object:</p>
-
-<p>``` html</p>
-
-<pre><code>&lt;div data-locals="{&amp;quot;name&amp;quot;:&amp;quot;Mark&amp;quot;}" data-template='hi-my-name-is'&gt;&lt;/div&gt;
-&lt;div data-locals="{&amp;quot;name&amp;quot;:&amp;quot;Slim Shady&amp;quot;}" data-template='hi-my-name-is'&gt;&lt;/div&gt;
-</code></pre>
-
-<p>```</p>
-
-<p>As you can see these objects have a property called <code>name</code>, each with unique values. These locals are linked to the “hi-my-name-is” template. To create a helper we’ll bind a function to execute whenever the <code>hi-my-name-is</code> template is rendered. Doing this will allows us intercept the template instance's data-locals object and modify it anyway we choose before passing it along to Mustache to render. Here is the full example of the helper function:</p>
-
-<p>``` javascript</p>
-
-<pre><code>var sp = $.spineless({
-    helpers: {
-        'hi-my-name-is': function(obj) {
-            if (obj.name === 'Slim Shady') {
-                obj.name = "*wikka wikka* " + obj.name;
-            }
-            return (obj);
-        }
-    }
-});
-</code></pre>
-
-<p>```</p>
-
-<h2>PubSub for Spineless events</h2>
-
-<p>Spineless now has a very minimal publisher subscriber (PubSub) events framework. The goal of this is to allow other code executing outside of Spineless to receive updates when internal Spineless events execute, without having to know anything about how Spineless is implemented. Here is a trivial example of creating an observer that is triggered every time a view is done rendering.</p>
-
-<p>``` javascript</p>
-
-<pre><code>$(document).ready(function() {
-    var sp = $.spineless();
-    sp.subscribe('afterRender',
-    function(publisher, app) {
-        app.request.view.append("&lt;h1&gt;Yes it has!&lt;/h1&gt;")
-    })
-    sp.get('application', 'index');
-});
-</code></pre>
-
-<p>```</p>
-
-<p>When the publisher executes a subscriber’s function it passes a reference to itself and the Spineless app instance as arguments. This allows the receiver to manage it’s subscriptions and gives the function access to the the Spineless current request, params hash among other things.</p>
-
-<h2>Controller functions</h2>
-
-<p>Controller functions are optional code that developers can write to augment the rendering of the view. Controller functions work much like helper functions do, in that they are executed before the view is returned to the screen. Unlike helper functions which are linked to an arbitrary number of templates; controller functions are scoped to just one controller action. Consider this example which executes when someone visits <code>/users/update</code>:</p>
-
-<p>```javascript</p>
-
-<pre><code>var sp = $.spineless({
-    controllers: {
-        users: {
-            update: function(elements, request) {
-                if ($.currentUser.isAdmin()) {
-                    this.render(elements);
-                } else {
-                    alert(“Access Denied”);
-                }
-            }
-        }
-    }
-});
-sp.get('application', 'index');
-</code></pre>
-
-<p>```</p>
-
-<p>I have added examples of all of these new features in the /samples folder of the public Github repo. Please feel free to open bug reports or feature requests, and I will do my best to oblige.</p>
 ]]></content>
   </entry>
   

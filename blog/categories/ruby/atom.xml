@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-02-26T12:00:49-06:00</updated>
+  <updated>2013-02-27T20:27:44-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,80 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Javascript ParseTrees]]></title>
+    <link href="http://heavysixer.github.com/blog/2013/02/27/javascript-parsetrees/"/>
+    <updated>2013-02-27T20:22:00-06:00</updated>
+    <id>http://heavysixer.github.com/blog/2013/02/27/javascript-parsetrees</id>
+    <content type="html"><![CDATA[<p>I've been experimenting with the rkelly Ruby gem to help me explore the JavaScript parse tree. It is really fascinating, and I can see
+myself spending a lot of time spelunking through the language. Here is a simple example using the gem to iterate over each node in the
+parse tree and print out its type. Stay tuned, more to come!</p>
+
+<p>.. code-block:: ruby</p>
+
+<p>  require 'rubygems'
+  require 'rkelly'
+  parser = RKelly::Parser.new
+  src = &lt;&lt;EOF
+  // Create scrollLeft and scrollTop methods
+  jQuery.each( {scrollLeft: "pageXOffset", scrollTop: "pageYOffset"}, function( method, prop ) {</p>
+
+<pre><code>var top = "pageYOffset" === prop;
+
+jQuery.fn[ method ] = function( val ) {
+  return jQuery.access( this, function( elem, method, val ) {
+    var win = getWindow( elem );
+
+    if ( val === undefined ) {
+      return win ? win[ prop ] : elem[ method ];
+    }
+
+    if ( win ) {
+      win.scrollTo(
+        !top ? val : window.pageXOffset,
+        top ? val : window.pageYOffset
+      );
+
+    } else {
+      elem[ method ] = val;
+    }
+  }, method, val, arguments.length, null );
+};
+</code></pre>
+
+<p>  });</p>
+
+<p>  function getWindow( elem ) {</p>
+
+<pre><code>return jQuery.isWindow( elem ) ? elem : elem.nodeType === 9 &amp;&amp; elem.defaultView;
+</code></pre>
+
+<p>  }
+  EOF
+  ast = parser.parse(src)</p>
+
+<p>  =begin
+  Outputs something like this as it traverses the parseTree
+  RKelly::Nodes::SourceElementsNode
+  RKelly::Nodes::ExpressionStatementNode
+  RKelly::Nodes::FunctionCallNode
+  RKelly::Nodes::DotAccessorNode
+  RKelly::Nodes::ResolveNode
+  RKelly::Nodes::ArgumentsNode
+  RKelly::Nodes::ObjectLiteralNode
+  RKelly::Nodes::PropertyNode
+  ...
+  =end</p>
+
+<p>  ast.each do |node|</p>
+
+<pre><code>puts node.class
+</code></pre>
+
+<p>  end</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Reading RFID Cards With Ruby and the Mac]]></title>

@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Daggett">
 
   
-  <meta name="description" content="As many of your know, I am one of the co-founders of Pledgie. Occasionally, I get asked for advice on how to make an effective campaign on Pledgie &hellip;">
+  <meta name="description" content="This weekend I fooled around with the Sparkfun &#8220;RFID Starter Kit&#8221;. I purchased it from my local technology barn for around $50.00. I am &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,142 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/23/reading-rfid-cards-with-ruby/">Reading RFID Cards With Ruby and the Mac</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-23T09:18:00-05:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This weekend I fooled around with the Sparkfun &#8220;RFID Starter Kit&#8221;. I purchased it from my local technology barn for around $50.00. I am teaching myself physical computing, and projects like that can be completed in an afternoon, are a great way to learn &#8220;just enough&#8221; to keep a junior hardware hacker like myself from getting frustrated.</p>
+
+<p>I was thrilled to find out that getting this board to talk to Ruby took virtually no effort. In fact, it was so simple it almost felt like I was cheating some how. Here are the steps that I followed to get the ID-12 RFID Scanner and Reader talking to Ruby.</p>
+
+<ol>
+<li><p>Download the most recent drivers from Future Technology Devices International:
+ <a href="http://www.ftdichip.com/Drivers/VCP/MacOSX/FTDIUSBSerialDriver_v2_2_14.dmg">http://www.ftdichip.com/Drivers/VCP/MacOSX/FTDIUSBSerialDriver_v2_2_14.dmg</a>
+ The package contains two sets of drivers. Make sure that you install the version that is right for your operating system.</p></li>
+<li><p>Install the serialport gem for Ruby
+ gem install serialport (I used version 1.0.4)</p></li>
+<li><p>Mount the scanner on top of the reader by lining up the prongs in the appropriate slot. Then plug the reader into the Mini-USB port of the mac.</p></li>
+<li><p>From the console, locate the virtual com port the drivers created when you plugged in your Mini-USB cable.
+ :~ ls -la /dev</p>
+
+<p> Scanning the output from this command you should see the device listed similar to this:  cu.usbserial-XXXXXX (where X&#8217;s represent a driver id). Mine showed up as &#8220;cu.usbserial-A900ftPb&#8221; but yours may be different.</p></li>
+<li><p>Use this sample code to print the unique RFID id stored inside the card, when someone swipes the card over the scanner.</p></li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Simple example of reading from serial port to interface with the RFID reader.</span>
+</span><span class='line'><span class="nb">require</span> <span class="s2">&quot;serialport&quot;</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">RfidReader</span>
+</span><span class='line'> <span class="kp">attr_accessor</span> <span class="ss">:key</span>
+</span><span class='line'>
+</span><span class='line'> <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+</span><span class='line'>   <span class="n">port_str</span> <span class="o">=</span> <span class="n">port</span>
+</span><span class='line'>   <span class="n">baud_rate</span> <span class="o">=</span> <span class="mi">9600</span>
+</span><span class='line'>   <span class="n">data_bits</span> <span class="o">=</span> <span class="mi">8</span>
+</span><span class='line'>   <span class="n">stop_bits</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>   <span class="n">parity</span> <span class="o">=</span> <span class="no">SerialPort</span><span class="o">::</span><span class="no">NONE</span>
+</span><span class='line'>   <span class="vi">@sp</span> <span class="o">=</span> <span class="no">SerialPort</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">port_str</span><span class="p">,</span> <span class="n">baud_rate</span><span class="p">,</span> <span class="n">data_bits</span><span class="p">,</span> <span class="n">stop_bits</span><span class="p">,</span> <span class="n">parity</span><span class="p">)</span>
+</span><span class='line'>   <span class="vi">@key_parts</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>   <span class="vi">@key_limit</span> <span class="o">=</span> <span class="mi">16</span> <span class="c1"># number of slots in the RFID card.</span>
+</span><span class='line'>   <span class="k">while</span> <span class="kp">true</span> <span class="k">do</span>
+</span><span class='line'>     <span class="n">main</span>
+</span><span class='line'>   <span class="k">end</span>
+</span><span class='line'>   <span class="vi">@sp</span><span class="o">.</span><span class="n">close</span>
+</span><span class='line'> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'> <span class="k">def</span> <span class="nf">key_detected?</span>
+</span><span class='line'>   <span class="vi">@key_parts</span> <span class="o">&lt;&lt;</span> <span class="vi">@sp</span><span class="o">.</span><span class="n">getc</span>
+</span><span class='line'>   <span class="k">if</span> <span class="vi">@key_parts</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;=</span> <span class="vi">@key_limit</span>
+</span><span class='line'>     <span class="nb">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="vi">@key_parts</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</span><span class='line'>     <span class="vi">@key_parts</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>     <span class="kp">true</span>
+</span><span class='line'>   <span class="k">else</span>
+</span><span class='line'>     <span class="kp">false</span>
+</span><span class='line'>   <span class="k">end</span>
+</span><span class='line'> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'> <span class="k">def</span> <span class="nf">main</span>
+</span><span class='line'>   <span class="k">if</span> <span class="n">key_detected?</span>
+</span><span class='line'>     <span class="nb">puts</span> <span class="nb">self</span><span class="o">.</span><span class="n">key</span>
+</span><span class='line'>   <span class="k">end</span>
+</span><span class='line'> <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">RfidReader</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;/dev/cu.usbserial-A900ftPb&quot;</span><span class="p">)</span>  <span class="c1">#may be different for you</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once you have the unique ID the possibilities become nearly limitless, you can use the card to update twitter, or turn on your lights, turn on the coffee pot, fire the nerf guns, release the hounds etc. Have fun, I know I will!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1339,216 +1475,6 @@ Gives them explicit actions they can take to help your campaign.</p>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/12/16/introducing-acts-as-moderated/">Introducing ActsAsModerated</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-12-16T09:06:00-06:00" pubdate data-updated="true">Dec 16<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Periodically sites that incorporate user generated content need a way to moderate the incoming stream before publishing it to the site. Typically this is accomplished by putting the content in a queue and allowing moderators to explicitly accept or reject content. I needed such functionality for a site I was working on so I wrote the &#8220;ActsAsModerated&#8221; plugin which allows specific columns of a model to be audited by a moderator at some later point.</p>
-
-<p>ActsAsModerated is good for:</p>
-
-<ul>
-<li>spot-checking user generated content</li>
-<li>being notified when new content is created</li>
-<li>tracking changes within a record</li>
-<li>spam checking</li>
-</ul>
-
-
-<p>Moreover, this plugin allows for custom callbacks and validations around the moderation event. This flexibility gives developers the ability to augment the moderation flow by stacking custom rules as needed. For example, a developer write code to assign a reputation score to a user and increment that score for every non-spam contribution they make. This would mean that you could auto approve any content that is made by a user above a certain score, thereby reducing the workload on moderators. I have been using this plugin for over a year on a very high-volume site and it has held up quite well, and so I thought I&#8217;d share it with the rest of the Ruby on Rails community.</p>
-
-<h3>Download &amp; Install</h3>
-
-<p>For those with ADD you can find acts_as_moderated here:
-<a href="https://github.com/heavysixer/acts_as_moderated">https://github.com/heavysixer/acts_as_moderated</a></p>
-
-<h3>Setup</h3>
-
-<p>Create the moderated_records table like so:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">create_table</span> <span class="s2">&quot;moderation_records&quot;</span><span class="p">,</span> <span class="ss">:force</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">integer</span>  <span class="s2">&quot;recordable_id&quot;</span>
-</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">string</span>   <span class="s2">&quot;recordable_type&quot;</span>
-</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">integer</span>  <span class="s2">&quot;state_id&quot;</span><span class="p">,</span>             <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="mi">0</span>
-</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">integer</span>  <span class="s2">&quot;decision_id&quot;</span><span class="p">,</span>          <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="mi">0</span>
-</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">boolean</span>  <span class="s2">&quot;flagged&quot;</span><span class="p">,</span>              <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="kp">false</span>
-</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">integer</span>  <span class="s2">&quot;moderator_id&quot;</span>
-</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">string</span>   <span class="s2">&quot;reason&quot;</span>
-</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">datetime</span> <span class="s2">&quot;created_at&quot;</span>
-</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">datetime</span> <span class="s2">&quot;updated_at&quot;</span>
-</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">text</span>     <span class="s2">&quot;inspected_attributes&quot;</span>
-</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">boolean</span>  <span class="s2">&quot;rejected&quot;</span><span class="p">,</span>             <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="kp">false</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">add_index</span> <span class="s2">&quot;moderation_records&quot;</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;decision_id&quot;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_moderation_records_on_decision_id&quot;</span>
-</span><span class='line'><span class="n">add_index</span> <span class="s2">&quot;moderation_records&quot;</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;flagged&quot;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_moderation_records_on_flagged&quot;</span>
-</span><span class='line'><span class="n">add_index</span> <span class="s2">&quot;moderation_records&quot;</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;moderator_id&quot;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_moderation_records_on_moderator_id&quot;</span>
-</span><span class='line'><span class="n">add_index</span> <span class="s2">&quot;moderation_records&quot;</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;recordable_id&quot;</span><span class="p">,</span> <span class="s2">&quot;recordable_type&quot;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_moderation_records_on_recordable_id_and_recordable_type&quot;</span>
-</span><span class='line'><span class="n">add_index</span> <span class="s2">&quot;moderation_records&quot;</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;rejected&quot;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_moderation_records_on_rejected&quot;</span>
-</span><span class='line'><span class="n">add_index</span> <span class="s2">&quot;moderation_records&quot;</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;state_id&quot;</span><span class="o">]</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_moderation_records_on_state_id&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Usage</h3>
-
-<p>ActsAsModerated has two integration points. The first is within the model(s) to be moderated, which can be done like so:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">acts_as_moderated</span> <span class="ss">:body</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The second integration point is the class that acts as the moderator. Typically this is some user or account class. The idea is that behind this integration point is to create an audit trail for decisions made by the moderator if you ever need to watch the watcher.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">class</span> <span class="nc">Account</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>    <span class="n">acts_as_moderator</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The plugin also supports an <strong>after_moderation</strong> callback on the record being moderated, which you can use to take action based on what the moderator did. For example:</p>
-
-<ul>
-<li>Delete the record if it is inappropriate or spam</li>
-<li>Email the content creator that their content has been approved / denied</li>
-</ul>
-
-
-<p>There are several dynamically created methods added to every acts_as_moderated class which moderators can use as a shortcut for making decisions. For example where <strong>@moderator</strong> is an object with <strong>acts_as_moderator</strong> applied:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="vi">@comment</span><span class="o">.</span><span class="n">marked_spam_by_moderator</span><span class="p">(</span><span class="vi">@moderator</span><span class="p">)</span>
-</span><span class='line'>  <span class="vi">@comment</span><span class="o">.</span><span class="n">marked_scam_by_moderator</span><span class="p">(</span><span class="vi">@moderator</span><span class="p">,</span> <span class="ss">:reason</span> <span class="o">=&gt;</span> <span class="s1">&#39;this is obviously a scam, please delete.&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Default Ordering, Callbacks &amp; Flagging</h3>
-
-<p>The ModerationRecord class has a <strong>named_scope</strong> called <em>queue</em>, which will return records sorted oldest to newest. However, if you flag a record it will be returned first regardless of its age relative to unflagged records. This is useful if you want to ensure that moderators see potentially dangerous records first. A good way to flag a record is using the <strong>after_moderated</strong> callback for example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">acts_as_moderated</span> <span class="ss">:body</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">after_moderated</span><span class="p">(</span><span class="n">moderation_record</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">moderation_record</span><span class="o">.</span><span class="n">flag!</span> <span class="k">if</span> <span class="n">body</span> <span class="o">=~</span> <span class="sr">/viagra/i</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The moderation record will attempt to make callbacks on the model being moderated after a record is first created <strong>after_moderation</strong> and when a moderator rejects a record <strong>after_rejection</strong> here is an example of what they might do:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Story</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">acts_as_moderated</span> <span class="ss">:body</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">after_moderated</span><span class="p">(</span><span class="n">moderation_record</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">update_attribute</span><span class="p">(</span><span class="ss">:moderated</span><span class="p">,</span> <span class="kp">true</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">after_rejection</span><span class="p">(</span><span class="n">moderation_record</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">update_attribute</span><span class="p">(</span><span class="ss">:rejected</span><span class="p">,</span> <span class="kp">true</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Skipping moderation</h3>
-
-<p>The moderation plugin adds an <strong>attr_accessor</strong> called <strong>skip_moderation</strong>, which when set to true will prevent a moderation
-record from being created for that instance of a save. This is useful if you need to create records programmatically, which
-don&#8217;t need to be moderated initially but will need to be moderated at some later point. For example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="vi">@story</span> <span class="o">=</span> <span class="no">ModeratedStory</span><span class="o">.</span><span class="n">create</span> <span class="c1">#creates a moderation record</span>
-</span><span class='line'>  <span class="vi">@story</span> <span class="o">=</span> <span class="no">ModeratedStory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:skip_moderation</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span> <span class="c1">#does not create a moderation record</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A word to the wise however, since this <strong>attr_accessor</strong> prevents records from being moderated you will want to protect it from
-<em>mass_assignment</em> in your model.</p>
-
-<h4>Known Bugs</h4>
-
-<p>Presently if you use the <strong>:always_moderate</strong> flag on a STI model it will produce a never-ending series of record updates.
-I&#8217;ll keep working on this bug, in the meantime please do investigate!</p>
 </div>
   
   
