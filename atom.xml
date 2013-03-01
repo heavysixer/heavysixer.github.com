@@ -4,7 +4,7 @@
   <title><![CDATA[Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-02-28T14:04:02-06:00</updated>
+  <updated>2013-03-01T09:29:52-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[racing and profiling]]></title>
+    <link href="http://heavysixer.github.com/blog/2013/03/01/racing-and-profiling/"/>
+    <updated>2013-03-01T09:08:00-06:00</updated>
+    <id>http://heavysixer.github.com/blog/2013/03/01/racing-and-profiling</id>
+    <content type="html"><![CDATA[<p>I&#8217;ve been experimenting with various ways to profile, and explore JavaScript as it executes in the runtime environment. Mostly I&#8217;ve been
+experimenting with the rKelly and rubyracer gems. Both gems are written by people much smarter than myself so there is lots to learn and
+explore inside their source. I was talking to the very friendly <a class="reference external" href="https://twitter.com/cowboyd">Charles Lowell</a>, creator of the rubyracer
+and he shared this great snippet with me, which allows you to turn on the v8 profiler while the rubyracer is running. Because this is an
+undocumented hook I thought I&#8217;d share it here:</p>
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">ruby</span> <span class="o">-</span><span class="no">Ilib</span> <span class="o">-</span><span class="no">Iext</span> <span class="o">-</span><span class="n">rv8</span> <span class="o">-</span><span class="n">e</span> <span class="s1">&#39;V8::C::V8::SetFlagsFromString(&quot;--prof&quot;); V8::Context.new() {|c| puts c.eval(&quot;5 + 1&quot;)}; V8::C::V8::PauseProfiler()&#39;</span>
+</span></code></pre></td></tr></table></div></figure><p>This will produce a <em>v8.log</em> file wherever you executed the script from. Inside the file there is a gluttonous amount of data, which will
+take some time to parse through but in general it looks a bit like this:</p>
+<pre class="literal-block">
+code-creation,LoadIC,0x127fc3e29140,181,&quot;A load IC from the snapshot&quot;
+code-creation,KeyedLoadIC,0x127fc3e29200,181,&quot;A keyed load IC from the snapshot&quot;
+code-creation,StoreIC,0x127fc3e292c0,183,&quot;A store IC from the snapshot&quot;
+code-creation,KeyedStoreIC,0x127fc3e29380,183,&quot;A keyed store IC from the snapshot&quot;
+code-creation,Builtin,0x127fc3e29440,97,&quot;A builtin from the snapshot&quot;
+code-creation,Builtin,0x127fc3e294c0,137,&quot;A builtin from the snapshot&quot;
+code-creation,Script,0x127fc3e14e20,980,&quot;native string.js&quot;,0x2e87cc50ec50,
+code-creation,LazyCompile,0x127fc3e15500,1616,&quot;SetUpString native string.js:940&quot;,0x2e87cc5129c8,
+code-creation,LazyCompile,0x127fc3e15be0,472,&quot; native string.js:36&quot;,0x2e87cc512ab0,
+code-creation,Script,0x127fc3e15dc0,336,&quot;native array.js&quot;,0x2e87cc512e00,
+code-creation,LazyCompile,0x127fc3e15f20,2544,&quot;SetUpArray native array.js:1469&quot;,0x2e87cc5175b0,
+code-creation,LazyCompile,0x127fc3e16920,340,&quot;SetUpArray.b native array.js:1482&quot;,0x2e87cc517668,
+code-creation,Script,0x127fc3e16b00,552,&quot;native regexp.js&quot;,0x2e87cc5177f0,
+code-creation,LazyCompile,0x127fc3e16d40,388,&quot;RegExpConstructor native regexp.js:86&quot;,0x2e87cc518a70,
+code-creation,LazyCompile,0x127fc3e16ee0,280,&quot;RegExpMakeCaptureGetter native regexp.js:363&quot;,0x2e87cc519288,
+code-creation,LazyCompile,0x127fc3e17000,668,&quot; native regexp.js:364&quot;,0x2e87cc519340,
+code-creation,LazyCompile,0x127fc3e172a0,2304,&quot;SetUpRegExp native regexp.js:403&quot;,0x2e87cc519488,
+code-creation,LazyCompile,0x127fc3e17ba0,292,&quot;SetUpRegExp.a native regexp.js:422&quot;,0x2e87cc519540,
+code-creation,LazyCompile,0x127fc3e17ce0,256,&quot;SetUpRegExp.c native regexp.js:426&quot;,0x2e87cc519658,
+</pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Javascript ParseTrees]]></title>
@@ -3948,60 +3987,6 @@ Gives them explicit actions they can take to help your campaign.</p>
 </span><span class='line'>    <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
 </span><span class='line'>    <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;can only contain letters number and special these special characters </span><span class="se">\&quot;</span><span class="s2">-_.</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
 </span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Simple Rails 3 Validator for Unchangeable Attributes]]></title>
-    <link href="http://heavysixer.github.com/blog/2012/03/23/simple-rails-3-validator-for-unchangeable-attributes/"/>
-    <updated>2012-03-23T09:23:00-05:00</updated>
-    <id>http://heavysixer.github.com/blog/2012/03/23/simple-rails-3-validator-for-unchangeable-attributes</id>
-    <content type="html"><![CDATA[<p>Here is a simple Rails validator that you can use to ensure an attribute of a model cannot be changed once it has been assigned a value.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UnchangeableValidator</span> <span class="o">&lt;</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">EachValidator</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">validate_each</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">!</span><span class="n">object</span><span class="o">.</span><span class="n">new_record?</span> <span class="o">&amp;&amp;</span> <span class="n">value</span><span class="o">.</span><span class="n">present?</span>
-</span><span class='line'>      <span class="n">original</span> <span class="o">=</span> <span class="n">object</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:where</span><span class="p">,</span> <span class="s2">&quot;id = </span><span class="si">#{</span><span class="n">object</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;id, </span><span class="si">#{</span><span class="n">attribute</span><span class="o">.</span><span class="n">to_s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span>
-</span><span class='line'>      <span class="k">if</span> <span class="n">original</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span> <span class="o">!=</span> <span class="n">value</span>
-</span><span class='line'>        <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;cannot be changed once assigned&quot;</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can use it this way:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:unchangeable</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:presence</span> <span class="o">=&gt;</span> <span class="kp">true</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here are some specs to prove it works:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;should not allow you to change an email for an existing record&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s2">&quot;test@test.com&quot;</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:email</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;cannot be changed once assigned&quot;</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
