@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Daggett">
 
   
-  <meta name="description" content="Have you ever left your bank card inside an ATM machine? You are not alone, I have done it more times than I care to admit, and each time it happens &hellip;">
+  <meta name="description" content="I have just pushed a new release of my JavaScript application framework called Spineless. Spineless is a simple MVC stack without the need of a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,237 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/24/spineless-0-dot-2-1-released/">Spineless 0.2.1 Released</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-24T14:43:00-05:00" pubdate data-updated="true">Jun 24<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I have just pushed a new release of my JavaScript application framework called Spineless. Spineless is a simple MVC stack without the need of a backbone.
+<a href="https://github.com/heavysixer/spineless">https://github.com/heavysixer/spineless</a></p>
+
+<p>The goal of Spineless is to provide &#8220;just enough framework&#8221; to succeed. If I have done my job, you should be able to write your first Spineless app in less than 10 minutes.</p>
+
+<p>Spineless is meant to run with virtually no dependencies. In the age of frameworks with massive dependency chains, here is a list of things you <em>DO NOT</em> need to run spineless.</p>
+
+<ol>
+<li>A persistance layer (e.g. database)</li>
+<li>A backend server (e.g. node.js)</li>
+<li>An internet connection! (srsly)</li>
+</ol>
+
+
+<p>Spineless has only two dependencies, JQuery and Mustache.js, both which come bundled
+with the project inside the /lib directory.</p>
+
+<p>Like any good MVC framework Spineless uses the concept of models, controllers and views.</p>
+
+<ol>
+<li>Spineless models are essentially JavaScript objects and completely optional.</li>
+<li>Controllers are used to marshall commands from the views to the models where needed.</li>
+<li>Views are the visual interface that the user sees.</li>
+</ol>
+
+
+<p>In addition to the normal MVC stack, Spineless also uses the concept of helpers and templates.</p>
+
+<ol>
+<li>Templates are HTML snippets, which are used by views to get better use of reusable code.</li>
+<li>Helpers are functions that modify a template&#8217;s variables any way you choose.</li>
+</ol>
+
+
+<h2>Going Spineless in 10 minutes or less</h2>
+
+<p>The entire Spineless application resides inside the &#8220;.application&#8221; div. An application consists
+of a collection of controllers which in turn contain a collection of views.
+Consider the following example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;application&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;controller&quot;</span> <span class="na">data-controller=</span><span class="s">&#39;application&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;view&quot;</span> <span class="na">data-action=</span><span class="s">&#39;index&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      Hello World!
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this example you&#8217;ll see that we have defined an application with a single controller. The name of the controller is defined by the <code>data-controller</code> attribute. This attribute is required by Spineless to route requests to the proper location. Views are much like controllers, but instead of using the <code>data-controller</code> attribute they use the <code>data-action</code>.</p>
+
+<h2>Routing Requests</h2>
+
+<p>Routing requests through Spineless is incredibly painless to make any link a spineless request just add the &#8220;route&#8221; class. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">&quot;route&quot;</span> <span class="na">href=</span><span class="s">&quot;/application/hello&quot;</span><span class="nt">&gt;</span>Hello<span class="nt">&lt;/a&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When the user clicks on this link they will now be routed to the application controller where the <code>#hello</code> method will be called. If you are not using an element that support the <code>href</code> attribute you can also place your url inside a <code>data-href</code> attribute:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;route&quot;</span> <span class="na">data-href=</span><span class="s">&quot;/application/hello&quot;</span><span class="nt">&gt;</span>Hello<span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want to manually trigger a route request from within JavaScript you can call the <code>get</code> function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">spineless</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;application&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">);</span><span class="err">`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Passing local variables to templates</h2>
+
+<p>When rendering templates, Spineless substitutes predefined template variables with those you supply using JSON. The JSON can be provided in at least two ways:</p>
+
+<ol>
+<li>By url encoded a json object into the <code>data-locals</code> attribute.</li>
+<li>Creating of modifying the JSON object using a helper function.</li>
+</ol>
+
+
+<p>I will explain the helper function method next, but here is a simple example of what the data-locals method looks like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">data-locals=</span><span class="s">&quot;{&amp;quot;name&amp;quot;:&amp;quot;Mark&amp;quot;}&quot;</span> <span class="na">data-template=</span><span class="s">&#39;hi-my-name-is&#39;</span><span class="nt">&gt;&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Helper functions</h2>
+
+<p>Helpers are developer-created functions that execute during the rendering of specific templates. Just like in Rails, helpers are available globally across all views. To demonstrate, imagine we have two DIV tags with locals supplied as urlencoded JSON object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">data-locals=</span><span class="s">&quot;{&amp;quot;name&amp;quot;:&amp;quot;Mark&amp;quot;}&quot;</span> <span class="na">data-template=</span><span class="s">&#39;hi-my-name-is&#39;</span><span class="nt">&gt;&lt;/div&gt;</span>
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">data-locals=</span><span class="s">&quot;{&amp;quot;name&amp;quot;:&amp;quot;Slim Shady&amp;quot;}&quot;</span> <span class="na">data-template=</span><span class="s">&#39;hi-my-name-is&#39;</span><span class="nt">&gt;&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see these objects have a property called <code>name</code>, each with unique values. These locals are linked to the “hi-my-name-is” template. To create a helper we’ll bind a function to execute whenever the <code>hi-my-name-is</code> template is rendered. Doing this will allows us intercept the template instance&#8217;s data-locals object and modify it anyway we choose before passing it along to Mustache to render. Here is the full example of the helper function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sp</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">spineless</span><span class="p">({</span>
+</span><span class='line'>    <span class="nx">helpers</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="s1">&#39;hi-my-name-is&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">obj</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;Slim Shady&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">obj</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;*wikka wikka* &quot;</span> <span class="o">+</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">return</span> <span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>PubSub for Spineless events</h2>
+
+<p>Spineless now has a very minimal publisher subscriber (PubSub) events framework. The goal of this is to allow other code executing outside of Spineless to receive updates when internal Spineless events execute, without having to know anything about how Spineless is implemented. Here is a trivial example of creating an observer that is triggered every time a view is done rendering.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">sp</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">spineless</span><span class="p">();</span>
+</span><span class='line'>    <span class="nx">sp</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s1">&#39;afterRender&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="kd">function</span><span class="p">(</span><span class="nx">publisher</span><span class="p">,</span> <span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">app</span><span class="p">.</span><span class="nx">request</span><span class="p">.</span><span class="nx">view</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">&quot;&lt;h1&gt;Yes it has!&lt;/h1&gt;&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">})</span>
+</span><span class='line'>    <span class="nx">sp</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;application&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When the publisher executes a subscriber’s function it passes a reference to itself and the Spineless app instance as arguments. This allows the receiver to manage it’s subscriptions and gives the function access to the the Spineless current request, params hash among other things.</p>
+
+<h2>Controller functions</h2>
+
+<p>Controller functions are optional code that developers can write to augment the rendering of the view. Controller functions work much like helper functions do, in that they are executed before the view is returned to the screen. Unlike helper functions which are linked to an arbitrary number of templates; controller functions are scoped to just one controller action. Consider this example which executes when someone visits <code>/users/update</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sp</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">spineless</span><span class="p">({</span>
+</span><span class='line'>    <span class="nx">controllers</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">users</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">update</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elements</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">currentUser</span><span class="p">.</span><span class="nx">isAdmin</span><span class="p">())</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">elements</span><span class="p">);</span>
+</span><span class='line'>                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="nx">alert</span><span class="p">(</span><span class="err">“</span><span class="nx">Access</span> <span class="nx">Denied</span><span class="err">”</span><span class="p">);</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="nx">sp</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;application&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I have added examples of all of these new features in the /samples folder of the public Github repo. Please feel free to open bug reports or feature requests, and I will do my best to oblige.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1221,235 +1452,6 @@ Gives them explicit actions they can take to help your campaign.</p>
 
 
 <p>A big tip of the hat to my friend jim bumgardner, who i <a href="http://krazydad.com/tutorials/makecolors.php">cribbed the color conversation functions from</a>.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/23/enterprise-quality-login-validation-for-rails-3/">Enterprise Quality Login Validation for Rails 3</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-23T09:33:00-05:00" pubdate data-updated="true">Mar 23<span>rd</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In the world of enterprise software development sometimes you need to be a little more thorough with your validations than you would for other types of clients. Here is a simple yet effective login validator that passes the typical forms of penetration testing you will find in the enterprise world.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">LoginFormatValidator</span> <span class="o">&lt;</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">EachValidator</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">validate_each</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">present?</span>
-</span><span class='line'>      <span class="k">unless</span> <span class="n">value</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">value</span>
-</span><span class='line'>        <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;cannot contain any whitespace&quot;</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>      <span class="k">if</span> <span class="o">[</span><span class="n">value</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="n">value</span><span class="o">[-</span><span class="mi">1</span><span class="o">]].</span><span class="n">any?</span><span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span> <span class="p">}</span>
-</span><span class='line'>        <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;cannot contain a period at the start or end&quot;</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>      <span class="k">unless</span> <span class="n">value</span> <span class="o">=~</span> <span class="sr">/[a-zA-Z]/</span>
-</span><span class='line'>        <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;must contain at least one letter&quot;</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>      <span class="k">unless</span> <span class="n">value</span> <span class="o">=~</span> <span class="sr">/[0-9]/</span>
-</span><span class='line'>        <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;must contain at least one number&quot;</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>      <span class="k">unless</span> <span class="n">value</span> <span class="o">=~</span> <span class="sr">/[_\-.]/</span>
-</span><span class='line'>        <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;must contain at least one these special characters </span><span class="se">\&quot;</span><span class="s2">-_.</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>      <span class="k">unless</span> <span class="n">value</span> <span class="o">=~</span> <span class="sr">/^[a-zA-Z0-9_\-.]+$/</span>
-</span><span class='line'>        <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;can only contain letters number and special these special characters </span><span class="se">\&quot;</span><span class="s2">-_.</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can use it this way:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">validates</span> <span class="ss">:login</span><span class="p">,</span> <span class="ss">:presence</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:login_format</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:uniqueness</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:case_sensitive</span> <span class="o">=&gt;</span> <span class="kp">false</span> <span class="p">},</span> <span class="ss">:length</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:maximum</span> <span class="o">=&gt;</span> <span class="mi">64</span><span class="p">,</span> <span class="ss">:minimum</span> <span class="o">=&gt;</span> <span class="mi">6</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here are some specs to prove it works:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;should only allow letters numbers and spaces in the name attribute&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="o">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;foo bar baz&#39;</span><span class="p">,</span> <span class="s1">&#39;foo 123 - bar baz&#39;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span>
-</span><span class='line'>    <span class="vi">@user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">n</span>
-</span><span class='line'>    <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>    <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:name</span><span class="o">].</span><span class="n">should</span> <span class="n">be_empty</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;&lt;script&gt;alert(&quot;test&quot;);&lt;/script&gt;&#39;</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:name</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;is invalid&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">it</span> <span class="s2">&quot;should not allow you to change an email for an existing record&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s2">&quot;test@test.com&quot;</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:email</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;cannot be changed once assigned&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">it</span> <span class="s2">&quot;should be case insenitive&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="vi">@user2</span> <span class="o">=</span> <span class="no">Factory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">login</span> <span class="o">=</span> <span class="vi">@user</span><span class="o">.</span><span class="n">login</span><span class="o">.</span><span class="n">capitalize</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;has already been taken&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">it</span> <span class="s2">&quot;should be at least 6 characters and no more than 64 characters&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="vi">@user2</span> <span class="o">=</span> <span class="no">Factory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">:login</span> <span class="o">=&gt;</span> <span class="s1">&#39;a1_&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;is too short (minimum is 6 characters)&quot;</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">login</span> <span class="o">=</span> <span class="s1">&#39;Pneumonoultramicroscopicsilicovolcanoconiosis1_is_a_very_long_word&#39;</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;is too long (maximum is 64 characters)&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">it</span> <span class="s2">&quot;should ensure the name is a mix of alpha chars (A-Z or a-z), numeric chars (0-9), and special characters (- _ .)&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="vi">@user2</span> <span class="o">=</span> <span class="no">Factory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">:login</span> <span class="o">=&gt;</span> <span class="s1">&#39;1----.----1&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;must contain at least one letter&quot;</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">login</span> <span class="o">=</span> <span class="s2">&quot;a------------------a&quot;</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;must contain at least one number&quot;</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">login</span> <span class="o">=</span><span class="s2">&quot;abc12345676789&quot;</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;must contain at least one these special characters </span><span class="se">\&quot;</span><span class="s2">-_.</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">it</span> <span class="s2">&quot;should ensure the special character &#39;.&#39; is not used at the beginning and end&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="vi">@user</span> <span class="o">=</span> <span class="no">Factory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">:login</span> <span class="o">=&gt;</span> <span class="s1">&#39;.Admin_f00&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;cannot contain a period at the start or end&quot;</span>
-</span><span class='line'>  <span class="vi">@user</span> <span class="o">=</span> <span class="no">Factory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">:login</span> <span class="o">=&gt;</span> <span class="s1">&#39;Admin_f00.&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;cannot contain a period at the start or end&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">it</span> <span class="s2">&quot;should not allow white space or \ / </span><span class="se">\&quot;</span><span class="s2"> [ ] : | &lt; &gt; + = ; , ? * @&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="vi">@user</span> <span class="o">=</span> <span class="no">Factory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">login</span> <span class="o">=</span> <span class="s2">&quot;user _1&quot;</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;cannot contain any whitespace&quot;</span>
-</span><span class='line'>  <span class="o">[</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">&#39;]&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;@&#39;</span><span class="p">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">char</span><span class="o">|</span>
-</span><span class='line'>    <span class="vi">@user</span><span class="o">.</span><span class="n">login</span> <span class="o">=</span> <span class="s2">&quot;user_1&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">char</span>
-</span><span class='line'>    <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>    <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;can only contain letters number and special these special characters </span><span class="se">\&quot;</span><span class="s2">-_.</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
 </div>
   
   

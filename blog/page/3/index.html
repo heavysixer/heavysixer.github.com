@@ -9,12 +9,7 @@
   <meta name="author" content="Mark Daggett">
 
   
-  <meta name="description" content="Here is a simple Rails validator that you can use to ensure an attribute of a model cannot be changed once it has been assigned a value. 1
-2
-3
-4
-5
-6 &hellip;">
+  <meta name="description" content="In the world of enterprise software development sometimes you need to be a little more thorough with your validations than you would for other types &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +76,235 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/23/enterprise-quality-login-validation-for-rails-3/">Enterprise Quality Login Validation for Rails 3</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-23T09:33:00-05:00" pubdate data-updated="true">Mar 23<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In the world of enterprise software development sometimes you need to be a little more thorough with your validations than you would for other types of clients. Here is a simple yet effective login validator that passes the typical forms of penetration testing you will find in the enterprise world.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">LoginFormatValidator</span> <span class="o">&lt;</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">EachValidator</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">validate_each</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">present?</span>
+</span><span class='line'>      <span class="k">unless</span> <span class="n">value</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">value</span>
+</span><span class='line'>        <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;cannot contain any whitespace&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="k">if</span> <span class="o">[</span><span class="n">value</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="n">value</span><span class="o">[-</span><span class="mi">1</span><span class="o">]].</span><span class="n">any?</span><span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span> <span class="p">}</span>
+</span><span class='line'>        <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;cannot contain a period at the start or end&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="k">unless</span> <span class="n">value</span> <span class="o">=~</span> <span class="sr">/[a-zA-Z]/</span>
+</span><span class='line'>        <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;must contain at least one letter&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="k">unless</span> <span class="n">value</span> <span class="o">=~</span> <span class="sr">/[0-9]/</span>
+</span><span class='line'>        <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;must contain at least one number&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="k">unless</span> <span class="n">value</span> <span class="o">=~</span> <span class="sr">/[_\-.]/</span>
+</span><span class='line'>        <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;must contain at least one these special characters </span><span class="se">\&quot;</span><span class="s2">-_.</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="k">unless</span> <span class="n">value</span> <span class="o">=~</span> <span class="sr">/^[a-zA-Z0-9_\-.]+$/</span>
+</span><span class='line'>        <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;can only contain letters number and special these special characters </span><span class="se">\&quot;</span><span class="s2">-_.</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can use it this way:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">validates</span> <span class="ss">:login</span><span class="p">,</span> <span class="ss">:presence</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:login_format</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:uniqueness</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:case_sensitive</span> <span class="o">=&gt;</span> <span class="kp">false</span> <span class="p">},</span> <span class="ss">:length</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:maximum</span> <span class="o">=&gt;</span> <span class="mi">64</span><span class="p">,</span> <span class="ss">:minimum</span> <span class="o">=&gt;</span> <span class="mi">6</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here are some specs to prove it works:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;should only allow letters numbers and spaces in the name attribute&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="o">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;foo bar baz&#39;</span><span class="p">,</span> <span class="s1">&#39;foo 123 - bar baz&#39;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span>
+</span><span class='line'>    <span class="vi">@user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">n</span>
+</span><span class='line'>    <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:name</span><span class="o">].</span><span class="n">should</span> <span class="n">be_empty</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;&lt;script&gt;alert(&quot;test&quot;);&lt;/script&gt;&#39;</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:name</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;is invalid&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;should not allow you to change an email for an existing record&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s2">&quot;test@test.com&quot;</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:email</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;cannot be changed once assigned&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;should be case insenitive&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="vi">@user2</span> <span class="o">=</span> <span class="no">Factory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">login</span> <span class="o">=</span> <span class="vi">@user</span><span class="o">.</span><span class="n">login</span><span class="o">.</span><span class="n">capitalize</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;has already been taken&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;should be at least 6 characters and no more than 64 characters&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="vi">@user2</span> <span class="o">=</span> <span class="no">Factory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">:login</span> <span class="o">=&gt;</span> <span class="s1">&#39;a1_&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;is too short (minimum is 6 characters)&quot;</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">login</span> <span class="o">=</span> <span class="s1">&#39;Pneumonoultramicroscopicsilicovolcanoconiosis1_is_a_very_long_word&#39;</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;is too long (maximum is 64 characters)&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;should ensure the name is a mix of alpha chars (A-Z or a-z), numeric chars (0-9), and special characters (- _ .)&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="vi">@user2</span> <span class="o">=</span> <span class="no">Factory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">:login</span> <span class="o">=&gt;</span> <span class="s1">&#39;1----.----1&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;must contain at least one letter&quot;</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">login</span> <span class="o">=</span> <span class="s2">&quot;a------------------a&quot;</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;must contain at least one number&quot;</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">login</span> <span class="o">=</span><span class="s2">&quot;abc12345676789&quot;</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="vi">@user2</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;must contain at least one these special characters </span><span class="se">\&quot;</span><span class="s2">-_.</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;should ensure the special character &#39;.&#39; is not used at the beginning and end&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="vi">@user</span> <span class="o">=</span> <span class="no">Factory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">:login</span> <span class="o">=&gt;</span> <span class="s1">&#39;.Admin_f00&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;cannot contain a period at the start or end&quot;</span>
+</span><span class='line'>  <span class="vi">@user</span> <span class="o">=</span> <span class="no">Factory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">:login</span> <span class="o">=&gt;</span> <span class="s1">&#39;Admin_f00.&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;cannot contain a period at the start or end&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;should not allow white space or \ / </span><span class="se">\&quot;</span><span class="s2"> [ ] : | &lt; &gt; + = ; , ? * @&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="vi">@user</span> <span class="o">=</span> <span class="no">Factory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">login</span> <span class="o">=</span> <span class="s2">&quot;user _1&quot;</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;cannot contain any whitespace&quot;</span>
+</span><span class='line'>  <span class="o">[</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">&#39;]&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;@&#39;</span><span class="p">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">char</span><span class="o">|</span>
+</span><span class='line'>    <span class="vi">@user</span><span class="o">.</span><span class="n">login</span> <span class="o">=</span> <span class="s2">&quot;user_1&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">char</span>
+</span><span class='line'>    <span class="vi">@user</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="vi">@user</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:login</span><span class="o">].</span><span class="n">first</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;can only contain letters number and special these special characters </span><span class="se">\&quot;</span><span class="s2">-_.</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
