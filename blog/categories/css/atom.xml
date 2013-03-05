@@ -4,7 +4,7 @@
   <title><![CDATA[Category: CSS | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/css/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-03-04T14:17:28-06:00</updated>
+  <updated>2013-03-04T21:39:02-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -25,11 +25,15 @@ the relevant component of the interface as the characters are explaining it. For
 JavaScript class which will spotlight a portion of the screen using only CSS and JavaScript. Here is an example of
 it <code>working &lt;http://jsfiddle.net/HFnYC/&gt;</code>_.</p>
 
-<p>The class allows you to configure the following spotlight attributes:
- * starting x,y (integer)
- * destination x,y (integer)
- * duration (0%-100%)
- * callback when animation is complete (function)</p>
+<p>The class allows you to configure the following spotlight attributes:</p>
+
+<ul>
+<li>starting x,y (integer)</li>
+<li>destination x,y (integer)</li>
+<li>duration (0%-100%)</li>
+<li>callback when animation is complete (function)</li>
+</ul>
+
 
 <p>Below is the CSS and JavaScript you'll need to use it in your own projects. If you improve this script please let me
 know.</p>

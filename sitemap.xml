@@ -116,7 +116,13 @@
         <loc>
             http://heavysixer.github.com/blog/2013/03/04/dynamic-spotlight-effect-using-css-and-javascript/
         </loc>
-        <lastmod>2013-03-04T14:17:22-06:00</lastmod>
+        <lastmod>2013-03-04T18:39:42-06:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://heavysixer.github.com/blog/2013/03/04/functional-illiteracy-in-javascript/
+        </loc>
+        <lastmod>2013-03-04T21:38:56-06:00</lastmod>
     </url>
     <url>
         <loc>http://heavysixer.github.com/404.html</loc>
@@ -124,10 +130,10 @@
     </url>
     <url>
         <loc>http://heavysixer.github.com/blog/archives/</loc>
-        <lastmod>2013-03-04T14:17:22-06:00</lastmod>
+        <lastmod>2013-03-04T21:38:56-06:00</lastmod>
     </url>
     <url>
         <loc>http://heavysixer.github.com/</loc>
-        <lastmod>2013-03-04T14:17:22-06:00</lastmod>
+        <lastmod>2013-03-04T21:38:56-06:00</lastmod>
     </url>
 </urlset>

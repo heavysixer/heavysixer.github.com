@@ -4,7 +4,7 @@
   <title><![CDATA[Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-03-04T14:17:28-06:00</updated>
+  <updated>2013-03-04T21:39:02-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,31 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Functional Illiteracy In JavaScript]]></title>
+    <link href="http://heavysixer.github.com/blog/2013/03/04/functional-illiteracy-in-javascript/"/>
+    <updated>2013-03-04T21:36:00-06:00</updated>
+    <id>http://heavysixer.github.com/blog/2013/03/04/functional-illiteracy-in-javascript</id>
+    <content type="html"><![CDATA[<p>When someone cannot read or write in their native language, they are considered functionally illiterate. This
+level of illiteracy means that they subsist in their daily life through their ability to speak fluently, and
+recognize certain written keywords. Illiteracy is not a sign of stupidity; in many cases it is the result a lack
+of opportunity to learn. However, illiteracy does stunt the potential of otherwise bright people. The sad fact is
+their inability to participate in society through the mastery of language makes them at higher risk of being in
+poverty and committing crime.</p>
+<p>Aside from it being an epic pun, what does it mean to be a functionally illiterate developer? Most computer
+languages are written, not spoken (try speaking JavaScript out loud and you&#8217;ll see what I mean). Therefore, being
+able to write code does not make you literate. Being an illiterate developer means that you skim across the
+surface of the language, copying snippets of code from others trying cobble, together a working program with
+little or no understanding of how or why it works.</p>
+<p>As with illiterates in the wider world, illiterate developers are not unintelligent. Often it means that they
+didn&#8217;t have the luxury of taking a deep dive through the mechanics of the programming language. Many illiterate
+developers are practicing software professionals, backed into a corner by impending deadlines, or lack of
+resources. Perhaps they started in other fields such as graphic design, or business and find themselves scurrying
+along the surface of the language, learning in fits and starts as they go along.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Dynamic Spotlight Effect Using CSS and JavaScript]]></title>
@@ -24,16 +49,15 @@ player how to use it and why they should care. Ideally, you want to visually dra
 the relevant component of the interface as the characters are explaining it. For this purpose I created a
 JavaScript class which will spotlight a portion of the screen using only CSS and JavaScript. Here is an example of
 it <a class="reference external" href="http://jsfiddle.net/HFnYC/">working</a>.</p>
-<dl class="docutils">
-<dt>The class allows you to configure the following spotlight attributes:</dt>
-<dd><ul class="first last simple">
+<p>The class allows you to configure the following spotlight attributes:</p>
+<blockquote>
+<ul class="simple">
 <li>starting x,y (integer)</li>
 <li>destination x,y (integer)</li>
 <li>duration (0%-100%)</li>
 <li>callback when animation is complete (function)</li>
 </ul>
-</dd>
-</dl>
+</blockquote>
 <p>Below is the CSS and JavaScript you&#8217;ll need to use it in your own projects. If you improve this script please let me
 know.</p>
 <figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -3729,224 +3753,6 @@ Gives them explicit actions they can take to help your campaign.</p>
 <p><strong>A.</strong> What would your ideal guest expect? Not everyone expets (or even wants) a five course meal that takes hours to eat. What they will want is for it to feel complete, and that differs from person to person.</p>
 
 <p><strong>Insight:</strong> The expression “soup to nuts” is often used when describing a project completed from beginning to end. It alludes to a complete meal that included appetizers (soup), nuts (dessert) and everything in between. If you view your features through the lens of completeness it should help you determine if a feature is needed now or can wait.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Generate Beautiful Gradients Using JavaScript]]></title>
-    <link href="http://heavysixer.github.com/blog/2012/03/23/generate-beautiful-gradients-using-javascript/"/>
-    <updated>2012-03-23T10:34:00-05:00</updated>
-    <id>http://heavysixer.github.com/blog/2012/03/23/generate-beautiful-gradients-using-javascript</id>
-    <content type="html"><![CDATA[<p>I use Highcharts an excellent charting library built in JavaScript for much of my data visualization and analytic work. However, one thing that has always bugged me is their collection of default series colors, which are a bit limp. Highcharts does provide an easy way to manually override their defaults with your own list of colors. Unfortunately, it&#8217;s not always possible to know in advance how many series will be supplied to the chart object. In the cases where there are more series than there are manually supplied colors the Highcharts default colors will start to leak into your charts and ruin the visual aesthetics. I wrote the gradient generator to produce a range of colors based on the parameters you supply. You simply supply start and stop colors and the number of steps in between, and you&#8217;ll be sure to have enough colors for your series.</p>
-
-<p>Even though I made this generator for a need I had in highcharts, you can use it anywhere you want a uniform sequence of colors. Here is how I use it in Highcharts:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">seriesColors</span> <span class="o">=</span> <span class="nx">gradientFactory</span><span class="p">.</span><span class="nx">generate</span><span class="p">({</span>
-</span><span class='line'>    <span class="nx">from</span><span class="o">:</span> <span class="s2">&quot;#0000FF&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="nx">to</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="err">#</span><span class="nx">FF0000</span><span class="err">&quot;</span>
-</span><span class='line'>    <span class="nx">stops</span><span class="o">:</span> <span class="nx">chartConfig</span><span class="p">.</span><span class="nx">series</span><span class="p">.</span><span class="nx">length</span>
-</span><span class='line'><span class="p">})</span>
-</span><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">chartConfig</span><span class="p">.</span><span class="nx">series</span><span class="p">,</span>
-</span><span class='line'><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">seriesOptions</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
-</span><span class='line'>        <span class="nx">color</span><span class="o">:</span> <span class="nx">seriesColors</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
-</span><span class='line'>        <span class="c1">// other attributes ...</span>
-</span><span class='line'>    <span class="p">});</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here is the code for the Gradient Factory:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">gradientFactory</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">_beginColor</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">red</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">green</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">blue</span><span class="o">:</span> <span class="mi">0</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">_endColor</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">red</span><span class="o">:</span> <span class="mi">255</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">green</span><span class="o">:</span> <span class="mi">255</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">blue</span><span class="o">:</span> <span class="mi">255</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">_colorStops</span> <span class="o">=</span> <span class="mi">24</span><span class="p">;</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">_colors</span> <span class="o">=</span> <span class="p">[];</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">_colorKeys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">];</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">_rgbToHex</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span> <span class="nx">g</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="nx">_byteToHex</span><span class="p">(</span><span class="nx">r</span><span class="p">)</span> <span class="o">+</span> <span class="nx">_byteToHex</span><span class="p">(</span><span class="nx">g</span><span class="p">)</span> <span class="o">+</span> <span class="nx">_byteToHex</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">_byteToHex</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">hexVals</span> <span class="o">=</span> <span class="s2">&quot;0123456789ABCDEF&quot;</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nb">String</span><span class="p">(</span><span class="nx">hexVals</span><span class="p">.</span><span class="nx">substr</span><span class="p">((</span><span class="nx">n</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x0F</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="nx">hexVals</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="nx">n</span> <span class="o">&amp;</span> <span class="mh">0x0F</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">_parseColor</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">((</span><span class="nx">color</span><span class="p">).</span><span class="nx">toString</span><span class="p">()</span> <span class="o">===</span> <span class="s2">&quot;[object Object]&quot;</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">return</span> <span class="nx">color</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nx">color</span> <span class="o">=</span> <span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span><span class="p">)</span> <span class="o">?</span> <span class="nx">color</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="o">:</span> <span class="nx">color</span><span class="p">;</span>
-</span><span class='line'>            <span class="k">return</span> <span class="p">{</span>
-</span><span class='line'>                <span class="nx">red</span><span class="o">:</span> <span class="nb">parseInt</span><span class="p">((</span><span class="nx">color</span><span class="p">).</span><span class="nx">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">16</span><span class="p">),</span>
-</span><span class='line'>                <span class="nx">green</span><span class="o">:</span> <span class="nb">parseInt</span><span class="p">((</span><span class="nx">color</span><span class="p">).</span><span class="nx">substring</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="mi">16</span><span class="p">),</span>
-</span><span class='line'>                <span class="nx">blue</span><span class="o">:</span> <span class="nb">parseInt</span><span class="p">((</span><span class="nx">color</span><span class="p">).</span><span class="nx">substring</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">16</span><span class="p">)</span>
-</span><span class='line'>            <span class="p">};</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">_generate</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">opts</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">_colors</span> <span class="o">=</span> <span class="p">[];</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="nx">opts</span> <span class="o">||</span> <span class="p">{};</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">diff</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nx">red</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">green</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">blue</span><span class="o">:</span> <span class="mi">0</span>
-</span><span class='line'>        <span class="p">};</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">_colorKeys</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">pOffset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">from</span><span class="p">)</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nx">_beginColor</span> <span class="o">=</span> <span class="nx">_parseColor</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">from</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">to</span><span class="p">)</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nx">_endColor</span> <span class="o">=</span> <span class="nx">_parseColor</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">to</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">stops</span><span class="p">)</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nx">_colorStops</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">stops</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="nx">_colorStops</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nx">_colorStops</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">_colorStops</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nx">pOffset</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">/</span> <span class="nx">_colorStops</span><span class="p">;</span>
-</span><span class='line'>            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">len</span><span class="p">;</span> <span class="nx">y</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>                <span class="nx">diff</span><span class="p">[</span><span class="nx">_colorKeys</span><span class="p">[</span><span class="nx">y</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">_endColor</span><span class="p">[</span><span class="nx">_colorKeys</span><span class="p">[</span><span class="nx">y</span><span class="p">]]</span> <span class="o">-</span> <span class="nx">_beginColor</span><span class="p">[</span><span class="nx">_colorKeys</span><span class="p">[</span><span class="nx">y</span><span class="p">]];</span>
-</span><span class='line'>                <span class="nx">diff</span><span class="p">[</span><span class="nx">_colorKeys</span><span class="p">[</span><span class="nx">y</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="nx">diff</span><span class="p">[</span><span class="nx">_colorKeys</span><span class="p">[</span><span class="nx">y</span><span class="p">]]</span> <span class="o">*</span> <span class="nx">pOffset</span><span class="p">)</span> <span class="o">+</span> <span class="nx">_beginColor</span><span class="p">[</span><span class="nx">_colorKeys</span><span class="p">[</span><span class="nx">y</span><span class="p">]];</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>            <span class="nx">_colors</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">_rgbToHex</span><span class="p">(</span><span class="nx">diff</span><span class="p">.</span><span class="nx">red</span><span class="p">,</span> <span class="nx">diff</span><span class="p">.</span><span class="nx">green</span><span class="p">,</span> <span class="nx">diff</span><span class="p">.</span><span class="nx">blue</span><span class="p">));</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="nx">_colors</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">_rgbToHex</span><span class="p">(</span><span class="nx">_endColor</span><span class="p">.</span><span class="nx">red</span><span class="p">,</span> <span class="nx">_endColor</span><span class="p">.</span><span class="nx">green</span><span class="p">,</span> <span class="nx">_endColor</span><span class="p">.</span><span class="nx">blue</span><span class="p">));</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nx">_colors</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">generate</span><span class="o">:</span> <span class="nx">_generate</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'><span class="p">}).</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here are a few Jasmine Specs to prove it works:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">describe</span><span class="p">(</span><span class="s2">&quot;Gradient Generator&quot;</span><span class="p">,</span>
-</span><span class='line'><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">it</span><span class="p">(</span><span class="s2">&quot;should generate a series of gradient colors&quot;</span><span class="p">,</span>
-</span><span class='line'>  <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">hh</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">gradientFactory</span><span class="p">.</span><span class="nx">generate</span><span class="p">({</span>
-</span><span class='line'>          <span class="nx">from</span><span class="o">:</span> <span class="s1">&#39;#aed0ee&#39;</span><span class="p">,</span>
-</span><span class='line'>          <span class="nx">to</span><span class="o">:</span> <span class="s1">&#39;#2a5980&#39;</span><span class="p">,</span>
-</span><span class='line'>          <span class="nx">stops</span><span class="o">:</span> <span class="mi">2</span>
-</span><span class='line'>      <span class="p">})).</span><span class="nx">toEqual</span><span class="p">([</span><span class="s1">&#39;#AED0EE&#39;</span><span class="p">,</span> <span class="s1">&#39;#2A5980&#39;</span><span class="p">]);</span>
-</span><span class='line'>      <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">hh</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">gradientFactory</span><span class="p">.</span><span class="nx">generate</span><span class="p">({</span>
-</span><span class='line'>          <span class="nx">from</span><span class="o">:</span> <span class="s1">&#39;#000000&#39;</span><span class="p">,</span>
-</span><span class='line'>          <span class="nx">to</span><span class="o">:</span> <span class="s1">&#39;#999999&#39;</span><span class="p">,</span>
-</span><span class='line'>          <span class="nx">stops</span><span class="o">:</span> <span class="mi">10</span>
-</span><span class='line'>      <span class="p">})).</span><span class="nx">toEqual</span><span class="p">([</span><span class="s1">&#39;#000000&#39;</span><span class="p">,</span> <span class="s1">&#39;#111111&#39;</span><span class="p">,</span> <span class="s1">&#39;#222222&#39;</span><span class="p">,</span> <span class="s1">&#39;#333333&#39;</span><span class="p">,</span> <span class="s1">&#39;#444444&#39;</span><span class="p">,</span> <span class="s1">&#39;#555555&#39;</span><span class="p">,</span> <span class="s1">&#39;#666666&#39;</span><span class="p">,</span> <span class="s1">&#39;#777777&#39;</span><span class="p">,</span> <span class="s1">&#39;#888888&#39;</span><span class="p">,</span> <span class="s1">&#39;#999999&#39;</span><span class="p">]);</span>
-</span><span class='line'>  <span class="p">});</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A big tip of the hat to my friend jim bumgardner, who i <a href="http://krazydad.com/tutorials/makecolors.php">cribbed the color conversation functions from</a>.</p>
 ]]></content>
   </entry>
   

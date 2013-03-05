@@ -4,7 +4,7 @@
   <title><![CDATA[Category: JavaScript | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-03-04T14:17:28-06:00</updated>
+  <updated>2013-03-04T21:39:02-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Functional Illiteracy In JavaScript]]></title>
+    <link href="http://heavysixer.github.com/blog/2013/03/04/functional-illiteracy-in-javascript/"/>
+    <updated>2013-03-04T21:36:00-06:00</updated>
+    <id>http://heavysixer.github.com/blog/2013/03/04/functional-illiteracy-in-javascript</id>
+    <content type="html"><![CDATA[<p>When someone cannot read or write in their native language, they are considered functionally illiterate. This
+level of illiteracy means that they subsist in their daily life through their ability to speak fluently, and
+recognize certain written keywords. Illiteracy is not a sign of stupidity; in many cases it is the result a lack
+of opportunity to learn. However, illiteracy does stunt the potential of otherwise bright people. The sad fact is
+their inability to participate in society through the mastery of language makes them at higher risk of being in
+poverty and committing crime.</p>
+
+<p>Aside from it being an epic pun, what does it mean to be a functionally illiterate developer? Most computer
+languages are written, not spoken (try speaking JavaScript out loud and you'll see what I mean). Therefore, being
+able to write code does not make you literate. Being an illiterate developer means that you skim across the
+surface of the language, copying snippets of code from others trying cobble, together a working program with
+little or no understanding of how or why it works.</p>
+
+<p>As with illiterates in the wider world, illiterate developers are not unintelligent. Often it means that they
+didn't have the luxury of taking a deep dive through the mechanics of the programming language. Many illiterate
+developers are practicing software professionals, backed into a corner by impending deadlines, or lack of
+resources. Perhaps they started in other fields such as graphic design, or business and find themselves scurrying
+along the surface of the language, learning in fits and starts as they go along.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Dynamic Spotlight Effect Using CSS and JavaScript]]></title>
@@ -25,11 +51,15 @@ the relevant component of the interface as the characters are explaining it. For
 JavaScript class which will spotlight a portion of the screen using only CSS and JavaScript. Here is an example of
 it <code>working &lt;http://jsfiddle.net/HFnYC/&gt;</code>_.</p>
 
-<p>The class allows you to configure the following spotlight attributes:
- * starting x,y (integer)
- * destination x,y (integer)
- * duration (0%-100%)
- * callback when animation is complete (function)</p>
+<p>The class allows you to configure the following spotlight attributes:</p>
+
+<ul>
+<li>starting x,y (integer)</li>
+<li>destination x,y (integer)</li>
+<li>duration (0%-100%)</li>
+<li>callback when animation is complete (function)</li>
+</ul>
+
 
 <p>Below is the CSS and JavaScript you'll need to use it in your own projects. If you improve this script please let me
 know.</p>
@@ -595,253 +625,6 @@ return {
 .. [5] http://msdn.microsoft.com/en-us/magazine/ff696765.aspx
 .. [6] http://groups.google.com/group/comp.lang.javascript/msg/9f58bd11bd67d937
 .. [7] http://www.addyosmani.com/resources/essentialjsdesignpatterns/book/#singletonpatternjavascript</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[JavaScript Jigs]]></title>
-    <link href="http://heavysixer.github.com/blog/2013/02/18/javascript-jigs/"/>
-    <updated>2013-02-18T09:06:00-06:00</updated>
-    <id>http://heavysixer.github.com/blog/2013/02/18/javascript-jigs</id>
-    <content type="html"><![CDATA[<p>In the excellent book "The Pragmatic Programmer: From Journeyman to Master" Hunt and Thomas use the metaphor of a wood worker's jig to describe
-how a smart programmer reduces the repetitive nature of coding by creating reusable templates or code generators:</p>
-
-<pre><code>"When woodworkers are faced with the task of producing the same thing over and over, they cheat. They build themselves a jig or a template.
-If they get the jig right once, they can reproduce a piece of work time after time. The jig takes away complexity and reduces the chances
-of making mistakes, leaving the craftsman free to concentrate on quality."
-</code></pre>
-
-<p>To be a jig the solution is highly specific and good for one task, for example making a complex cut. At first you might
-want to conflate jigs and design patterns together, because they are both reusable solutions to a problem. Jigs are precise where design
-patterns are generalized. While Hunt and Thomas said jigs are generators, I will use them in the context of helpers, friendly little functions
-or classes that do one thing well. Many of the most popular JavaScript libraries started as a collection of jigs. Prototype and JQuery for
-example, were initially just a collection of reusable snippets that acted like speed-boosts, and shortcuts for discrete problems.</p>
-
-<p>What follows are a collection of jigs that are useful in modern JavaScript applications.</p>
-
-<p>Self Executing Functions
-~~~~~~~~~~~~~~~~~~~~~~~~</p>
-
-<p>The immediately invoked function expression (IIFE) is one jig you will see various libraries and frameworks use repeatedly. In its most basic form it can be
-written in a couple of ways</p>
-
-<p>.. code-block:: javascript</p>
-
-<p>  ;(function(){</p>
-
-<pre><code>  ...
-</code></pre>
-
-<p>  })();</p>
-
-<p>  ;!function(){</p>
-
-<pre><code>  ...
-</code></pre>
-
-<p>  }();</p>
-
-<p>  ;-function(){</p>
-
-<pre><code>  ...
-</code></pre>
-
-<p>  }();</p>
-
-<p>  ;+function(){</p>
-
-<pre><code>  ...
-</code></pre>
-
-<p>  }();</p>
-
-<p>  ;~function(){</p>
-
-<pre><code>  ...
-</code></pre>
-
-<p>  }();</p>
-
-<p>  // Not Recommended
-  ;void function(){</p>
-
-<pre><code>  ...
-</code></pre>
-
-<p>  }();</p>
-
-<p>  // Not Recommended
-  ;delete function(){</p>
-
-<pre><code>  ...
-</code></pre>
-
-<p>  }();</p>
-
-<p>The beauty of the IIFE is that it uses a unary expression to coerce a function declaration, which would normally need to be explicitly called
-into a function expression that can self-execute. Behind the scenes JavaScript is running a unary operation on the function declaration, the
-result of that operation is the function expression, which is immediately invoked with the trailing parentheses "()". Besides being elegant code
-the IIFE also affords the following:</p>
-
-<ul>
-<li>It provides a closure which prevents naming conflicts</li>
-<li>It provides elegant block scoping</li>
-<li>It prevents pollution of the global namespace.</li>
-<li>It promotes the developer to think in terms of modular code.</li>
-</ul>
-
-
-<p>One other point worth mentioning is the use of the semicolon prepending the statement. Adding this provides a bit of defensive programming
-against other malformed modules that might have a trailing semicolon. If this were just a function declaration it would be absorbed into the
-preceding module. This can often occur when multiple scripts are concatenated together as part of a deploy process. It is highly recommended
-that you follow this convention to protect yourself against mystery bugs in production.</p>
-
-<p>Modules
-~~~~~~~</p>
-
-<p>Modules are very common is many programming languages, though JavaScript doesn't have a native representation for them. As such other developers
-have developed a spec for encapsulating your code inside a reusable module. The following code is based off an example in the "Principles of
-Writing Consistent, Idiomatic JavaScript" [1]_.</p>
-
-<p>There are a couple of elements that should be called out in this jig:</p>
-
-<ul>
-<li>We see two different examples of the self executing function jig being used. This is to ensure proper closure around the module itself and the
-initializer function that adds it to the global namespace.</li>
-<li>Invoking this function returns an object with a bound reference to the private variable "data". This allows the developer to enforce
-the use of getters and setters for access to the data variable.</li>
-</ul>
-
-
-<p>.. code-block:: javascript</p>
-
-<p>  ;!function(global) {</p>
-
-<pre><code>var Module = (function() {
-
-  // Mostly Private Variable
-  var data = 'secret';
-
-  return {
-
-    bool: true,
-    string: 'a string',
-    array: [1, 2, 3, 4],
-    object: {
-      lang: "en-Us"
-    },
-    getData: function() {
-      return data;
-    },
-    setData: function(value) {
-      return (data = value);
-    }
-  };
-})();
-
-// expose our module to the global object
-global.Module = Module;
-</code></pre>
-
-<p>  }(this);</p>
-
-<p>safeEval
-~~~~~~~~</p>
-
-<p>The eval function and its siblings setTimeout, setInterval and Function all have access to the JavaScript compiler, which means it is a bit
-like running with scissors. Since eval typically does more harm than good people try to work around it as much as possible. This jig does just
-that giving you eval like features without calling the function.</p>
-
-<p>.. code-block:: javascript</p>
-
-<p>  // A string representation of an a object similar to what you might get with JSON.
-  var dataString = '{"foo":"bar"}';</p>
-
-<p>  ;!function(global, data){</p>
-
-<pre><code>  // the variable name provided is replaced with the evaluated code.
-  global[data] = new Function("return" + global[data])() 
-</code></pre>
-
-<p>  }(this, "dataString");</p>
-
-<p>  // dataString is now Object {foo: "bar"}</p>
-
-<p>PubSub
-~~~~~~</p>
-
-<p>PubSub is short for a publish-subscribe message system, where objects ask to receive messages that are broadcast by publishers. The main
-advantage of PubSub is that the subscribers are loosely coupled allowing just about any object to publish and subscribe to messages. PubSub
-systems also have been proven to scale much nicer that tightly coupled client / server paradigms. This implementation of PubSub was written
-by Ben Alman and can be download from his Github account [2]_. Let's take a look at this jig in detail. Again, the first thing you should
-notice is that this jig uses the IIFE jig too (see a pattern yet?). This jig does depend on jQuery for access to the "on","off", and "trigger"
-functions. This jig stores an internal list of subscribers as keys of the internal object "o". When a message is broadcast all the subscribers
-have the arguments supplied by the publisher transferred to them.</p>
-
-<p>.. code-block:: javascript</p>
-
-<p>  ;(function($) {</p>
-
-<pre><code>var o = $({});
-
-$.subscribe = function() {
-  o.on.apply(o, arguments);
-};
-
-$.unsubscribe = function() {
-  o.off.apply(o, arguments);
-};
-
-$.publish = function() {
-  o.trigger.apply(o, arguments);
-};
-</code></pre>
-
-<p>  }(jQuery));</p>
-
-<p>  // Usage Examples
-  // Creates a "named" logging function.</p>
-
-<p>  function createLogger(name) {</p>
-
-<pre><code>return function(event, a, b) {
-
-  // Skip the first argument (event object) but log the name and other args.
-  console.log(name, a, b);
-};
-</code></pre>
-
-<p>  }</p>
-
-<p>  // Subscribe to the "foo" topic (bind to the "foo" event, no namespace).
-  $.subscribe('foo', createLogger('foo'));</p>
-
-<p>  // Subscribe to the "foo.bar" topic (bind to the "foo" event, "bar" namespace).
-  $.subscribe('foo.bar', createLogger('foo.bar'));</p>
-
-<p>  /<em>
-   * logs:
-   * foo 1 2
-   * foo.bar 1 2
-   * foo.baz 1 2
-   </em>/
-  $.publish('foo', [1, 2]);</p>
-
-<p>  /<em>
-   * logs:
-   * foo.bar 3 4
-   </em>/
-  $.publish('foo.bar', [3, 4]);</p>
-
-<p>Your Jigs Go Here
-~~~~~~~~~~~~~~~~~
-Please send me your favorite jigs. I would love to expand this post with more great Jigs.</p>
-
-<p>Footnotes
-~~~~~~~~~</p>
-
-<p>.. [1] https://github.com/rwldrn/idiomatic.js/
-.. [2] https://github.com/cowboy/jquery-tiny-pubsub</p>
 ]]></content>
   </entry>
   
