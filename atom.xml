@@ -4,7 +4,7 @@
   <title><![CDATA[Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-03-04T21:39:02-06:00</updated>
+  <updated>2013-11-26T13:12:15-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -24,10 +24,9 @@ recognize certain written keywords. Illiteracy is not a sign of stupidity; in ma
 of opportunity to learn. However, illiteracy does stunt the potential of otherwise bright people. The sad fact is
 their inability to participate in society through the mastery of language makes them at higher risk of being in
 poverty and committing crime.</p>
-<p>Aside from it being an epic pun, what does it mean to be a functionally illiterate developer? Most computer
-languages are written, not spoken (try speaking JavaScript out loud and you&#8217;ll see what I mean). Therefore, being
-able to write code does not make you literate. Being an illiterate developer means that you skim across the
-surface of the language, copying snippets of code from others trying cobble, together a working program with
+<p>Most computer languages are written, not spoken (try speaking JavaScript out loud and you&#8217;ll see what I mean).
+Therefore, being able to write code does not make you literate. Being an illiterate developer means that you skim
+across the surface of the language, copying snippets of code from others trying cobble, together a working program with
 little or no understanding of how or why it works.</p>
 <p>As with illiterates in the wider world, illiterate developers are not unintelligent. Often it means that they
 didn&#8217;t have the luxury of taking a deep dive through the mechanics of the programming language. Many illiterate
