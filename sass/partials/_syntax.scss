@@ -10,7 +10,7 @@
       @include box-shadow(lighten($base03, 2) -1px 0 inset);
       text-shadow: lighten($base02, 2) 0 -1px;
     } @else {
-      background: $base02 $noise-bg !important;
+      background: $base02 !important;
       border-right: 1px solid darken($base03, 2) !important;
       @include box-shadow(lighten($base02, 2) -1px 0 inset);
       text-shadow: darken($base02, 10) 0 -1px;
@@ -94,15 +94,16 @@ p, li {
     @extend .mono;
     display: inline-block;
     white-space: no-wrap;
-    background: #fff;
-    font-size: .8em;
+    font-size: .9em;
     line-height: 1.5em;
-    color: #555;
-    border: 1px solid #ddd;
-    @include border-radius(.4em);
-    padding: 0 .3em;
+    color: darken($text-color-light, 15);
+    background: lighten($type-border, 5);
     margin: -1px 0;
+    padding-left: .25em;
+    padding-right: .25em;
+    border: none;
   }
+  .meta code { color: $text-color-light; font-style:normal; }
   pre code { font-size: 1em !important; background: none; border: none; }
 }
 
@@ -187,11 +188,17 @@ p, li {
 }
 
 .highlight, .gist-highlight {
-  pre { background: none; @include border-radius(none); border: none; padding: 0; margin-bottom: 0; }
+  pre { background: $base03; @include border-radius(none); border: none; padding: 0; margin-bottom: 0; }
   margin-bottom: 1.8em;
   background: $base03;
   overflow-y: hidden;
   overflow-x: auto;
+  table { border: 0; margin: 0; }
+  .highlight th, .highlight td {
+    padding: 0;
+    border: 1px solid #090909;
+    border-bottom: none;
+  }
 }
 
 $solar-scroll-bg: rgba(#fff, .15);

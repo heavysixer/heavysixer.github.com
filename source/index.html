@@ -20,22 +20,3 @@ layout: default
     {% endif %}
   </div>
 </div>
-<aside class="sidebar">
-  <section>
-    <h1>About Me</h1>
-    <p>
-      I have worked for over a decade within the fields of experience and user interaction design, concept development and strategy, through a variety of start-up ventures, consulting and advisory roles.
-      <ul>
-        <li><a href='/images/daggett-resume-2011.pdf'>Resume</a></li>
-        <li><a href="https://github.com/heavysixer">Github Repos</a></li>
-        <li><a href="http://www.linkedin.com/in/heavysixer">Linkedin</a></li>
-      </ul>
-    </p>
-    <p>I am the founder of <a href="http://www.humansized.com">Humansized inc.</a>, a social innovations company in Kansas City, and a co-founder of <a href="http://www.pledgie.com">Pledgie.com</a> a site that allows anyone to crowd-fund their initiatives.</p>
-  </section>
-  {% if site.blog_index_asides.size %}
-    {% include_array blog_index_asides %}
-  {% else %}
-    {% include_array default_asides %}
-  {% endif %}
-</aside>

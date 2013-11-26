@@ -1,0 +1,110 @@
+---
+layout: post
+title: "Enterprise Quality Login Validation For Rails 3"
+date: 2012-03-23 09:33
+comments: true
+categories: [Rails, Enterprise Software]
+---
+In the world of enterprise software development sometimes you need to be a little more thorough with your validations than you would for other types of clients. Here is a simple yet effective login validator that passes the typical forms of penetration testing you will find in the enterprise world.
+
+``` ruby
+class LoginFormatValidator < ActiveModel::EachValidator
+  def validate_each(object, attribute, value)
+    if value.present?
+      unless value.gsub(" ",'') == value
+        object.errors[attribute] << (options[:message] || "cannot contain any whitespace")
+      end
+      if [value[0], value[-1]].any?{ |x| x == "." }
+        object.errors[attribute] << (options[:message] || "cannot contain a period at the start or end")
+      end
+      unless value =~ /[a-zA-Z]/
+        object.errors[attribute] << (options[:message] || "must contain at least one letter")
+      end
+      unless value =~ /[0-9]/
+        object.errors[attribute] << (options[:message] || "must contain at least one number")
+      end
+      unless value =~ /[_\-.]/
+        object.errors[attribute] << (options[:message] || "must contain at least one these special characters \"-_.\"")
+      end
+      unless value =~ /^[a-zA-Z0-9_\-.]+$/
+        object.errors[attribute] << (options[:message] || "can only contain letters number and special these special characters \"-_.\"")
+      end
+    end
+  end
+end
+```
+
+You can use it this way:
+``` ruby
+validates :login, :presence => true, :login_format => true, :uniqueness => { :case_sensitive => false }, :length => { :maximum => 64, :minimum => 6 }
+```
+
+Here are some specs to prove it works:
+
+``` ruby
+it "should only allow letters numbers and spaces in the name attribute" do
+  ['foo', 'foo bar baz', 'foo 123 - bar baz'].each do |n|
+    @user.name = n
+    @user.save
+    @user.errors[:name].should be_empty
+  end
+  @user.name = '<script>alert("test");</script>'
+  @user.save
+  @user.errors[:name].first.should == "is invalid"
+end
+
+it "should not allow you to change an email for an existing record" do
+  @user.email = "test@test.com"
+  @user.save
+  @user.errors[:email].first.should == "cannot be changed once assigned"
+end
+
+it "should be case insenitive" do
+  @user2 = Factory.build(:user)
+  @user2.login = @user.login.capitalize
+  @user2.save
+  @user2.errors[:login].first.should == "has already been taken"
+end
+
+it "should be at least 6 characters and no more than 64 characters" do
+  @user2 = Factory.build(:user, :login => 'a1_')
+  @user2.save
+  @user2.errors[:login].first.should == "is too short (minimum is 6 characters)"
+  @user2.login = 'Pneumonoultramicroscopicsilicovolcanoconiosis1_is_a_very_long_word'
+  @user2.save
+  @user2.errors[:login].first.should == "is too long (maximum is 64 characters)"
+end
+
+it "should ensure the name is a mix of alpha chars (A-Z or a-z), numeric chars (0-9), and special characters (- _ .)" do
+  @user2 = Factory.build(:user, :login => '1----.----1')
+  @user2.save
+  @user2.errors[:login].first.should == "must contain at least one letter"
+  @user2.login = "a------------------a"
+  @user2.save
+  @user2.errors[:login].first.should == "must contain at least one number"
+  @user2.login ="abc12345676789"
+  @user2.save
+  @user2.errors[:login].first.should == "must contain at least one these special characters \"-_.\""
+end
+
+it "should ensure the special character '.' is not used at the beginning and end" do
+  @user = Factory.build(:user, :login => '.Admin_f00')
+  @user.save
+  @user.errors[:login].first.should == "cannot contain a period at the start or end"
+  @user = Factory.build(:user, :login => 'Admin_f00.')
+  @user.save
+  @user.errors[:login].first.should == "cannot contain a period at the start or end"
+end
+
+it "should not allow white space or \ / \" [ ] : | < > + = ; , ? * @" do
+  @user = Factory.build(:user)
+  @user.login = "user _1"
+  @user.save
+  @user.errors[:login].first.should == "cannot contain any whitespace"
+  ["\\", '/', '"', '[', ']', ':', '|', '<', '>', '+', '=', ';', ',', '?', '*', '@', "'"].each do |char|
+    @user.login = "user_1" << char
+    @user.save
+    @user.errors[:login].first.should == "can only contain letters number and special these special characters \"-_.\""
+  end
+end
+```

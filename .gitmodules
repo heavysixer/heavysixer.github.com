@@ -1,0 +1,9 @@
+[submodule "plugins/jekyll-rst"]
+	path = plugins/jekyll-rst
+	url = https://github.com/xdissent/jekyll-rst.git
+[submodule ".themes/foxslide"]
+	path = .themes/foxslide
+	url = https://github.com/sevenadrian/foxslide
+[submodule ".themes/BlogTheme"]
+	path = .themes/BlogTheme
+	url = https://github.com/rastersize/BlogTheme.git
