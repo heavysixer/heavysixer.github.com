@@ -4,7 +4,7 @@
   <title><![CDATA[Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-11-26T14:04:37-06:00</updated>
+  <updated>2013-11-28T09:16:21-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Introducing Expert JavaScript]]></title>
+    <link href="http://heavysixer.github.com/blog/2013/11/28/introducing-expert-javascript/"/>
+    <updated>2013-11-28T09:03:00-06:00</updated>
+    <id>http://heavysixer.github.com/blog/2013/11/28/introducing-expert-javascript</id>
+    <content type="html"><![CDATA[<p>As many of you know I have spent much of the last six months writing a book on <a class="reference external" href="http://www.amazon.com/dp/1430260971">JavaScript</a>. I am pleased to announce that last week APress began shipping it out to stores and distribution centers everywhere.</p>
+<p>In my mind, good technical books are part mixtape, treasure map, and field journal. &quot;<a class="reference external" href="http://www.amazon.com/dp/1430260971">Expert JavaScript</a>&quot; is the result of my efforts to successfully weave these forms together into a compelling and information-rich book about JavaScript. A mixtape, for those old enough to remember, is a curated collection of songs. These tapes were often made
+as gifts for friends, lovers, and those in between. The mixer would craft the tape by selecting personal favorites or organizing tracks along a conceptual thread. Often these tapes were a surrogate for the mixer, a way to be remembered by the listener when the tape was playing. This book is a mixtape for JavaScript that I made for you. These chapters cover some of my favorite aspects of the language, but also includes less-understood topics because they are not easily explained in a tweet or blog post. The long form format of a book affords these subjects the necessary room to breathe.</p>
+<p>As a child, I found the idea of finding a treasure map a thrilling prospect. I was captivated by the idea that anyone could become rich as long as they followed the map. This book will not lead you to buried treasure, but it is a map of sorts. I laid out these chapters to chart the inner workings of the language, which you can follow to the end. Dig through these concepts with me and you will unearth a deeper understanding of JavaScript than when you started.</p>
+<p>A field journal is kept by scientists. They are taught to keep a log of their thoughts, observations, and hunches about their subject. They may even tape leaves, petals, or other artifacts of nature between its pages. It&#8217;s a highly contextual diary about a subject of study filtered through a specific point of view. The purpose of the field journal is to be a wealth of information that the scientist can continually mine when they are no longer in the field.</p>
+<p>&quot;<a class="reference external" href="http://www.amazon.com/dp/1430260971">Expert JavaScript</a>&quot; is my field journal of JavaScript, which I wrote to return to often. I will use it to help me remember and understand the particulars of the language. I encourage you to do the same. Scribble in the margins, highlight sections, and bookmark pages. It is not a precious object; it is meant to be a living document that is improved through your use.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Functional Illiteracy In JavaScript]]></title>
@@ -3680,78 +3695,6 @@ Gives them explicit actions they can take to help your campaign.</p>
 
 
 <p><em>Hash.slice</em> is that it is very forgiving. The method only returns the attributes if they exist. In our example we are assured all conditions will be met because the default values will only be overwritten if <em>Hash.slice</em> returns them.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The Minimally Viable Party]]></title>
-    <link href="http://heavysixer.github.com/blog/2012/03/25/the-minimally-viable-party/"/>
-    <updated>2012-03-25T15:50:00-05:00</updated>
-    <id>http://heavysixer.github.com/blog/2012/03/25/the-minimally-viable-party</id>
-    <content type="html"><![CDATA[<p>Garry and I are planning our next big project together. In the spirit of agile development and with the reality of limited funds we are ruthlessly scoping our efforts around a minimal feature set. We want to develop just enough of the product to see if we have a hit. Typically, this process is described as developing the minimum viable product (MVP).</p>
-
-<p>The MVP approach targets the hardcore vocal minority that understand your offering, and are likely to give you helpful insights on how to improve it. With this in mind we began to list our potential features and aggressively cut anything that wasn’t essential.</p>
-
-<p>We tried a variety of approaches to identify our MVP. Which included:</p>
-
-<ul>
-<li>Sorting features in order of complexity, and identifying those with serial dependencies</li>
-<li>Selecting only those features that touch the revenue line (a topic for another post)</li>
-<li>Determining those features which could give us a competitive advantage over other similar products.</li>
-</ul>
-
-
-<p>These thought experiments were helpful, but the focus felt very myopic, and more about cutting than pruning; like shaping a bonsai tree blindfolded. However, while mowing the lawn (where I do much of my good thinking), I came up with a new approach: “The Minimum Viable Party”.</p>
-
-<p>A party seemed like a perfect metaphor for these reasons:</p>
-
-<ul>
-<li>The goal of product at this stage, is to meet people, show them a good time and give them a complete experience they can give feedback on.</li>
-<li>Parties are events with a specific beginnings and ends. Being the host narrows your responsibilities to just throwing a great party. If you find yourself needing to first build the venue, or starting a catering company at the same time then <em>you are doing it wrong</em>.</li>
-<li>Parties are fun, (even Goth Emo parties); they are about doing something you love, with others looking for the same thing.</li>
-<li>A complete party is more than just good food. There are many aspects that can be considered including venue, theme, duration, etc.</li>
-<li>If it all goes horribly wrong you can recover. You just clean up the mess, pull the lawn chairs off the roof, get a tow company to dredge your car from the neighbors pool and go on with your life.</li>
-<li>By breaking a party into smaller components you can map them onto the MVP. Now, I am not for a minute claiming that there is an absolute one-to-one mapping between party to product. However, the metaphor did allow me to consider the attributes of my product in a more objective and holistic way. For example, a decision on whether to spend money on party invitations could be construed as a marketing spend on promoting our product.</li>
-</ul>
-
-
-<h2>Planning a Minimal Viable Party</h2>
-
-<p>Here are the rules for the Minimal Viable Party thought experiment:</p>
-
-<ul>
-<li>You are planning a party for people you do not know.</li>
-<li>You have one week to plan and execute your party.</li>
-<li>Without specifying a specific amount you should assume that funds are very limited, which should force you to make decisions on how and where to spend your money.</li>
-<li>The party is not a catered meaning that much if not all the work should be done personally.</li>
-</ul>
-
-
-<p>These rules lead me to a series of questions to consider which i’ve detailed below:</p>
-
-<p><strong>Q.</strong> How many guests should I invite?</p>
-
-<p><strong>A.</strong> You should invite the number of guests you can host comfortably. Everyone wants to feel special at the party, meaning you should know your limits before the inviting others.</p>
-
-<p><strong>Insight:</strong> Many people focus on the hockey stick style growth from the outset, that is a result of a good product not the goal itself. At this stage the goal is to get to know the users, and the only way to do that is to ensure there is enough of you to go around.</p>
-
-<p><strong>Q.</strong> How do I entertain people I have never met?</p>
-
-<p><strong>A.</strong> Plan a party around the type of guest you’d want to see again. If you are a geek at heart then have your party on the holodeck and don’t mind the haters.</p>
-
-<p><strong>Insight:</strong> You can’t please everyone but it’s important that you understand who you’d like as customers and friends. Ensure that your product gives them a memorable and enjoyable experience.</p>
-
-<p><strong>Q.</strong> What kind of food should I cook?</p>
-
-<p><strong>A.</strong> Be honest about your own cooking skills, anything you don’t do well you should either eliminate or buy (even if this means you have to buy all the food).</p>
-
-<p><strong>Insight:</strong> No one wants to eat bad food, a strangers will not give you an “A” for effort when eating your half-cooked hamburgers. The same is true for a poorly executed product. I continually have to fight the urge to be an <em>everything expert</em>. While striving to learn new things is a positive, not knowing (or ignoring) your weaknesses limits you from being effective under a deadline.</p>
-
-<p><strong>Q.</strong> How many courses should I prepare?</p>
-
-<p><strong>A.</strong> What would your ideal guest expect? Not everyone expets (or even wants) a five course meal that takes hours to eat. What they will want is for it to feel complete, and that differs from person to person.</p>
-
-<p><strong>Insight:</strong> The expression “soup to nuts” is often used when describing a project completed from beginning to end. It alludes to a complete meal that included appetizers (soup), nuts (dessert) and everything in between. If you view your features through the lens of completeness it should help you determine if a feature is needed now or can wait.</p>
 ]]></content>
   </entry>
   
