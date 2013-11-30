@@ -4,7 +4,7 @@
   <title><![CDATA[Category: JavaScript | Mark Daggett's Blog]]></title>
   <link href="http://heavysixer.github.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://heavysixer.github.com/"/>
-  <updated>2013-11-28T09:16:21-06:00</updated>
+  <updated>2013-11-29T20:35:42-06:00</updated>
   <id>http://heavysixer.github.com/</id>
   <author>
     <name><![CDATA[Mark Daggett]]></name>
@@ -28,6 +28,22 @@ as gifts for friends, lovers, and those in between. The mixer would craft the ta
 <p>A field journal is kept by scientists. They are taught to keep a log of their thoughts, observations, and hunches about their subject. They may even tape leaves, petals, or other artifacts of nature between its pages. It's a highly contextual diary about a subject of study filtered through a specific point of view. The purpose of the field journal is to be a wealth of information that the scientist can continually mine when they are no longer in the field.</p>
 
 <p>"<code>Expert JavaScript &lt;http://www.amazon.com/dp/1430260971&gt;</code>_" is my field journal of JavaScript, which I wrote to return to often. I will use it to help me remember and understand the particulars of the language. I encourage you to do the same. Scribble in the margins, highlight sections, and bookmark pages. It is not a precious object; it is meant to be a living document that is improved through your use.</p>
+
+<h2>Table Of Contents (with comments)</h2>
+
+<ul>
+<li>Chapter 1: Objects and Prototyping (What JavaScript is and isn't)</li>
+<li>Chapter 2: Functions (Deep dive into functions including changes in es6)</li>
+<li>Chapter 3: Getting Closure (Understanding the dark arts of closures)</li>
+<li>Chapter 4: Jargon and Slang (lexical border guards to the community)</li>
+<li>Chapter 5: Living Asynchronously (promises, coroutines, webworkers)</li>
+<li>Chapter 6: JavaScript IRL (nodebots, JohnnyFive, node-serialport, firmata )</li>
+<li>Chapter 7: Style (understanding programmatic style)</li>
+<li>Chapter 8: Workflow (sensible workflow for JavaScript developers)</li>
+<li>Chapter 9: Code Quality (how to evaluate and improve quality in code)</li>
+<li>Chapter 10: Improving Testability (what really makes code "untestable," hint it's not the code)</li>
+</ul>
+
 ]]></content>
   </entry>
   
