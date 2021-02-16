@@ -4,7 +4,7 @@ title: "MarkDaggett.com"
 description: "Writings, Ceramics, Code, and other distractions."
 logo: 'assets/images/logo.png'
 favicon: 'assets/images/logo.png'
-baseurl: 
+baseurl: ''
 disqus: 'markdaggettcom'
 include: ["_pages"]
 permalink: /:title/
