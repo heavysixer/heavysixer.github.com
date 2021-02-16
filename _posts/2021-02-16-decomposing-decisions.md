@@ -2,8 +2,7 @@
 layout: post
 title:  "Decompose Questions For Better Decisions"
 author: mark
-categories: [ System Dynamics ]
-image: assets/images/stocks-and-flows.png
+categories: [ Decision Making ]
 description: "Decompose your questions to make better decisions."
 comments: false
 ---
