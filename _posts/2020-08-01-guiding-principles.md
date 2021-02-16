@@ -4,6 +4,7 @@ title:  "Guiding Principles of Software Teams"
 author: mark
 categories: [ Software, Leadership ]
 image: 
+featured: true
 description: "Guiding Principles of Software Teams"
 comments: false
 ---

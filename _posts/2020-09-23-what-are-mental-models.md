@@ -1,10 +1,10 @@
 ---
 layout: post
-title:  "What are Mental Models?"
+title:  "Evaluating Mental Models"
 author: mark
 categories: [ Mental Models ]
 image: assets/images/nancy-drew.jpg
-description: "What Are Mental Models?"
+description: "How do you know if you've chosen the correct mental model?"
 comments: false
 ---
 
