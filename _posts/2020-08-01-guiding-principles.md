@@ -3,6 +3,7 @@ layout: post
 title:  "Guiding Principles of Software Teams"
 author: mark
 categories: [ Software, Leadership ]
+image: assets/images/guiding.jpg
 featured: true
 description: "Guiding Principles of Software Teams"
 comments: false
