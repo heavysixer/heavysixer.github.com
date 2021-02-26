@@ -34,7 +34,7 @@ Many companies have technology steering committees or governing councils that me
 
 I would add unwind as fifth category to this list, which is specific to internal teams.
 
-Unwind – Items in this group have run their useful course and must be unwound from the companies stack in a thoughtful and deliberate manner. They could be obsolete, or insecure tools or technologies, or simply choices the team no longer want to maintain. 
+**Unwind** – Items in this group have run their useful course and must be unwound from the companies stack in a thoughtful and deliberate manner. They could be obsolete, or insecure tools or technologies, or simply choices the team no longer want to maintain. 
  
 The advantages of projects like Thoughtworks’ Technology Radar is at least the following:
 1.	Provide a regular cadence, format, and venue to evaluate tools, methodologies and ideas.
