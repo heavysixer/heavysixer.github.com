@@ -4,6 +4,7 @@ title:  "Decompose Questions For Better Decisions"
 author: mark
 categories: [ Decision Making ]
 description: "Decompose your questions to make better decisions."
+image: assets/images/questions.jpg
 comments: false
 ---
 
