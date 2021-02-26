@@ -2,7 +2,7 @@
 layout: post
 title:  "Staying Fresh: How teams can adopt tools and technologies."
 author: mark
-categories: [ Teams Technology ]
+categories: [ Teams, Technology ]
 image: assets/images/staying-fresh.jpg
 description: "Staying Fresh: How teams can adopt tools and technologies."
 comments: false
