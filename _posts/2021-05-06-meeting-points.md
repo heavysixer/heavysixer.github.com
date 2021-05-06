@@ -4,7 +4,7 @@ title:  "Meeting Points"
 author: mark
 categories: [ Meetings, Efficiencies]
 image: assets/images/meetings.jpg
-featured: true
+featured: false
 description: "A game for reducing time spent in meetings"
 comments: false
 ---
