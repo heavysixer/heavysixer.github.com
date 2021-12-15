@@ -41,10 +41,10 @@ Often jargon gets a bad reputation because it is often used by those who have on
 > “His jargon conceals, from him, but not from us, the deep, empty hole in his mind. He uses technological language as a substitute for technique.” 
 ― Richard Mitchell, Less Than Words Can Say
 
-In JavaScript there are three components of the language that especially lend themselves to the creation of jargon. They are **coercion**, **logical operators**, and **bitwise manipulations** (sometimes known as bit twiddling.) Now that we have a basis for recognizing programmatic jargon we will spend the rest of the chapter exploring and understanding specific examples of how it occurs in JavaScript.
+In JavaScript there are three components of the language that especially lend themselves to the creation of jargon. They are **coercion**, **logical operators**, and **bitwise manipulations** (sometimes known as bit twiddling.) Now that we have a basis for recognizing programmatic jargon we will spend the rest of the post exploring and understanding specific examples of how it occurs in JavaScript.
 
 ----
-Jargon is often used in a pejorative way to describe the use of technical terminology to make a speaker seem intelligent or expert. However, jargon used correctly can be a succinct pointer to a concept that an experienced listener need not have explained. In this chapter jargon simply means highly contextual code that is often impenetrable to the uninitiated, but not necessarily a bad approach.
+Jargon is often used in a pejorative way to describe the use of technical terminology to make a speaker seem intelligent or expert. However, jargon used correctly can be a succinct pointer to a concept that an experienced listener need not have explained. In this post jargon simply means highly contextual code that is often impenetrable to the uninitiated, but not necessarily a bad approach.
 
 
 ## Coercion
@@ -438,7 +438,7 @@ Now that we have taken this section to its logical conclusion, we can transition
 #### Bit twiddling
 Just like it sounds, a bitwise operation is the process of working with data at the bit level. Generally, this is useful to algorithms that require fast execution, and/or have limited resources in which to operate. Specifically, these operations must only require primitive transformations to data to benefit from this kind of manipulation. Bitwise operations are standard fare for many low-level tasks including communicating over sockets, compressing or encrypting information, or manipulating bitmap graphics. It is also very common to see bitwise operations used to implement role based access control (RBAC) systems, because their access permissions can be described using only a bit field, and yet remain a single number in the database.
 
-The bitwise operators come in four distinct flavors NOT, AND, OR and XOR respectively. In addition to the logical operators JavaScript has left and right bit shifting operators too. As you might expect properly explaining the hows and whys of these operators is quite involved and must also include understanding how   bit shifting works in general. As such, it is outside the scope of this chapter. Instead, we will maintain our focus on jargon expressions, but now with an emphasis on the use bitwise operations. What follows are example and explanations of bit twiddling jargon.
+The bitwise operators come in four distinct flavors NOT, AND, OR and XOR respectively. In addition to the logical operators JavaScript has left and right bit shifting operators too. As you might expect properly explaining the hows and whys of these operators is quite involved and must also include understanding how   bit shifting works in general. As such, it is outside the scope of this post. Instead, we will maintain our focus on jargon expressions, but now with an emphasis on the use bitwise operations. What follows are example and explanations of bit twiddling jargon.
 
 #### Bitwise AND (&)
 The bitwise OR function will return a one in each bit position where both operands have a one in the specified position.
@@ -811,7 +811,7 @@ I encourage you to look at the source for the jsfuck  project because there is s
 That's 209 characters to encode a single right parenthesis, WAT indeed!
 
 #### Summary
-We just spent an entire chapter learning about coercion, bitwise operations and logical operators. We can better understand why there is often a disconnection between the actual and expected results when employing these features of JavaScript. Programmers who are adept at exploiting these nuances can often pack very complex behavior into a just a couple of characters. As I mentioned in my introduction this highly contextual code is what I am calling programmatic jargon but others have derogatorily tagged as WAT style programming. Here are a couple of points to remember when trying to use or read jargon in JavaScript.
+We just spent an entire post learning about coercion, bitwise operations and logical operators. We can better understand why there is often a disconnection between the actual and expected results when employing these features of JavaScript. Programmers who are adept at exploiting these nuances can often pack very complex behavior into a just a couple of characters. As I mentioned in my introduction this highly contextual code is what I am calling programmatic jargon but others have derogatorily tagged as WAT style programming. Here are a couple of points to remember when trying to use or read jargon in JavaScript.
 
 1. Programmatic jargon is a compression of code through the use of highly specific often technical rules of the language.
 2. Jargon is neither good nor bad, it depends on whether the speaker and the audience both understand the context and point of reference for the expression.
