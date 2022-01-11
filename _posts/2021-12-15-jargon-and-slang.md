@@ -32,7 +32,7 @@ As we can see from these rules, Jargon only meets the second criteria. However, 
 
 ## What is programmatic jargon?
 **Programmatic jargon is a compression of code through the use of highly specific often technical rules of the language.** Like other forms of jargon, the programmatic form is used to efficiently reference complex ideas between members of a community. It can become a kind shorthand used to describe a concept more tursely. However, because jargon is so highly contextual it often acts as a social divider, or lingual border guard between communities. This can be what makes jargon feel so impenetrable by outsiders. Knowing this we can begin to identify criteria for defining programmatic jargon:
-1. In short-circuits mechanics of the language.
+1. It short-circuits mechanics of the language.
 2. It is confusing or easily misunderstood by the casual member of the community.
 3. It subverts visual clarity in the service some other goal e.g. smaller code or faster execution.
 4. It serves as means for stratification within a community.
@@ -54,7 +54,7 @@ In JavaScript as in most other languages, coercion is the act of forcing an obje
 // => "1"
 var a = (1).toString();
 ```
-However, the number can also be implicitly coearsed into a string this way:
+However, the number can also be implicitly coersed into a string this way:
 
 ```javascript
 // => "1"
@@ -63,7 +63,7 @@ var a = 1 + "";
 
 Many of the most cryptic code examples that have puzzled me over the years have involved coercion at some level. Much of my confusion was due to how JavaScript handles Ad hoc polymorphism. This form of polymorphism uses the context of execution to help shape the outcome. Specifically JavaScript uses overloading to shift the behavior of its operators depending on how they are called. 
 
-For example the binary operator can be used for summation or concatenation, but it also coerces values in the process. Much of the confusion over coercion is knowing how or when it occurs. **In JavaScript coercion is always about simplifying complex objects to a primitive form or converting between two primitive types.** You cannot coerce a number into array, but you can coerce an array into a number. The following examples help explain the various ways JavaScript coerces values.
+For example, the binary operator can be used for summation or concatenation, but it also coerces values in the process. Much of the confusion over coercion is knowing how or when it occurs. **In JavaScript coercion is always about simplifying complex objects to a primitive form or converting between two primitive types.** You cannot coerce a number into array, but you can coerce an array into a number. The following examples help explain the various ways JavaScript coerces values.
 
 ### To string
 JavaScript uses the binary operator to concatenate two values together. However, to make this work JavaScript first silently coerces the zero into a string. When JavaScript attempts to convert an object to a string it calls the toString() method first. If `toString()` does not return a primitive representation it defers to the `valueOf()` function. If the `valueOf()` function cannot produce a primitive value either, then JavaScript throws a TypeError exception.
@@ -240,7 +240,7 @@ console.log([{
 }] === "1");
 ```
 
-It can be worrisome that an object can essentially be equal to a primitive value through coercion, but at least now you know what that occurs. Moreover, you can see why comparing values using the strictly equals operator is promoted so heavily in JavaScript best practices.
+It can be worrisome that an object can essentially be equal to a primitive value through coercion, but at least now you know why that occurs. Moreover, you can see why comparing values using the strictly equals operator is promoted so heavily in JavaScript best practices.
 
 #### Complex Coercion
 Now that we have the basics of coercion down let's try an advanced example and by advanced I mean mind-numbingly obtuse. Consider this gem:
@@ -743,7 +743,7 @@ As the name implies this function gives the executing code a backdoor to access 
 ```
 
 #### All your base
-Careful when comparing numbers of different bases. For example here we compare an octal number and one using scientific notation to a base ten number. Unless you read it carefully you might be confused at the results.
+Careful when comparing numbers of different bases. For example, here we compare an octal number and one using scientific notation to a base ten number. Unless you read it carefully you might be confused at the results.
 
 ```javascript
 // comparing against octals
@@ -820,7 +820,7 @@ We just spent an entire post learning about coercion, bitwise operations and log
 5. Logical operators are used to return Boolean values, but under certain conditions they can be used to short-circuit control flows within a statement.
 6. Bitwise operations can only be performed on integers.
 7. Bitwise operations are useful to algorithms that require fast execution, and/or have limited resources in which to operate.
-8. Bitwise operations can often be used in place of other math related functions, for example using `~~'10'` instead of `parseInt('10')`.
+8. Bitwise operations can often be used in place of other math related functions, for example, using `~~'10'` instead of `parseInt('10')`.
 
 Additional References
 1. [http://rocha.la/JavaScript-bitwise-operators-in-practice](http://rocha.la/JavaScript-bitwise-operators-in-practicehttp://rocha.la/JavaScript-bitwise-operators-in-practice)
