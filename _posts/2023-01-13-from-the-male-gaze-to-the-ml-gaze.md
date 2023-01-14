@@ -19,7 +19,7 @@ The "ML gaze" becomes more concerning when considering new technologies like aut
 
 Both the male gaze and the ML gaze are rooted in the idea that there is a single, objective perspective from which to view the world. However, as Mulvey argues, there is no such thing as an objective gaze, as all perspectives are shaped by power and privilege. In the same way, it is important to recognize that there is no such thing as an unbiased machine learning system, as all systems are shaped by the biases and perspectives of those who design and train them as well as the source material they used.
 
-It is crucial to acknowledge and address the ways in which the male gaze and the ML gaze shape our understanding of the world and to work towards creating more inclusive and equitable and transparent systems. This can be done by diversifying the teams who design and train these systems and by making these models transparent, and explainable.
+It is crucial to acknowledge and address the ways in which the male gaze and the ML gaze shape our understanding of the world, overtly or inadvertantly marginalize people and to work towards creating more inclusive and equitable and transparent systems. This can be done by diversifying the teams who design and train these systems and by making these models transparent, auditable and explainable.
 
 
 1. Mulvey, L. (1975). Visual pleasure and narrative cinema. Screen, 16(3), 6-18.
